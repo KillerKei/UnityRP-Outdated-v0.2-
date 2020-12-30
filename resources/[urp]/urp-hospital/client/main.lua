@@ -161,12 +161,13 @@ Citizen.CreateThread(function()
                                 Citizen.Wait(0)
                             end
                             TaskPlayAnim(PlayerPedId(), "anim@narcotics@trash" , "drop_front" ,8.0, -8.0, -1, 1, 0, false, false, false )
-                            exports["urp_taskbar"]:StartDelayedFunction('Checking Credentials', 1500, function()
+                            local finished = exports["urp-taskbar"]:taskBar(1700,"Checking Credentials")
+                            if finished == 100 then
                                 TriggerEvent('urp-ambulancejob:revive')
                                 ClearPedTasks(PlayerPedId())
                                 Citizen.Wait(1000)
                                 TriggerServerEvent('urp-hospital:server:RequestBed')
-                            end)
+                            end
                         else
                             TriggerEvent('DoLongHudText', 'You do not need medical attention', 2)
                         end
