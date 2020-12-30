@@ -33,7 +33,7 @@ vehicleCustomisationPrices =
     },
     turbo = 
     {
-        price = 100000000000
+        price = 1
     },
     wheels = 
     {

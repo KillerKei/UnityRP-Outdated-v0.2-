@@ -831,7 +831,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
         TriggerServerEvent('idcard:run', ItemInfo.information)
     end
 
-    --[[if (itemid == "nitrous") then
+    if (itemid == "nitrous") then
         local currentVehicle = GetVehiclePedIsIn(player, false)
         
         if not IsToggleModOn(currentVehicle,18) then
@@ -857,7 +857,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
                 TriggerEvent("DoLongHudText","You can't drive and hook up nos at the same time.",2)
             end
         end
-    end]]--
+    end
 
     if (itemid == "lockpick") then
 
