@@ -1486,7 +1486,7 @@ AddEventHandler('inv:lockPick', function(isForced,inventoryName,slot)
         local driverPed = GetPedInVehicleSeat(targetVehicle, -1)
         if targetVehicle == 0 then
             lockpicking = false
-            TriggerEvent("robbery:lockpickhouse",isForced)
+            TriggerEvent("houseRobberies:attempt")
             return
         end
 
