@@ -10,7 +10,7 @@ local MAX_MENU_ITEMS = 7
 
 -- Main thread
 Citizen.CreateThread(function()
-    local keyBind = "~"
+    local keyBind = "F1"
     while true do
         Citizen.Wait(0)
         if IsControlPressed(1, keybindControls[keyBind]) and GetLastInputMethod(2) and showMenu then

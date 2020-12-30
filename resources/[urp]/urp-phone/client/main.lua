@@ -1422,7 +1422,7 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
-    if IsControlJustPressed(1, 288) then
+    if IsDisabledControlJustReleased(1, 199) then
       if exports['urp-inventory']:hasEnoughOfItem('mobilephone', 1) then
         TriggerEvent('tp:heHasPhone')
       end
