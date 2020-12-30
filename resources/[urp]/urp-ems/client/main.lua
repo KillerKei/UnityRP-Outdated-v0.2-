@@ -368,24 +368,25 @@ AddEventHandler('urp-ambulancejob:useItem', function(itemName)
 		local playerPed = PlayerPedId()
 		loadAnimDict('amb@world_human_clipboard@male@idle_a')
 		TaskPlayAnim( playerPed, "amb@world_human_clipboard@male@idle_a", 'idle_c', 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
-		exports["urp_taskbar"]:StartDelayedFunction('Healing', 10000, function()
-	
+ --       exports["urp_taskbar"]:StartDelayedFunction('Healing', 10000, function()
+            local finished = exports["urp-taskbar"]:taskBar(10000,"Hacking")
+			if finished == 100 then
 			TriggerEvent('urp-ambulancejob:heal', 'big', true)
 			TriggerEvent('urp-hospital:client:RemoveBleed')
 			TriggerEvent('urp-hospital:client:ResetLimbs')
 			ClearPedTasks(playerPed)
-		end)
-
+		end
 	elseif itemName == 'bandage' then
 		local playerPed = PlayerPedId()
 		loadAnimDict('amb@world_human_clipboard@male@idle_a')
 		TaskPlayAnim( playerPed, "amb@world_human_clipboard@male@idle_a", 'idle_c', 8.0, 1.0, -1, 49, 0, 0, 0, 0 )
-		exports["urp_taskbar"]:StartDelayedFunction('Healing', 10000, function()
-
+--        exports["urp_taskbar"]:StartDelayedFunction('Healing', 10000, function()
+            local finished = exports["urp-taskbar"]:taskBar(10000,"Healing")
+			if finished == 100 then
 			TriggerEvent('urp-ambulancejob:heal', 'small', true)
 			TriggerEvent('urp-hospital:client:RemoveBleed')
 			ClearPedTasks(playerPed)
-		end)
+		end
 	end
 end)
 
