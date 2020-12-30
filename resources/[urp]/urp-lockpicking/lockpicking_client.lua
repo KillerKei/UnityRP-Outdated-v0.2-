@@ -15,7 +15,12 @@ function lockpick(pickhealth, pickdamage, pickPadding, distance)
     end 
   end
 
-  if passed then return 100 else return 0 end
+  if passed then 
+    return 100 
+  else
+    TriggerEvent("inventory:removeItem","lockpick", 1) 
+    return 0 
+  end
 end
 
 function openGui()
