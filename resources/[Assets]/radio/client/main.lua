@@ -21,6 +21,14 @@ AddEventHandler('radio:resetNuiCommand', function()
     SendNUIMessage({reset = true})
 end)
 
+Citizen.CreateThread(function()
+  while true do
+      Citizen.Wait(15)
+          if IsControlPressed(0,14) then
+            TriggerEvent('radioGui')
+              end
+          end
+      end)
 
 function openGui()
   local radio = hasRadio()
