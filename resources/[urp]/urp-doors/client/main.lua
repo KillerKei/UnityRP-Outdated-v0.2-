@@ -405,12 +405,14 @@ AddEventHandler('urp-doors:UseRedKeycard', function()
 	if distance < 1 then
 		TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 0, true)
 		FreezeEntityPosition(PlayerPedId(), true)
-		exports["urp_taskbar"]:StartDelayedFunction('Inserting Red Key Card', 5000, function()
+--		exports["urp_taskbar"]:StartDelayedFunction('Inserting Red Key Card', 5000, function()
+			local finished = exports["urp-taskbar"]:taskBar(5000,"Inserting Red Key Card")
+			if finished == 100 then
 			TriggerServerEvent('urp-doors:updateState', 5, false)
 			FreezeEntityPosition(PlayerPedId(), false)
 			ClearPedTasks(PlayerPedId())
-		end)
-	end
+		end
+	 end
 end)
 
 RegisterNetEvent('urp-doors:UseRedKeycard2')
@@ -419,11 +421,15 @@ AddEventHandler('urp-doors:UseRedKeycard2', function()
 	if distance < 1 then
 		TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 0, true)
 		FreezeEntityPosition(PlayerPedId(), true)
-		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 10000, function()
+--		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 10000, function()
+
+			local finished = exports["urp-taskbar"]:taskBar(10000,"Hacking")
+			if finished == 100 then
+			
 			TriggerServerEvent('urp-doors:updateState', 104, false)
 			FreezeEntityPosition(PlayerPedId(), false)
 			ClearPedTasks(PlayerPedId())
-		end)
+		end
 	end
 end)
 
@@ -433,11 +439,16 @@ AddEventHandler('urp-doors:UseRedKeycard3', function()
 	if distance < 1 then
 		TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 0, true)
 		FreezeEntityPosition(PlayerPedId(), true)
-		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 5000, function()
+--		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 5000, function()
+
+			local finished = exports["urp-taskbar"]:taskBar(5000,"Hacking")
+			if finished == 100 then
+
+
 			TriggerServerEvent('urp-doors:updateState', 105, false)
 			FreezeEntityPosition(PlayerPedId(), false)
 			ClearPedTasks(PlayerPedId())
-		end)
+		end
 	end
 end)
 
@@ -447,11 +458,13 @@ AddEventHandler('urp-doors:UseRedKeycard4', function()
 	if distance < 1 then
 		TaskStartScenarioInPlace(PlayerPedId(), "PROP_HUMAN_ATM", 0, true)
 		FreezeEntityPosition(PlayerPedId(), true)
-		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 5000, function()
+--		exports["urp_taskbar"]:StartDelayedFunction('Hacking', 5000, function()
+			local finished = exports["urp-taskbar"]:taskBar(5000,"Hacking")
+			if finished == 100 then
 			TriggerServerEvent('urp-doors:updateState', 25, false)
 			FreezeEntityPosition(PlayerPedId(), false)
 			ClearPedTasks(PlayerPedId())
-		end)
+		end
 	end
 end)
 

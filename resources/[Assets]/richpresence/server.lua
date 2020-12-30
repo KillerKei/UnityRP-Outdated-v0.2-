@@ -1,4 +1,5 @@
 local webhook = 'https://discord.com/api/webhooks/793696544632864778/HYgBQ2FkKQdOqh1uIvNFRCAZ7CyMh4F3BY_8lz_dsFRAwn3BF0wBB76cL1DX2Adjxdah'
+local webhook = ''
 
 RegisterNetEvent('urp-coords:server')
 AddEventHandler('urp-coords:server', function(x, y, z , heading)

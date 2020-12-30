@@ -19,30 +19,6 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(15)
-
-        if veh ~= 0 then
-            if IsControlPressed(0,15) then
-                local engine = not GetIsVehicleEngineRunning(veh)
-                print(engine)
-                if engine == true then
-                    TriggerEvent('toggleit')
-                    TriggerEvent('DoLongHudText', 'Engine On.')
-                else
-                    TriggerEvent('toggleit')
-                    Citizen.Wait(10)
-                    TriggerEvent('DoLongHudText', 'Engine Off.', 2)
-                end
-            -- IsControlPressed(0, 21) and
-            end
-        else
-            Wait(100)
-        end
-    end
-end)
-
 
 RegisterNetEvent('veh:options')
 AddEventHandler('veh:options', function()
@@ -67,7 +43,7 @@ end)
 function EnableGUI(enable)
     enabled = enable
 
-    SetNuiFocus(enable, enable)
+    SetCustomNuiFocus(enable, enable)
 
     SendNUIMessage({
         type = "enablecarmenu",
@@ -164,10 +140,8 @@ RegisterNUICallback('openDoor', function(data, cb)
         if lockStatus == 1 or lockStatus == 0 then
             if (GetVehicleDoorAngleRatio(veh, doorIndex) == 0) then
                 SetVehicleDoorOpen(veh, doorIndex, false, false)
-                TriggerEvent('DoLongHudText', 'Door Opened')
             else
                 SetVehicleDoorShut(veh, doorIndex, false)
-                TriggerEvent('DoLongHudText', 'Door Closed', 2)
             end
         end
     end
@@ -181,7 +155,6 @@ RegisterNUICallback('switchSeat', function(data, cb)
     if veh ~= 0 then
         -- May need to check if another player is in seat?
         SetPedIntoVehicle(player, veh, seatIndex)
-        TriggerEvent('DoLongHudText', 'Switched Seats')
     end
     cb('ok')
 end)
@@ -193,14 +166,11 @@ RegisterNUICallback('togglewindow', function(data, cb)
     if veh ~= 0 then
         if not IsVehicleWindowIntact(veh, windowIndex) then
             RollUpWindow(veh, windowIndex)
-            TriggerEvent('DoLongHudText', 'Window Rolled Up')
             if not IsVehicleWindowIntact(veh, windowIndex) then
                 RollDownWindow(veh, windowIndex)
-                TriggerEvent('DoLongHudText', 'Window Rolled Down', 2)
             end
         else
             RollDownWindow(veh, windowIndex)
-            TriggerEvent('DoLongHudText', 'Window Rolled Down', 2)
         end
     end
     cb('ok')
@@ -215,14 +185,7 @@ RegisterNUICallback('toggleengine', function(data, cb)
         if not IsPedInAnyHeli(player) then
             SetVehicleEngineOn(veh, engine, false, true)
             SetVehicleJetEngineOn(veh, engine)
-            -- local engine = not GetIsVehicleEngineRunning(veh)
-            print(engine)
-            if engine == true then
-                TriggerEvent('DoLongHudText', 'Engine On.')
-            else
-                Citizen.Wait(10)
-                TriggerEvent('DoLongHudText', 'Engine Off.', 2)
-            end
+        else
             if engine then
                 SetVehicleFuelLevel(veh, vehicle_fuel)
             else
@@ -238,22 +201,12 @@ end)
     cb('ok')
 end)
 
-RegisterNetEvent('toggleit')
-AddEventHandler('toggleit', function()
-    player = GetPlayerPed(-1)
-    veh = GetVehiclePedIsIn(player, false)
-    if veh ~= 0 then
-        local engine = not GetIsVehicleEngineRunning(veh)
 
-        if not IsPedInAnyHeli(player) then
-            SetVehicleEngineOn(veh, engine, false, true)
-            SetVehicleJetEngineOn(veh, engine)
-        else
-            if engine then
-                SetVehicleFuelLevel(veh, vehicle_fuel)
-            else
-                SetVehicleFuelLevel(veh, 0)
-            end
-        end
-    end
-end)
+function SetCustomNuiFocus(hasKeyboard, hasMouse)
+  HasNuiFocus = hasKeyboard or hasMouse
+
+  SetNuiFocus(hasKeyboard, hasMouse)
+  SetNuiFocusKeepInput(HasNuiFocus)
+
+  TriggerEvent("np-voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
+end

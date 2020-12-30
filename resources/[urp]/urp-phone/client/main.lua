@@ -3544,3 +3544,103 @@ end)
 
 
 
+
+URP = URP or {}
+URP.DataControls = URP.DataControls or {}
+
+function URP.DataControls.getBindTable()
+
+	local i = 1
+	local controlTable = {}
+	for k,v in pairs(URP.Controls.Current) do
+		controlTable[i] = {k,v}
+		i = i+1
+	end
+
+    return controlTable
+end
+URP.SettingsData = URP.SettingsData or {}
+URP.Settings = URP.Settings or {}
+
+URP.Settings.Current = {}
+-- Current bind name and keys
+URP.Settings.Default = {
+  ["tokovoip"] = {
+    ["stereoAudio"] = true,
+    ["localClickOn"] = true,
+    ["localClickOff"] = true,
+    ["remoteClickOn"] = true,
+    ["remoteClickOff"] = true,
+    ["mainVolume"] = 6.0,
+    ["clickVolume"] = 10.0,
+    ["radioVolume"] = 5.0,
+  },
+  ["hud"] = {
+
+  }
+
+}
+URP.Controls = URP.Controls or {}
+URP.Controls.Current = {}
+-- Current bind name and keys
+URP.Controls.Default = {
+  ["tokoptt"] = "caps",
+  ["loudSpeaker"] = "-",
+  ["distanceChange"] = "g",
+  ["tokoToggle"] = "leftctrl",
+  ["handheld"] = "leftshift+p",
+  ["carStereo"] = "leftalt+p",
+  ["switchRadioEmergency"] = "9",
+  ["actionBar"] = "tab",
+  ["generalUse"] = "e",
+  ["generalPhone"] = "p",
+  ["generalInventory"] = "k",
+  ["generalChat"] = "t",
+  ["generalEscapeMenu"] = "esc",
+  ["generalUseSecondary"] = "enter",
+  ["generalUseSecondaryWorld"] = "f",
+  ["generalUseThird"] = "g",
+  ["generalTackle"] = "leftalt",
+  ["generalMenu"] = "f1",
+  ["generalProp"] = "7",
+  ["generalScoreboard"] = "u",
+  ["movementCrouch"] = "x",
+  ["movementCrawl"] = "z",
+  ["vehicleCruise"] = "x",
+  ["vehicleSearch"] = "g",
+  ["vehicleHotwire"] = "h",
+  ["vehicleBelt"] = "b",
+  ["vehicleDoors"] = "l",
+  ["vehicleSlights"] = "q",
+  ["vehicleSsound"] = "leftalt",
+  ["vehicleSnavigate"] = "r",
+  ["newsTools"] = "h",
+  ["newsNormal"] = "e",
+  ["newsMovie"] = "m",
+  ["housingMain"] = "h",
+  ["housingSecondary"] = "g",
+  ["heliCam"] = "e",
+  ["helivision"] = "inputaim",
+  ["helirappel"] = "x",
+  ["helispotlight"] = "g",
+  ["helilockon"] = "space",
+}
+
+function URP.SettingsData.getSettingsTable()
+  return URP.Settings.Current
+end
+
+RegisterNUICallback('settings', function()
+  local controls = URP.DataControls.getBindTable()
+  local settings = URP.SettingsData.getSettingsTable()
+  SendNUIMessage({openSection = "settings", currentControls = controls, currentSettings = settings})
+end)
+
+
+RegisterNUICallback('settingsResetToko', function()
+  TriggerEvent("urp-base:cl:player_reset","tokovoip")
+end)
+
+RegisterNUICallback('settingsResetControls', function()
+  TriggerEvent("urp-base:cl:player_control",nil)
+end)

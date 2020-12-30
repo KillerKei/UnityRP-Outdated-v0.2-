@@ -754,6 +754,13 @@ itemList["trophy"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "Tr
 itemList["umbrella"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Umbrella", price: 500, weight: 3, nonStack: false, model: "", image: "umbrella.png" , deg: false}
 itemList["umetal"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "Unknown Metal", price: 1, weight: 0, nonStack: false, model: "", image: "unknown-metal.png", information: "Dont lick your fingers", deg: false }
 
+//DRUG SHIT 
+itemList["wetbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "wetbud", price: 1, weight: 0, nonStack: false, model: "", image: "wet.png", information: "pussy", deg: false }
+itemList["driedbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "driedbud", price: 1, weight: 0, nonStack: false, model: "", image: "buddry.png", information: "pussy", deg: false }
+itemList["smallbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "smallbud", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
+itemList["freshmeat"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "freshmeat", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
+
+
 itemList["usbdevice"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Unknown USB Device", price: 300, weight: 5, nonStack: false, model: "", image: "unknown-usb-device.png" , deg: false}
 itemList["valuablegoods"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Valuable Goods", craft: [{itemid: "goldbar", amount: 7 }], price: 4000, weight: 4, nonStack: false, model: "", image: "valuable-goods.png" , deg: false}
 itemList["viagra"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "Viagra", price: 1, weight: 0, nonStack: false, model:  "", image: "viagra.png", information: "Magic little blue pill", deg: false }

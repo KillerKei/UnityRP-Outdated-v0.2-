@@ -601,31 +601,3 @@ function hasVehicleKey(plate)
   return false
  end
 end
-
---[[Citizen.CreateThread(function()
-  while true do
-    Citizen.Wait(0)
-    local playerPed = GetPlayerPed(-1)
-    local vehicle = GetVehiclePedIsIn(playerPed)
-    local plate = GetVehicleNumberPlateText(vehicle)
-    if IsControlJustPressed(1, 244) and IsPedInAnyVehicle(PlayerPedId(), false) then
-      if vehicleKeys[plate] == nil then
-        URPCore.TriggerServerCallback('disc-hotwire:checkOwner', function(owner)
-          if owner then
-            exports["urp_taskbar"]:StartDelayedFunction('Taking Keys', 3000, function()
-              vehicleKeys[plate] = {}
-              vehicleHotwired[plate] = true
-              SetVehicleEngineOn(vehicle, true, true)
-              TriggerServerEvent('garage:addKeys', plate)
-              TriggerEvent('vehicle:start')
-              exports["mythic_notify"]:DoHudText('inform', 'You took your keys.')
-            end)
-            
-          else
-            exports["mythic_notify"]:DoHudText('error', 'Failed to find keys.')
-          end
-        end, plate)
-      end
-    end
-  end
-end)]]--

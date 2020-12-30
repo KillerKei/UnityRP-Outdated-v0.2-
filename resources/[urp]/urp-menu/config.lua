@@ -1012,12 +1012,13 @@ RegisterCommand('scuba', function()
     if vehFront > 0 then
         if GetVehicleDoorAngleRatio(vehFront, 5) ~= 0.0 then
   		    loadAnimDict('anim@narcotics@trash')
-            TaskPlayAnim(PlayerPedId(),'anim@narcotics@trash', 'drop_front',0.9, -8, 1900, 49, 3.0, 0, 0, 0)
-            exports["urp_taskbar"]:StartDelayedFunction('Grabbing Scuba Gear', 4000, function()		
+            TaskPlayAnim(PlayerPedId(),'anim@narcotics@trash', 'drop_front',0.9, -8, 1900, 49, 3.0, 0, 0, 0)	
+                local finished = exports["urp-taskbar"]:taskBar(4000,"Grabbing Scuba Gear")
+                if finished == 100 then
 	  		    loadAnimDict('anim@narcotics@trash')
     		    TaskPlayAnim(PlayerPedId(),'anim@narcotics@trash', 'drop_front',0.9, -8, 1900, 49, 3.0, 0, 0, 0)	  		
 			    TriggerEvent("UseOxygenTank")
-            end)
+            end
         else
             TriggerEvent('DoLongHudText', 'The trunk is closed?!', 2)
         end

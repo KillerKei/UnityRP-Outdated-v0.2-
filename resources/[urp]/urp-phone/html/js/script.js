@@ -1587,8 +1587,8 @@ function createControlList()
                 <span class="error" id="${bindID}-error" aria-live="polite"></span> 
                 `);
             }
-            $('#controlSettings').append(element);
-            $("#"+bindID).val(getCurrentBindFromID(bindID).toUpperCase())
+           $('#controlSettings').append(element);
+           $("#"+bindID).val(getCurrentBindFromID(bindID))
         }
          
     }
