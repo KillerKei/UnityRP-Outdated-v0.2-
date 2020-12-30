@@ -1,4 +1,4 @@
-SetDiscordAppId(762404987397341224)
+SetDiscordAppId(759084867936976918)
 
 SetDiscordRichPresenceAsset('logo')
 
