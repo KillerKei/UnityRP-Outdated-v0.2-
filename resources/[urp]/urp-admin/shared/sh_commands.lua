@@ -604,12 +604,6 @@ function cmd.RunCommand(caller, args)
 	TriggerEvent('urp-hospital:client:ResetLimbs', caller.target.src)
 end
 
-RegisterCommand('revive', function()
-    TriggerServerEvent('admin:revivePlayer')
-    TriggerEvent('urp-hospital:client:RemoveBleed') -- remove after beta test
-    TriggerEvent('urp-hospital:client:ResetLimbs')
-end
-
 function cmd.DrawCommand()
     cmd.vars.target = cmd.vars.target or nil
 
