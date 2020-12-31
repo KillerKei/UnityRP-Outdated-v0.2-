@@ -53,7 +53,6 @@ $(document).ready(function () {
   document.onkeydown = function(data) {
       if (data.which == 73 || data.which == 27) {   //27 is ESC
           closeInv()
-          console.log('closing inv')
       } else if (data.which == 16) {
           shiftHeld = true
       } else if (data.which == 17) {

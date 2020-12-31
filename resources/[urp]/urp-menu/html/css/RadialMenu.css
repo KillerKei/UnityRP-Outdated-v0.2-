@@ -29,7 +29,7 @@ svg.menu.outer {
 
 svg.menu > g > path {
     fill-opacity: 0.4;
-    fill: rgb(45, 155, 218);
+    fill: #00000080;
 }
 
 svg.menu > g.sector > path {
@@ -44,12 +44,12 @@ svg.menu > g.sector > use {
 }
 
 svg.menu > g.sector.selected > path {
-    fill: rgb(45, 155, 218);
+    fill: #2D98DA;
     fill-opacity: 0.6;
 }
 
 svg.menu > g.center:hover > circle {
-    fill:rgb(0, 0, 0);
+    fill:#2D98DA;
     fill-opacity: 0.6;
 }
 

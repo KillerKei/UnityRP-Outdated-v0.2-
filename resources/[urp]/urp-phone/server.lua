@@ -194,6 +194,7 @@ RegisterNetEvent('Tweet')
 AddEventHandler('Tweet', function(handle, data, time)
     local handle = handle
     local src = source
+    print(data)
 
     exports.ghmattimysql:execute('INSERT INTO tweets (handle, message, time) VALUES (@handle, @message, @time)', {
         ['handle'] = handle,

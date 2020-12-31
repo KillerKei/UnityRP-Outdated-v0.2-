@@ -11,7 +11,7 @@ local attemptingPurchase = false
 local isPurchaseSuccessful = false
 local testDriveMenuOpen = false
 local myspawnedvehs = {}
-local rank = driftschool
+local rank = nil
 local insideDriftSchool = false
 
 function DrawText3D(x,y,z, text) -- some useful function, use it if you want!
@@ -55,7 +55,7 @@ end
 function repairCost(veh, health)
     if health < 1000.0 then
         local price = math.ceil(1000 - health)
-        if rank == 'driftschool' then
+        if rank == 'DriftSchool' then
             return price * 0.5
         else
             return price
@@ -106,6 +106,8 @@ AddEventHandler('URP-DRIFTSCHOOL-TAKEMONEY',function()
     local Player = LocalPlayer:getCurrentCharacter()
     local costs = 10
     LocalPlayer:removeCash(Player.id, costs)
+    isPurchaseSuccessful = true
+    attemptingPurchase = false
 end)
    
 Citizen.CreateThread(function()
@@ -118,7 +120,7 @@ Citizen.CreateThread(function()
             local player = PlayerPedId()
             local veh = GetVehiclePedIsIn(player, false)
             local health = GetVehicleBodyHealth(veh)
-            if repairDist[1] < 5 and health < 1000.0 and veh ~= 0 and rank == 'driftschool' then
+            if repairDist[1] < 5 and health < 1000.0 and veh ~= 0 and rank == 'DriftSchool' then
                 DrawText3D(repairDist[2].x, repairDist[2].y, repairDist[2].z, "[E] Repair Vehicle $"..repairCost(veh, health))
                 DrawMarker(27, repairDist[2].x, repairDist[2].y, repairDist[2].z - 1.0, 0, 0, 0, 0, 0, 0, 1.001, 1.0001, 1.0001, 0, 55, 240, 20, 0, 0, 0, 0)
                 if IsControlJustPressed(1, 38) then
@@ -154,7 +156,7 @@ Citizen.CreateThread(function()
                         end
                     end
                 end
-            elseif testDriveDist[1] < 10 and rank == 'driftschool' then
+            elseif testDriveDist[1] < 5 and rank == 'DriftSchool' then
                 -- testdrive menu
                 local point = testDriveDist[2]
                 if veh == 0 then
@@ -175,8 +177,6 @@ Citizen.CreateThread(function()
             elseif repairDist[1] > 10 and testDriveDist[1] > 10 then
                 Citizen.Wait(math.ceil(math.min(repairDist[1], testDriveDist[1]) * 10))
             end
-        else
-            Wait(15000)
         end
     end
 end)
@@ -282,7 +282,7 @@ local driftschoolLoc = PolyZone:Create({
     vector2(116.00241851807, -2477.1823730469),
     vector2(97.418601989746, -2527.5705566406)
 }, {
-    name = "driftschool",
+    name = "DriftSchool",
     debugGrid = false,
     maxZ = 32.61,
     gridDivisions = 45
@@ -311,7 +311,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(500)
         if insideDriftSchool then
-            rank = 'driftschool' --usejobcheck
+            rank = exports['isPed']:isPed('job')
+            print(rank)
             Citizen.Wait(10000)
         end
     end
