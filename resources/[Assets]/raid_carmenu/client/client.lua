@@ -19,6 +19,29 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(15)
+
+        if veh ~= 0 then
+            if IsControlPressed(0,15) then
+                local engine = not GetIsVehicleEngineRunning(veh)
+                print(engine)
+                if engine == true then
+                    TriggerEvent('toggleit')
+                    TriggerEvent('DoLongHudText', 'Engine On.')
+                else
+                    TriggerEvent('toggleit')
+                    Citizen.Wait(10)
+                    TriggerEvent('DoLongHudText', 'Engine Off.', 2)
+                end
+            -- IsControlPressed(0, 21) and
+            end
+        else
+            Wait(100)
+        end
+    end
+end)
 
 RegisterNetEvent('veh:options')
 AddEventHandler('veh:options', function()
@@ -210,3 +233,23 @@ function SetCustomNuiFocus(hasKeyboard, hasMouse)
 
   TriggerEvent("np-voice:focus:set", HasNuiFocus, hasKeyboard, hasMouse)
 end
+
+RegisterNetEvent('toggleit')
+AddEventHandler('toggleit', function()
+    player = GetPlayerPed(-1)
+    veh = GetVehiclePedIsIn(player, false)
+    if veh ~= 0 then
+        local engine = not GetIsVehicleEngineRunning(veh)
+
+        if not IsPedInAnyHeli(player) then
+            SetVehicleEngineOn(veh, engine, false, true)
+            SetVehicleJetEngineOn(veh, engine)
+        else
+            if engine then
+                SetVehicleFuelLevel(veh, vehicle_fuel)
+            else
+                SetVehicleFuelLevel(veh, 0)
+            end
+        end
+    end
+end)
