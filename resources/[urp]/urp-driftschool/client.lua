@@ -106,6 +106,8 @@ AddEventHandler('URP-DRIFTSCHOOL-TAKEMONEY',function()
     local Player = LocalPlayer:getCurrentCharacter()
     local costs = 10
     LocalPlayer:removeCash(Player.id, costs)
+    isPurchaseSuccessful = true
+    attemptingPurchase = false
 end)
    
 Citizen.CreateThread(function()
@@ -156,7 +158,6 @@ Citizen.CreateThread(function()
                 end
             elseif testDriveDist[1] < 5 and rank == 'DriftSchool' then
                 -- testdrive menu
-                print("Kian")
                 local point = testDriveDist[2]
                 if veh == 0 then
                     DrawText3D(point.x, point.y, point.z, "[E] Open Test Drives")
