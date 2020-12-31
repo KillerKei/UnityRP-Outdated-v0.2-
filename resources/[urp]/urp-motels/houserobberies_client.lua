@@ -1077,27 +1077,54 @@ function buildBasicHouse(generator)
  FreezeEntityPosition(PlayerPedId(),false)
 end
 
-function DeleteSpawnedHouse(id)
- local housePosition = robbableHouses[id]
- local handle, ObjectFound = FindFirstObject()
- local success
- repeat
-  local pos = GetEntityCoords(ObjectFound)
-  local distance = GetDistanceBetweenCoords(housePosition["x"], housePosition["y"], (housePosition["z"] - 24.0), pos, true)
-  if distance < 35.0 and ObjectFound ~= PlayerPedId() then
-   if IsEntityAPed(ObjectFound) then
-    if not IsPedAPlayer(ObjectFound) then
-     DeleteObject(ObjectFound)
-    end
-   else
-    DeleteObject(ObjectFound)
-   end
-  end
-  success, ObjectFound = FindNextObject(handle)
- until not success
- EndFindObject(handle)
-end
+--function DeleteSpawnedHouse(id)
+-- local housePosition = robbableHouses[id]
+-- local handle, ObjectFound = FindFirstObject()
+-- local success
+-- repeat
+--  local pos = GetEntityCoords(ObjectFound)
+--  local distance = GetDistanceBetweenCoords(housePosition["x"], housePosition["y"], (housePosition["z"] - 24.0), pos, true)
+--  if distance < 35.0 and ObjectFound ~= PlayerPedId() then
+--   if IsEntityAPed(ObjectFound) then
+--    if not IsPedAPlayer(ObjectFound) then
+--     DeleteObject(ObjectFound)
+--    end
+--   else
+--    DeleteObject(ObjectFound)
+--   end
+--  end
+--  success, ObjectFound = FindNextObject(handle)
+-- until not success
+-- EndFindObject(handle)
+--end
 
+function DeleteSpawnedHouse(id,owner)
+
+	TriggerEvent("inhouse",false)
+    local playerped = PlayerPedId()
+    local plycoords = GetEntityCoords(playerped)
+    local handle, ObjectFound = FindFirstObject()
+    local success
+    repeat
+        local pos = GetEntityCoords(ObjectFound)
+        local distance = #(vector3(curHouseCoords["x"], curHouseCoords["y"], (curHouseCoords["z"] - 24.0)) - pos)
+        if distance < 35.0 and ObjectFound ~= playerped then
+        	if IsEntityAPed(ObjectFound) then
+        		if IsPedAPlayer(ObjectFound) then
+        		else
+        			DeleteObject(ObjectFound)
+        		end
+        	else
+        		DeleteObject(ObjectFound)
+        	end            
+        end
+        success, ObjectFound = FindNextObject(handle)
+    until not success
+    EndFindObject(handle)
+    if owner then
+    	RemoveNPC(id)
+    end
+end
 
 function getRotation(input)
 	return 360/(10*input)
