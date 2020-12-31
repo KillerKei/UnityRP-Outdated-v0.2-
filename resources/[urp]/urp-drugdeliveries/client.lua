@@ -166,7 +166,36 @@ function buildDrugShop()
 	SetEntityHeading(PlayerPedId(),0.0)
 	FreezeEntityPosition(PlayerPedId(),false)
 	DoScreenFadeIn(1)
+	TriggerEvent('inoxyplace', true)
 end
+
+local penis = false
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if penis == true then
+			TriggerEvent('vSync:toggle',false)
+			SetBlackout(false)
+			ClearOverrideWeather()
+			ClearWeatherTypePersist()
+			SetWeatherTypePersist('CLEAR')
+			SetWeatherTypeNow('CLEAR')
+			SetWeatherTypeNowPersist('CLEAR')
+			NetworkOverrideClockTime(23, 0, 0)
+		end
+	end
+end)
+
+RegisterNetEvent('inoxyplace')
+AddEventHandler('inoxyplace', function(toggle)
+	if toggle == true then
+		penis = true
+	else
+		penis = false
+		TriggerEvent('vSync:toggle',true)
+		TriggerServerEvent('vSync:requestSync')
+	end
+end)
 
 
 
@@ -1238,6 +1267,7 @@ Citizen.CreateThread(function()
 			DrawText3Ds(590.4242, 2739.596,15.85879, "[E] to Leave")
 			if IsControlJustReleased(0,38) then
 				CleanUpArea()
+				TriggerEvent('inoxyplace', false)
 				SetEntityCoords(PlayerPedId(),-1271.262, -1148.615, 6.791)
 				Citizen.Wait(1000)
 				TriggerServerEvent('oxylog', 'Leggy left the building')
