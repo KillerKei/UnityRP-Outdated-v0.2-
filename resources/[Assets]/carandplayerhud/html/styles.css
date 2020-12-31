@@ -32,10 +32,10 @@
 }
 
 #varSetHealth > .progressBar {
-    background: rgba(28, 255, 161, 0.5); /* rgba(96, 236, 77,1) 100%); */
+    background: #3BB273; /* rgba(96, 236, 77,1) 100%); */
 }
 #varSetArmor > .progressBar {
-    background: rgba(65, 138, 255, 0.5); /* rgba(65, 138, 255,1) 100%); */
+    background: #418aff; /* rgba(65, 138, 255,1) 100%); */
 }
 
 #parachute {
@@ -57,7 +57,7 @@
 }
 
 .bar {
-    background-color: rgba(0, 0, 0, 0.212);
+    background-color: rgba(0,0,0,0.4);
     width: calc(12.5% - 4px - 1%);
     min-height: 25.5px;
     float: left;
@@ -75,20 +75,20 @@
 .voice > div {
     width: 4px;
     height: 4px;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #E6E6E5;
+    background: #E6E6E5;
     /* background-color: rgba(0,0,0,0.4); */
     margin-bottom: 2px;
 }
 
 .talking > div {
-    border: 2px solid rgba(255, 255, 0, 0.5);
-    background: rgba(255, 255, 0, 0.5);
+    border: 2px solid yellow;
+    background: yellow;
 }
 
 .transmitting > div {
-    border: 2px solid rgba(255, 0, 0, 0.5);
-    background: rgba(255, 0, 0, 0.5) !important;
+    border: 2px solid red;
+    background: red !important;
 }
 
 .dev {
@@ -98,8 +98,8 @@
 .dev > div {
     width: 4px;
     height: 4px;
-    border: 2px solid rgba(245, 87, 19, 0.5);
-    background: rgba(245, 87, 19, 0.5);
+    border: 2px solid #F55713;
+    background: #F55713;
     /* background-color: rgba(0,0,0,0.4); */
     margin-bottom: 2px;
 }
@@ -111,8 +111,8 @@
 .devDebug > div {
     width: 4px;
     height: 4px;
-    border: 2px solid rgba(27, 108, 230, 0.5);
-    background: rgba(27, 108, 230, 0.5);
+    border: 2px solid #1B6CE6;
+    background: #1B6CE6;
     /* background-color: rgba(0,0,0,0.4); */
     margin-bottom: 2px;
 }
@@ -120,25 +120,25 @@
 .progressBar {
     width: 100%;
     height: 25.5px;
-    background: rgba(79, 124, 172, 0.5);
+    background: #4F7CAC;
     position: relative;
     bottom: 0;
     z-index: 98;
 }
 #varSetHunger > .progressBar {
-    background: rgba(209, 153, 60, 0.5);
+    background: #D1993C;
 }
 #varSetOxy > .progressBar {
-    background: rgba(73, 90, 116, 0.5);
+    background: #495A74;
 }
 #varSetStress > .progressBar {
-    background: rgba(152, 68, 71, 0.5);
+    background: #984447;
 }
 
 .progressBar.colorBlind {
     width: 100%;
     height: 25.5px;
-    background: rgb(79, 124, 172, 0.5);
+    background: #4F7CAC;
     position: relative;
     bottom: 0;
     z-index: 98;
@@ -166,5 +166,6 @@
     filter: brightness(0) saturate(100%) invert(23%) sepia(88%) saturate(7076%) hue-rotate(358deg) brightness(100%) contrast(122%);
 }
 .dangerGrad {
-    background: rgba(207, 0, 0, 0.5) !important;
+    background: rgb(207, 0, 0) !important;
 }
+

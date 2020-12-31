@@ -380,9 +380,9 @@ end)
 
 -- /setjob source, job, ran
 
-RegisterCommand('adminmenu', function()
+RegisterCommand('menu', function()
     print(group)
-    if group ~= "user" then
+    if group == "superadmin" then
         TriggerEvent('urp-admin:openMenu')
     else
         TriggerEvent('DoLongHudText', "You are not an admin", 2)
