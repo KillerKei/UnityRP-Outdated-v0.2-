@@ -432,8 +432,7 @@ function getVehicleInDirection(coordFrom, coordTo)
     return vehicle ~= nil and vehicle or 0
 end
 
-RegisterNetEvent('urp-oVehicleMod:UseHarness')
-AddEventHandler('urp-oVehicleMod:UseHarness', function()
+RegisterCommand("harness", function()
     toggleHarness()
 end)
 
