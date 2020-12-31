@@ -8,7 +8,9 @@ Jobs = {
     [5] = "EMS",
     [6] = "PDM",
     [7] = "RealEstate",
-    [8] = "Mechanic"
+    [8] = "Mechanic",
+    [9] = "DriftSchool",
+    [10] = "News"
 }
 
 JobRanks = {
@@ -82,6 +84,22 @@ JobRanks = {
             2,
             3,
             4,
+        }
+    },
+    [9] = {
+        name = "DriftSchool",
+        ranks = {
+            1,
+            2,
+            3,
+        }
+    },
+    [10] = {
+        name = "News",
+        ranks = {
+            1,
+            2,
+            3,
         }
     },
 }
