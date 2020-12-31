@@ -1,3 +1,2 @@
-@echo off
-start B:\UnityRP3.0\run.cmd +exec server.cfg
-exit
+cd C:\Users\pkarti\Desktop\UnityRP3.0
+FXServer.exe +exec server.cfg

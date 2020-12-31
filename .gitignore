@@ -28,8 +28,12 @@ imgui.ini
 resources/res.cfg
 Server Runner.cmd
 start.bat
+<<<<<<< Updated upstream
 citizen/scripting/v8/natives_server.js
 citizen/scripting/v8/natives_server.d.ts
 citizen/scripting/lua/natives_server.lua
 citizen/scripting/rpc_natives.json
 citizen/scripting/lua/natives_loader.lua
+=======
+
+>>>>>>> Stashed changes
