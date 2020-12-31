@@ -263,16 +263,8 @@ local carpick = {
 }
 
 local carspawns = {
-	[1] =  { ['x'] = 564.91,['y'] = 2735.9,['z'] = 42.07,['h'] = 182.27, ['info'] = ' park 8' },
-	[2] =  { ['x'] = 586.27,['y'] = 2737.04,['z'] = 42.05,['h'] = 184.36, ['info'] = ' park 1' },
-	[3] =  { ['x'] = 583.34,['y'] = 2736.95,['z'] = 41.99,['h'] = 181.24, ['info'] = ' park 2' },
-	[4] =  { ['x'] = 580.3,['y'] = 2736.68,['z'] = 42.01,['h'] = 181.3, ['info'] = ' park 3' },
-	[5] =  { ['x'] = 577.27,['y'] = 2736.31,['z'] = 42.02,['h'] = 181.46, ['info'] = ' park 4' },
-	[6] =  { ['x'] = 574.14,['y'] = 2736.34,['z'] = 42.06,['h'] = 182.53, ['info'] = ' park 5' },
-	[7] =  { ['x'] = 570.9,['y'] = 2736.1,['z'] = 42.07,['h'] = 176.64, ['info'] = ' park 6' },
-	[8] =  { ['x'] = 567.88,['y'] = 2736.03,['z'] = 42.07,['h'] = 182.0, ['info'] = ' park 7' },
+	[1] =  { ['x'] = -1273.6,['y'] = -1158.6,['z'] = 6.14,['h'] = 114.02, ['info'] = ' park 8' },
 
-	
 }
 
 
@@ -292,14 +284,14 @@ function CreateOxyVehicle()
     end
 
     local spawnpoint = 1
-    for i = 1, #carspawns do
-	    local caisseo = GetClosestVehicle(carspawns[i]["x"], carspawns[i]["y"], carspawns[i]["z"], 3.500, 0, 70)
-		if not DoesEntityExist(caisseo) then
-			spawnpoint = i
-		end
-    end
+    -- for i = 1, #carspawns do
+	--     local caisseo = GetClosestVehicle(carspawns[i]["x"], carspawns[i]["y"], carspawns[i]["z"], 3.500, 0, 70)
+	-- 	if not DoesEntityExist(caisseo) then
+	-- 		spawnpoint = i
+	-- 	end
+    -- end
 
-    oxyVehicle = CreateVehicle(car, carspawns[spawnpoint]["x"], carspawns[spawnpoint]["y"], carspawns[spawnpoint]["z"], carspawns[spawnpoint]["h"], true, false)
+    oxyVehicle = CreateVehicle(car, -1283.59, -1163.66, 5.32, true, false)
     local plate = GetVehicleNumberPlateText(oxyVehicle)
     TriggerServerEvent("flagcar",plate)
     SetVehicleHasBeenOwnedByPlayer(oxyVehicle,true)
@@ -1248,14 +1240,15 @@ Citizen.CreateThread(function()
 				CleanUpArea()
 				SetEntityCoords(PlayerPedId(),-1271.262, -1148.615, 6.791)
 				Citizen.Wait(1000)
+				TriggerServerEvent('oxylog', 'Leggy left the building')
 			end
 		end
 		if dropOff5 < 1.5 then
 			DrawText3Ds(-1271.262, -1148.615, 6.791, "[E] to Enter") 
 			if IsControlJustReleased(0,38) then
 				buildDrugShop()
-				
 				CreateDrugStorePed()
+				TriggerServerEvent('oxylog', 'Leggy entered the building')
 			end
 		end		
 
