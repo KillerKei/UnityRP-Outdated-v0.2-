@@ -75,7 +75,7 @@ DecorRegister("vehicleHarnessDur", 1) -- who knows if this works :)
 
 local NosVehicles = {}
 local nosMods = {}
-local nosForce = 1.0
+local nosForce = 0.0
 local seatbelt = false
 local disablenos = false
 local exhausts = {
