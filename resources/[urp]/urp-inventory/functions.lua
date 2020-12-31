@@ -819,7 +819,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     end
 
     if (itemid == "binoculars") then 
-        TriggerEvent("binoculars:Activate")
+        TriggerEvent("binoculars:Activate2")
         
     end
 
