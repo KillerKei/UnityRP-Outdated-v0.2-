@@ -16,7 +16,7 @@ Citizen.CreateThread( function()
 end)
 
 RegisterCommand('me', function(source, args)
-    local text = '' 
+    local text = '' -- edit here if you want to change the language : EN: the person / FR: la personne
     for i = 1,#args do
         text = text .. ' ' .. args[i]
     end
@@ -54,13 +54,13 @@ AddEventHandler('DoHudTextCoords', function(mePlayer, text)
             if HasEntityClearLosToEntity(PlayerPedId(), GetPlayerPed(mePlayer), 17 ) then
 
                 if not isInVehicle and GetFollowPedCamViewMode() == 0 then
-                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/2) - 0.2, text, output,power2)
+                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/2) , text, output,power2)
                 elseif not isInVehicle and GetFollowPedCamViewMode() == 4 then
-                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/7) - 0.1, text, output,power2)
+                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/7) , text, output,power2)
                 elseif GetFollowPedCamViewMode() == 4 then
-                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/7) - 0.2, text, output,power2)
+                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+(mycount2/7) , text, output,power2)
                 else
-                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+mycount2 - 1.25, text, output,power2)
+                    DrawText3DTest(coordsMe["x"],coordsMe["y"],coordsMe["z"]+mycount2 , text, output,power2)
                 end
             end
         end
