@@ -755,10 +755,15 @@ itemList["umbrella"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Umbr
 itemList["umetal"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "Unknown Metal", price: 1, weight: 0, nonStack: false, model: "", image: "unknown-metal.png", information: "Dont lick your fingers", deg: false }
 
 //DRUG SHIT 
-itemList["wetbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "wetbud", price: 1, weight: 0, nonStack: false, model: "", image: "wet.png", information: "pussy", deg: false }
-itemList["driedbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "driedbud", price: 1, weight: 0, nonStack: false, model: "", image: "buddry.png", information: "pussy", deg: false }
-itemList["smallbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "smallbud", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
-itemList["freshmeat"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "freshmeat", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
+//itemList["wetbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "wetbud", price: 1, weight: 0, nonStack: false, model: "", image: "wet.png", information: "pussy", deg: false }
+//itemList["driedbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "driedbud", price: 1, weight: 0, nonStack: false, model: "", image: "buddry.png", information: "pussy", deg: false }
+//itemList["smallbud"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "smallbud", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
+//itemList["freshmeat"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "freshmeat", price: 1, weight: 0, nonStack: false, model: "", image: ".png", information: "xD", deg: false }
+
+itemList["wetbud"] = {fullyDegrades: true, illegal: true, decayrate: 0.3, displayname: "Wet Bud (2 Grams)", price: 30, weight: 5, nonStack: false, model: "", image: "wet.png", information: "Dry It?" , deg: false}
+itemList["driedbud"] = {fullyDegrades: true, illegal: true, decayrate: 0.3, displayname: "Dried Bud (2 Grams)", price: 30, weight: 2, nonStack: false, model: "", image: "buddry2.png", information: "Dry It?" , deg: false}
+itemList["smallbud"] = {fullyDegrades: true, illegal: true, decayrate: 0.3, displayname: "Packed Bud (2 Grams)", price: 30, weight: 2, nonStack: false, model: "", image: "buddry.png", information: "Sell It?" , deg: false}
+itemList["freshmeat"]	    = {fullyDegrades: true, decayrate: 0.01, displayname: "Fresh Meat", craft: [{itemid: "foodingredient", amount: 1 } ], price: 10, weight: 12, nonStack: false, model: "", image: "rawmeat.png", information: "Meat, Wow..", deg: false}
 
 
 itemList["usbdevice"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Unknown USB Device", price: 300, weight: 5, nonStack: false, model: "", image: "unknown-usb-device.png" , deg: false}
