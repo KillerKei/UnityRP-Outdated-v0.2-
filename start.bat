@@ -1,3 +1,3 @@
 @echo off
-start B:\UnityRP3.0\run.cmd +exec server.cfg
+start C:\Users\keiro\Documents\GitHub\UnityRP3.0\servershit\run.cmd +exec server.cfg
 exit
