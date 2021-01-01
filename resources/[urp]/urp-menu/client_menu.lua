@@ -130,3 +130,9 @@ AddEventHandler("menu:menuexit", function()
     showMenu = false
     SetNuiFocus(false, false)
 end)
+
+RegisterNetEvent("menu:VehReq")
+AddEventHandler("menu:VehReq", function()
+    print("VEHICLE REQUEST")
+    TriggerEvent('veh:requestUpdate')
+end)
