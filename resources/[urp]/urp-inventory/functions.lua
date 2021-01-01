@@ -819,8 +819,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     end
 
     if (itemid == "binoculars") then 
-        TriggerEvent("binoculars:Activate")
-        
+        TriggerEvent("binoculars:Activate2")        
     end
 
     if (itemid == "camera") then
@@ -1065,7 +1064,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
         local veh = GetVehiclePedIsIn(player, false)
         local driver = GetPedInVehicleSeat(veh, -1)
         if (PlayerPedId() == driver) then
-            TriggerEvent("vehicleMod:useHarnessItem")
+            TriggerEvent("urp-oVehicleMod:UseHarness")
             remove = true
         end
     end
