@@ -117,7 +117,8 @@ Citizen.CreateThread(function()
             EnableControlAction(0, 1)
             EnableControlAction(0, 2)
             AttachEntityToEntity(playerPed, InVehicle, -1, 0.0, 0.0, 0.4, 0.0, 0.0, 0.0, false, false, true, true, 2, true)
-        elseif not exports['urp-trunk']:isInTrunk() and not isInVehicle and not exports['urp-carry']:isCarrying() then
+--        elseif not exports['urp-trunk']:isInTrunk() and not isInVehicle and not exports['urp-drag']:isCarrying() then
+--        WTF IS THIS SHIT 
             isInVehicle = false
             DetachEntity(playerPed, true, false)
         end
