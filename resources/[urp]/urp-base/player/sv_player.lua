@@ -2,7 +2,7 @@ URP.Player = URP.Player or {}
 URP.Player.Characters = URP.Player.Characters or {}
 URP.LocalPlayer = URP.LocalPlayer or {}
 
-
+-- need to implement Tax set at 15%
 
 local function GetUser()
     return URP.Player
