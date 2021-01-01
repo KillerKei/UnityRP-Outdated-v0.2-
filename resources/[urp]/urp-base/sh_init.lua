@@ -10,7 +10,9 @@ Jobs = {
     [7] = "RealEstate",
     [8] = "Mechanic",
     [9] = "DriftSchool",
-    [10] = "News"
+    [10] = "News",
+    [11] = "tuner_carshop",
+    [12] = "illegal_carshop"
 }
 
 JobRanks = {
@@ -96,6 +98,22 @@ JobRanks = {
     },
     [10] = {
         name = "News",
+        ranks = {
+            1,
+            2,
+            3,
+        }
+    },
+    [11] = {
+        name = "tuner_carshop",
+        ranks = {
+            1,
+            2,
+            3,
+        }
+    },
+    [12] = {
+        name = "illegal_carshop",
         ranks = {
             1,
             2,
