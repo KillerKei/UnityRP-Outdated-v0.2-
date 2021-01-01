@@ -1611,6 +1611,21 @@ AddEventHandler('food:Condiment', function()
     RevertToStressMultiplier()
 end)
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(20000)
+		if currentValues["hunger"] <= 0 then
+			local newhealth = GetEntityHealth(PlayerPedId()) - math.random(5,10)
+			SetEntityHealth(PlayerPedId(), newhealth)
+			TriggerEvent('DoLongHudText', 'You\'re Hungry, Get Some Food!',2)
+		elseif currentValues["thirst"] <= 0 then
+			local newhealth2 = GetEntityHealth(PlayerPedId()) - math.random(5,10)
+			SetEntityHealth(PlayerPedId(), newhealth2)
+			TriggerEvent('DoLongHudText', 'You\'re Dehydrated, Get a Drink!',2)
+		end
+	end
+end)
+
 
 RegisterNetEvent('hadenergy')
 AddEventHandler('hadenergy', function(arg1,arg2,arg3)
