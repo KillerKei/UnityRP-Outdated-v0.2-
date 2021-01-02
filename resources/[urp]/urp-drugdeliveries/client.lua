@@ -101,7 +101,7 @@ local drugLocs = {
 
 local pillStore =  { ['x'] = 591.26,['y'] = 2744.11,['z'] = 42.05,['h'] = 5.53, ['info'] = ' oxy' }
 
-local pillWorker = { ['x'] = 590.89,['y'] = 2747.82,['z'] = 15.86,['h'] = 177.65, ['info'] = ' lol' }
+local pillWorker = { ['x'] = 590.89,['y'] = 2747.82,['z'] = 15.86,['h'] = 200.65, ['info'] = ' lol' }
 
 
 function buildDrugShop()
@@ -161,12 +161,41 @@ function buildDrugShop()
 	-- CreateObject(`V_38_C_Sink`,coordsofbuilding.x-0.62845000,coordsofbuilding.y+4.84067900,coordsofbuilding.z+1.41538000,false,false,false)
 
 	-- FreezeEntityPosition(coordsofbuilding,true)
-	SetEntityCoords(PlayerPedId(), 590.2401, 2739.591, 15.85879)
+	SetEntityCoords(PlayerPedId(), 590.41, 2740.0, 15.8)
 	Citizen.Wait(500)
 	SetEntityHeading(PlayerPedId(),0.0)
 	FreezeEntityPosition(PlayerPedId(),false)
 	DoScreenFadeIn(1)
+	TriggerEvent('inoxyplace', true)
 end
+
+local penis = false
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if penis == true then
+			TriggerEvent('vSync:toggle',false)
+			SetBlackout(false)
+			ClearOverrideWeather()
+			ClearWeatherTypePersist()
+			SetWeatherTypePersist('CLEAR')
+			SetWeatherTypeNow('CLEAR')
+			SetWeatherTypeNowPersist('CLEAR')
+			NetworkOverrideClockTime(23, 0, 0)
+		end
+	end
+end)
+
+RegisterNetEvent('inoxyplace')
+AddEventHandler('inoxyplace', function(toggle)
+	if toggle == true then
+		penis = true
+	else
+		penis = false
+		TriggerEvent('vSync:toggle',true)
+		TriggerServerEvent('vSync:requestSync')
+	end
+end)
 
 
 
@@ -220,6 +249,15 @@ local oxyPeds = {
 	'a_m_y_stwhi_01'
 }
 
+Citizen.CreateThread(function()
+    while true do
+		Citizen.Wait(5000)
+		
+        local amountofcash = exports['urp-base']:getModule("LocalPlayer"):getCurrentCharacter().cash
+        TriggerServerEvent("urp-drugdeliveries:amount", amountofcash)
+    end
+end)
+
 function CreateDrugStorePed()
 
 	if DoesEntityExist(drugStorePed) then
@@ -233,7 +271,6 @@ function CreateDrugStorePed()
         Citizen.Wait(100)
     end
 	drugStorePed = CreatePed(pedType, hashKey, pillWorker["x"],pillWorker["y"],pillWorker["z"], 270.0, 1, 1)
-	SetEntityHeading(drugStorePed, 180.24)
 	DecorSetBool(drugStorePed, 'ScriptedPed', true)
     ClearPedTasks(drugStorePed)
     ClearPedSecondaryTask(drugStorePed)
@@ -256,16 +293,8 @@ local carpick = {
 }
 
 local carspawns = {
-	[1] =  { ['x'] = 564.91,['y'] = 2735.9,['z'] = 42.07,['h'] = 182.27, ['info'] = ' park 8' },
-	[2] =  { ['x'] = 586.27,['y'] = 2737.04,['z'] = 42.05,['h'] = 184.36, ['info'] = ' park 1' },
-	[3] =  { ['x'] = 583.34,['y'] = 2736.95,['z'] = 41.99,['h'] = 181.24, ['info'] = ' park 2' },
-	[4] =  { ['x'] = 580.3,['y'] = 2736.68,['z'] = 42.01,['h'] = 181.3, ['info'] = ' park 3' },
-	[5] =  { ['x'] = 577.27,['y'] = 2736.31,['z'] = 42.02,['h'] = 181.46, ['info'] = ' park 4' },
-	[6] =  { ['x'] = 574.14,['y'] = 2736.34,['z'] = 42.06,['h'] = 182.53, ['info'] = ' park 5' },
-	[7] =  { ['x'] = 570.9,['y'] = 2736.1,['z'] = 42.07,['h'] = 176.64, ['info'] = ' park 6' },
-	[8] =  { ['x'] = 567.88,['y'] = 2736.03,['z'] = 42.07,['h'] = 182.0, ['info'] = ' park 7' },
+	[1] =  { ['x'] = -1273.6,['y'] = -1158.6,['z'] = 6.14,['h'] = 114.02, ['info'] = ' park 8' },
 
-	
 }
 
 
@@ -285,18 +314,18 @@ function CreateOxyVehicle()
     end
 
     local spawnpoint = 1
-    for i = 1, #carspawns do
-	    local caisseo = GetClosestVehicle(carspawns[i]["x"], carspawns[i]["y"], carspawns[i]["z"], 3.500, 0, 70)
-		if not DoesEntityExist(caisseo) then
-			spawnpoint = i
-		end
-    end
+    -- for i = 1, #carspawns do
+	--     local caisseo = GetClosestVehicle(carspawns[i]["x"], carspawns[i]["y"], carspawns[i]["z"], 3.500, 0, 70)
+	-- 	if not DoesEntityExist(caisseo) then
+	-- 		spawnpoint = i
+	-- 	end
+    -- end
 
-    oxyVehicle = CreateVehicle(car, carspawns[spawnpoint]["x"], carspawns[spawnpoint]["y"], carspawns[spawnpoint]["z"], carspawns[spawnpoint]["h"], true, false)
-	local plt = GetVehicleNumberPlateText(oxyVehicle)
-	DecorSetInt(oxyVehicle,"GamemodeCar",955)
-	SetVehicleHasBeenOwnedByPlayer(oxyVehicle,true)
-	TriggerServerEvent('garage:addKeys', plt)
+    oxyVehicle = CreateVehicle(car, -1283.59, -1163.66, 5.32, true, false)
+    local plate = GetVehicleNumberPlateText(oxyVehicle)
+    TriggerServerEvent("flagcar",plate)
+    SetVehicleHasBeenOwnedByPlayer(oxyVehicle,true)
+    TriggerServerEvent('garage:addKeys', plate)
 
     while true do
     	Citizen.Wait(1)
@@ -582,8 +611,8 @@ function DoDropOff(requestMoney)
 			TriggerEvent("player:receiveItem","pix2",1)
 		end
 
-		TriggerServerEvent('mission:completed', cashPayment)
-		--TriggerServerEvent("police:multipledenominators",true)
+		TriggerEvent('cash:add', cashPayment)
+		TriggerServerEvent("police:multipledenominators",true)
 		TriggerEvent("denoms",true)
 		TriggerEvent("client:newStress",true,250)
 
@@ -1190,7 +1219,7 @@ RegisterNetEvent('goldtrade')
 AddEventHandler('goldtrade', function()
 	if exports["urp-inventory"]:hasEnoughOfItem("goldbar",70,true) then
 		TriggerEvent("inventory:removeItem", "goldbar", 70)
-		TriggerServerEvent('mission:completed', 35000)
+		TriggerEvent('mission:completed', 35000)
 	end
 end)
 
@@ -1204,8 +1233,8 @@ Citizen.CreateThread(function()
 
 	    local dropOff2 = #(vector3(GetEntityCoords(PlayerPedId())) - vector3(chopinfo[2]["x"],chopinfo[2]["y"],chopinfo[2]["z"]))
 	  --  local dropOff3 = #(vector3(GetEntityCoords(PlayerPedId())) - vector3(chopinfo[3]["x"],chopinfo[3]["y"],chopinfo[3]["z"]))
-	    local dropOff4 = #(GetEntityCoords(PlayerPedId()) - vector3(590.4458, 2739.619, 15.85879))
-	    local dropOff5 = #(GetEntityCoords(PlayerPedId()) - vector3(pillStore["x"],pillStore["y"],pillStore["z"]))
+	    local dropOff4 = #(GetEntityCoords(PlayerPedId()) - vector3(590.4242, 2739.596,15.85879))
+		local dropOff5 = #(GetEntityCoords(PlayerPedId()) - vector3(-1271.262, -1148.615, 6.791))
 	    local dropOff6 = #(GetEntityCoords(PlayerPedId()) - vector3(pillWorker["x"],pillWorker["y"],pillWorker["z"]))
 
 	    local GoldBars = #(GetEntityCoords(PlayerPedId()) - vector3(-112.58, 6468.93, 31.63))
@@ -1236,26 +1265,28 @@ Citizen.CreateThread(function()
 		end
 
 		if dropOff4 < 1.5 then
-			DrawText3Ds(590.2401, 2739.591, 15.85879, "[E] to Leave") 
+			DrawText3Ds(590.4242, 2739.596,15.85879, "[E] to Leave")
 			if IsControlJustReleased(0,38) then
 				CleanUpArea()
-				SetEntityCoords(PlayerPedId(),pillStore["x"],pillStore["y"],pillStore["z"])
+				TriggerEvent('inoxyplace', false)
+				SetEntityCoords(PlayerPedId(),-1271.262, -1148.615, 6.791)
 				Citizen.Wait(1000)
+				TriggerServerEvent('oxylog', 'Leggy left the building')
 			end
 		end
 		if dropOff5 < 1.5 then
-			DrawText3Ds(pillStore["x"],pillStore["y"],pillStore["z"], "[E] to Enter") 
+			DrawText3Ds(-1271.262, -1148.615, 6.791, "[E] to Enter") 
 			if IsControlJustReleased(0,38) then
 				buildDrugShop()
-				
 				CreateDrugStorePed()
+				TriggerServerEvent('oxylog', 'Leggy entered the building')
 			end
 		end		
 
 		if dropOff6 < 1.6 and not OxyRun then
 
-			DrawText3Ds(pillWorker["x"],pillWorker["y"],pillWorker["z"], "[E] $1500 - Delivery Job (Payment Cash + Oxy)") 
-			if IsControlJustReleased(0,38) then
+			DrawText3Ds(pillWorker["x"],pillWorker["y"],pillWorker["z"], "[E] $1500 - Delivery Job (Payment Cash + Oxy", costs)
+            if IsControlJustReleased(0,38) then
                 local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
                 local Player = LocalPlayer:getCurrentCharacter()
                 local costs = 1500
@@ -1268,11 +1299,10 @@ Citizen.CreateThread(function()
 				end
                 --TriggerServerEvent("oxydelivery:server",1500,"robbery",50)
                 Citizen.Wait(1000)
-			end
+            end
 
 
-		end		
-
+        end
 
 	    if dropOff2 < 20.0 then
 	    	local isInVehicle = IsPedInAnyVehicle(PlayerPedId(), false)
@@ -1445,7 +1475,7 @@ Citizen.CreateThread(function()
 			if (not DoesEntityExist(oxyVehicle) or GetVehicleEngineHealth(oxyVehicle) < 100.0) and vehspawn then
 				OxyRun = false
 				tasking = false
-				TriggerEvent("chatMessage", "EMAIL - Drug Deliveries", 8, "Dude! You fucked the car up, I canceled your run, asshole! ")
+				TriggerEvent("phone:addnotification", "Drug Deliveries","Dude! You fucked the car up, I canceled your run, asshole!")
 			else
 				if tasking then
 			        Citizen.Wait(30000)
@@ -1492,7 +1522,7 @@ Citizen.CreateThread(function()
 		            			TriggerEvent("DoLongHudText","Its too late - noones buying shit!",2)
 		            		else
 		            			mygang = drugLocs[i]["gang"]
-					    		TriggerServerEvent("drugdelivery:server",1500)
+					    		TriggerServerEvent("drugdelivery:server",price,"robbery",50)
 					    		Citizen.Wait(1500)
 					    	end
 
