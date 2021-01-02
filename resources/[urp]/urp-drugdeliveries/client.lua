@@ -251,7 +251,8 @@ local oxyPeds = {
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(5000)
+		Citizen.Wait(5000)
+		
         local amountofcash = exports['urp-base']:getModule("LocalPlayer"):getCurrentCharacter().cash
         TriggerServerEvent("urp-drugdeliveries:amount", amountofcash)
     end
