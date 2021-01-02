@@ -69,7 +69,7 @@ local locations = {
 }
 
 
-local copAmount = 6
+local copAmount = 0
 
 function weaponTypeC()
 	local w = GetSelectedPedWeapon(PlayerPedId())
@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
              if IsControlJustReleased(0,38) and distance < 1.0 then
              	if exports["urp-inventory"]:hasEnoughOfItem("Gruppe6Card3",1,false) then
              		TriggerEvent("inventory:removeItem", "Gruppe6Card3", 1)
-             		TriggerServerEvent("irp-doors:alterlockstate",199)
+				    TriggerServerEvent("irp-doors:alterlockstate",199)
              		TriggerServerEvent("irp-doors:alterlockstate",198)
              	end
 
@@ -197,7 +197,7 @@ AddEventHandler('spawning', function()
 end)
 
 function AttackGlass(num)
-	--TriggerEvent("JewelKOS")
+	TriggerEvent("JewelKOS")
 	if math.random(100) > 70 or weaponTypeC() > 2 then
 		Citizen.Wait(1500)
 		ClearPedTasks(PlayerPedId())
@@ -226,7 +226,7 @@ end
 
 RegisterNetEvent('event:control:jewelRob')
 AddEventHandler('event:control:jewelRob', function(useID)
-	if not IsPedRunning(PlayerPedId()) and not IsPedSprinting(PlayerPedId()) and not isCop and copAmount >= 2 and not hasrobbed[useID] then
+	if not IsPedRunning(PlayerPedId()) and not IsPedSprinting(PlayerPedId()) and not isCop and copAmount >= 0 and not hasrobbed[useID] then
 		local v = locations[useID]
 		local player = GetPlayerPed( -1 )
 		TaskTurnPedToFaceCoord(player,v[1],v[2],v[3],1.0)
@@ -243,12 +243,12 @@ local warning = false
 Citizen.CreateThread(function()
 	while true do
 
-		if (#(GetEntityCoords(PlayerPedId()) - vector3(-626.5326, -238.3758, 38.05)) < 100.0 and not isCop and copAmount >= 2) then
+		if (#(GetEntityCoords(PlayerPedId()) - vector3(-626.5326, -238.3758, 38.05)) < 100.0 and not isCop and copAmount >= 0) then
 
 			--if (#(GetEntityCoords(PlayerPedId()) - vector3(-626.5326, -238.3758, 38.05)) < 20.0 and not isCop) then
-				--if IsPedArmed(PlayerPedId(), 7) or IsPedInMeleeCombat(PlayerPedId()) or GetPedStealthMovement(PlayerPedId()) or IsPedPerformingStealthKill(PlayerPedId()) then
-				--	TriggerEvent("JewelKOS")
-				--end
+			--	if IsPedArmed(PlayerPedId(), 7) or IsPedInMeleeCombat(PlayerPedId()) or GetPedStealthMovement(PlayerPedId()) or IsPedPerformingStealthKill(PlayerPedId()) then
+			--		TriggerEvent("JewelKOS")
+			--	end
 			--end
 
 			for i=1,#locations do
@@ -256,9 +256,9 @@ Citizen.CreateThread(function()
 				if (#(GetEntityCoords(PlayerPedId()) - vector3(v[1],v[2],v[3])) < 0.8 ) then
 					if (not hasrobbed[i]) then
 						DrawText3Ds(v[1],v[2],v[3])
-						-- if IsControlJustReleased(0, 38) then
-						-- 	TriggerEvent('event:control:jewelRob', 1)
-						-- end
+						 if IsControlJustReleased(0, 38) then
+						 	TriggerEvent('event:control:jewelRob', 1)
+						 end
 
 					end
 				end

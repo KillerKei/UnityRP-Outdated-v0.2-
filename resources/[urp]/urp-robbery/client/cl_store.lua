@@ -142,7 +142,7 @@ end)
 
 RegisterNetEvent('urp-robbery:regSuccess')
 AddEventHandler('urp-robbery:regSuccess', function()
-    TriggerEvent('safecracking:loop', 1, 'giveLootReg')
+    TriggerEvent('safecracking:loop', 3, 'giveLootReg')
 end)
 
 RegisterNetEvent('giveLootReg')
@@ -152,7 +152,7 @@ end)
 
 RegisterNetEvent('urp-robbery:safeSuccess')
 AddEventHandler('urp-robbery:safeSuccess', function()
-    TriggerEvent('safecracking:loop', 1, 'giveLootSafe')
+    TriggerEvent('safecracking:loop', 6, 'giveLootSafe')
 end)
 
 -- Shit Code Below This Point, Beware
