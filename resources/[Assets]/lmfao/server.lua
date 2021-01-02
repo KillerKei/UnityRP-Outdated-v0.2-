@@ -4,7 +4,7 @@ AddEventHandler('mission:completed', function(money)
     local LocalPlayer = exports['urp-base']:getModule('LocalPlayer')
     if money ~= nil then
        TriggerClientEvent('cash:add', source, money)
-       TriggerClientEvent('DoLongHudText', source, 'You got $'.. money .. ' for 5 Loose Buds of Weed.', 1)
+    --    TriggerClientEvent('DoLongHudText', source, 'You got $'.. money .. ' for 5 Loose Buds of Weed.', 1)
     end
 end)
 

@@ -746,7 +746,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     if (itemid == "Gruppe6Card") then
 
         TriggerEvent('urp-doors:UseRedKeycard') 
-        TriggerServerEvent('urp-banktruck:hitTruck')
+        TriggerEvent('sec:usegroup6card')
         remove = true
 
     end
