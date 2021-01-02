@@ -767,7 +767,7 @@ function Save(save)
     TriggerEvent("facewear:update")
     TriggerEvent('np-weapons:getAmmo')
     CustomCamera('torso')
-    TriggerEvent("e-blips:updateAfterPedChange",exports["isPed"]:isPed("myjob"))
+    TriggerEvent("e-blips:updateAfterPedChange",exports["isPed"]:isPed("my"))
 end
 
 function IsNearShop(shops)
