@@ -3,6 +3,15 @@ local justUsed = false
 local retardCounter = 0
 local lastCounter = 0 
 local HeadBone = 0x796e;
+job = nil
+
+Citizen.CreateThread(function()
+	while true do
+        Citizen.Wait(5000)
+    	job = exports['isPed']:isPed('job')
+		print(rank)
+	end
+end)
 
 -- local jailBounds = PolyZone:Create({
 --   vector2(1855.8966064453, 2701.9802246094),
@@ -823,7 +832,9 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
     end
 
     if (itemid == "camera") then
-        TriggerEvent("camera:Activate")
+        if job == "News" then
+            TriggerEvent("camera:setCamera")
+        end
     end
 
     if (itemid == "idcard") then
