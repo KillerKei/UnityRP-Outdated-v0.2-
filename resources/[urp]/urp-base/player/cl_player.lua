@@ -102,7 +102,7 @@ AddEventHandler('urp-phone:groupManageUpdateBank', function(cid, data)
     GetUser()["character"]["bank"] = data
     Citizen.Wait(250)
     TriggerEvent('isPed:setBank', GetUser()["character"]["bank"])
-    print(GetUser()['character']['bank'])
+    -- print(GetUser()['character']['bank'])
     TriggerServerEvent('player:setBank', cid, GetUser()["character"]["bank"])
 end)
 

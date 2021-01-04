@@ -63,12 +63,12 @@ end
 
 RegisterNetEvent('urp-base:updateJobLogs')
 AddEventHandler('urp-base:updateJobLogs', function(tSource, nRank, jId)
-    print('dick')
+    -- print('dick')
     local tSource = tSource
 
     local tFirstName, tLastName, tCid = URP.Player:getCharacterNameFromSource(tSource)
 
-    print(tFirstName, tLastName, tCid)
+    -- print(tFirstName, tLastName, tCid)
 
     if not tFirstName or not tLastName then return end
 
@@ -101,7 +101,7 @@ AddEventHandler('urp-base:setServerCharacter', function(data)
     local source = source
     data['playerSrc'] = source
 
-    print(json.encode(data))
+    -- print(json.encode(data))
     local character = data
     local _src = source
     URP.Player:InsertCharacter(data)

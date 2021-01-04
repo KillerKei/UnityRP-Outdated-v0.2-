@@ -7,7 +7,7 @@ function URP.Core.ConsoleLog(self, msg, mod)
     local pMsg = string.format("[URP LOG - %s] %s", mod, msg)
     if not pMsg then return end
 
-    print(pMsg)
+    -- print(pMsg)
 end
 
 RegisterNetEvent("urp-base:consoleLog")
