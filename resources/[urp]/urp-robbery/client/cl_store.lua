@@ -27,44 +27,55 @@ storeLocations = {
 storeId = 0
 isLockpicking = false
 
+copsonline = nil
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        copsonline = exports['urp-police']:CopsOnline()
+    end
+end)
 
 RegisterNetEvent('urp-robbery:advLockpickUse')
 AddEventHandler('urp-robbery:advLockpickUse', function()
-    if isLockpicking then return end
-    local cStoreId = GetStoreId()
+	if copsonline >= 2 then
+		if isLockpicking then return end
+		local cStoreId = GetStoreId()
 
 
-    if cStoreId ~= false then
-        local sCoords = safeLocations[cStoreId]
+		if cStoreId ~= false then
+			local sCoords = safeLocations[cStoreId]
 
-        if #(vector3(sCoords['x'], sCoords['y'], sCoords['z']) - GetEntityCoords(PlayerPedId())) < 3.0 then
-            TriggerServerEvent('urp-robbery:attemptSafeRobbery', cStoreId)
-            return
-        end
+			if #(vector3(sCoords['x'], sCoords['y'], sCoords['z']) - GetEntityCoords(PlayerPedId())) < 3.0 then
+				TriggerServerEvent('urp-robbery:attemptSafeRobbery', cStoreId)
+				return
+			end
 
-        local pCoords = GetEntityCoords(PlayerPedId())
+			local pCoords = GetEntityCoords(PlayerPedId())
 
-        local rObject = GetClosestObjectOfType(pCoords, 2.0, 303280717, 0, 0, 0)
-        local rSpot = GetOffsetFromEntityInWorldCoords(rObject, 0.0, -0.6, 0.0)
+			local rObject = GetClosestObjectOfType(pCoords, 2.0, 303280717, 0, 0, 0)
+			local rSpot = GetOffsetFromEntityInWorldCoords(rObject, 0.0, -0.6, 0.0)
 
-        if #(rSpot - pCoords) > 1.0 then
-            TriggerEvent('DoLongHudText', 'You must be facing the front of the register to do this.')
-            isLockpicking = false
-            return
-        end
+			if #(rSpot - pCoords) > 1.0 then
+				TriggerEvent('DoLongHudText', 'You must be facing the front of the register to do this.')
+				isLockpicking = false
+				return
+			end
 
-        if rObject then
-            local oHeading = GetEntityHeading(rObject)
-            local pHeading = GetEntityHeading(PlayerPedId())
-            if oHeading - pHeading > 20.0 and oHeading - pHeading < 340.0 then
-                TriggerEvent('DoLongHudText', 'You must be facing register to do this.')
-                isLockpicking = false
-                return
-            end
-            TriggerServerEvent('urp-robbery:attemptRegisterRobbery', cStoreId, rObject)
-            return
-        end
-    end
+			if rObject then
+				local oHeading = GetEntityHeading(rObject)
+				local pHeading = GetEntityHeading(PlayerPedId())
+				if oHeading - pHeading > 20.0 and oHeading - pHeading < 340.0 then
+					TriggerEvent('DoLongHudText', 'You must be facing register to do this.')
+					isLockpicking = false
+					return
+				end
+				TriggerServerEvent('urp-robbery:attemptRegisterRobbery', cStoreId, rObject)
+				return
+			end
+		end
+	else
+		TriggerEvent('DoLongHudText', 'Not enough cops online', 2)
+	end
 end)
 
 RegisterNetEvent('urp-robbery:registerRobbery')

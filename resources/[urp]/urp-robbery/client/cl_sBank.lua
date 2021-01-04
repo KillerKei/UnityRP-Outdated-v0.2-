@@ -9,6 +9,13 @@ local banks = {
 
 local rAllowed = true
 local oDoors = {}
+copsonline = nil
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        copsonline = exports['urp-police']:CopsOnline()
+    end
+end)
 
 RegisterNetEvent('urp-robbery:restartSoon')
 AddEventHandler('urp-robbery:restartSoon', function()
@@ -17,7 +24,7 @@ end)
 
 RegisterNetEvent('urp-robbery:openSmallBankDoor')
 AddEventHandler('urp-robbery:openSmallBankDoor', function(vType)
-    print('Opening Door.?')
+    --print('Opening Door.?')
     local pCoords = GetEntityCoords(PlayerPedId())
     local vDoor = GetClosestObjectOfType(pCoords["x"], pCoords["y"], pCoords["z"], 15.0, vType, 0, 0, 0)
 
@@ -67,10 +74,10 @@ AddEventHandler('urp-robbery:smallVaultDrawBoxes', function(vDoor, vToggle)
     local x10,y10,z10 = table.unpack(GetOffsetFromEntityInWorldCoords(vDoor, 3.6, 0.5 + 0.0, 0.0))
     local x13,y13,z13 = table.unpack(GetOffsetFromEntityInWorldCoords(vDoor, 5.8, 2.4 + 0.0, 0.0))
 
-    print('Tots')
+    --print('Tots')
 
     if not drawingBoxesV and not vToggle then
-        print('Test')
+      --  print('Test')
         drawingBoxesV = true
         while drawingBoxesV do
             Citizen.Wait(1)
@@ -103,16 +110,19 @@ function DrawSmallBankBoxes(x, y, z, inputType)
 
     if distance < 1.0 then
         if IsControlJustPressed(0, 38) then
+            TriggerEvent("animation:repair")
+            FreezeEntityPosition(PlayerPedId(), true)
             local sTimer = 15000
             if inputType < 5 then
                 sTimer = 20000
             end
 
-            print(inputType)
+            --print(inputType)
 
             local finished = exports['urp-taskbar']:taskBar(1000, 'Searching')
 
             if finished == 100 then
+                FreezeEntityPosition(PlayerPedId(), false)
                 TriggerServerEvent('urp-robbery:sBankBox', cBankId, inputType)
             end
 
@@ -142,7 +152,7 @@ AddEventHandler('urp-robbery:sBankLoot', function()
     
     if math.random(100) > 95 then
         if vaultCard then 
-            print('penis')
+            --print('penis')
         else
             TriggerEvent('player:receiveItem', 'Gruppe6Card22', 1)
             vaultCard = true
@@ -167,48 +177,61 @@ end)
 
 RegisterNetEvent('urp-robbery:securityBlueUsed')
 AddEventHandler('urp-robbery:securityBlueUsed', function()
-    print('Working.')
-    local bId = GetBankId()
+    if copsonline >= 4 then
+        local bId = GetBankId()
 
-    if not bId then return end
-    if not rAllowed then
-        TriggerServerEvent('DoLongHudText', 'It\'s too late to rob this bank.', 2)
-        return
-    end
-
-    print('Valid?')
-
-    if banks[bId] == nil then return end
-
-    print('Non-Invalid Bank Id.')
-
-    if banks[bId]['robbing'] then
-        TriggerEvent('DoLongHudText', 'This bank is already being robbed.', 2)
-        return
-    end
-
-    local pCoords = GetEntityCoords(PlayerPedId())
-
-    local vDoor = GetClosestObjectOfType(pCoords["x"], pCoords["y"], pCoords["z"], 3.0, 2121050683, 0, 0, 0)
-    if vDoor ~= 0 then
-        local finished = exports['urp-taskbar']:taskBar(5000, 'Requesting Access')
-        TriggerEvent('inventory:removeItem', 'securityblue', 1)
-        if finished ~= 100 then
-            TriggerEvent('DoLongHudText', 'You cancelled the robbery.', 2)
+        if not bId then return end
+        if not rAllowed then
+            TriggerServerEvent('DoLongHudText', 'It\'s too late to rob this bank.', 2)
             return
         end
-        TriggerServerEvent('urp-robbery:smallBankAttempt', bId)
-    end
 
-    local vDoor = GetClosestObjectOfType(pCoords["x"], pCoords["y"], pCoords["z"], 3.0, -63539571, 0, 0, 0)
-    if vDoor ~= 0 then
-        local finished = exports['urp-taskbar']:taskBar(5000, 'Requesting Access')
-        TriggerEvent('inventory:removeItem', 'securityblue', 1)
-        if finished ~= 100 then
-            TriggerEvent('DoLongHudText', 'You cancelled the robbery.', 2)
+        --print('Valid?')
+
+        if banks[bId] == nil then return end
+
+        --print('Non-Invalid Bank Id.')
+
+        if banks[bId]['robbing'] then
+            TriggerEvent('DoLongHudText', 'This bank is already being robbed.', 2)
             return
         end
-        TriggerServerEvent('urp-robbery:smallBankAttempt', bId)
+
+        local pCoords = GetEntityCoords(PlayerPedId())
+
+        local vDoor = GetClosestObjectOfType(pCoords["x"], pCoords["y"], pCoords["z"], 3.0, 2121050683, 0, 0, 0)
+        if vDoor ~= 0 then
+            local finished = exports['urp-thermite']:startGame(20,1,8,500)
+            FreezeEntityPosition(PlayerPedId(), true)
+            TriggerEvent('inventory:removeItem', 'thermite', 1)
+            if finished ~= true then
+                TriggerEvent('DoLongHudText', 'Better luck next time!', 2)
+                local coords = GetEntityCoords(PlayerPedId())
+                FreezeEntityPosition(PlayerPedId(), false)
+                exports['urp-thermite']:startFireAtLocation(coords.x, coords.y, coords.z - 1, 10000)
+                return
+            end
+            FreezeEntityPosition(PlayerPedId(), false)
+            TriggerServerEvent('urp-robbery:smallBankAttempt', bId)
+        end
+
+        local vDoor = GetClosestObjectOfType(pCoords["x"], pCoords["y"], pCoords["z"], 3.0, -63539571, 0, 0, 0)
+        if vDoor ~= 0 then
+            local finished = exports['urp-thermite']:startGame(20,1,8,500)
+            FreezeEntityPosition(PlayerPedId(), true)
+            TriggerEvent('inventory:removeItem', 'thermite', 1)
+            if finished ~= true then
+                TriggerEvent('DoLongHudText', 'Better luck next time!', 2)
+                local coords = GetEntityCoords(PlayerPedId())
+                FreezeEntityPosition(PlayerPedId(), false)
+                exports['urp-thermite']:startFireAtLocation(coords.x, coords.y, coords.z - 1, 10000)
+                return
+            end
+            FreezeEntityPosition(PlayerPedId(), false)
+            TriggerServerEvent('urp-robbery:smallBankAttempt', bId)
+        end
+    else
+        TriggerEvent('DoLongHudText', 'Not enough cops around', 2)
     end
 
 end)
@@ -217,7 +240,7 @@ RegisterNetEvent('urp-robbery:updateBankData')
 AddEventHandler('urp-robbery:updateBankData', function(bData)
     if bData ~= nil or bData ~= {} then
         banks = bData
-        print(json.encode(banks))
+        --print(json.encode(banks))
         OpenVaultDoor(true)
     end
 end)
