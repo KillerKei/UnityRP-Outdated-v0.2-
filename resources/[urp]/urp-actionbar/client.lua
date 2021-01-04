@@ -408,8 +408,6 @@ lastslot = 2
 RegisterNetEvent('equipWeaponID')
 AddEventHandler('equipWeaponID', function(hash,newInformation,sqlID)
 	--GiveAmmoNow()
-	print("HASH : " .. hash)
-
 	
 
 	if newInformation ~= nil then

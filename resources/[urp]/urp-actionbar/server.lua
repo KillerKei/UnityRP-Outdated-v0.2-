@@ -26,7 +26,7 @@ AddEventHandler('urp-weapons:updateAmmo', function(cid,newammo,ammoType,ammoTabl
             if #results == 0 then
                 --Do nothing
             else
-                print(results[1].ammoTable)
+                -- print(results[1].ammoTable)
                 TriggerClientEvent('urp-items:SetAmmo', source, json.decode(results[1].ammoTable))
             end
         end)
