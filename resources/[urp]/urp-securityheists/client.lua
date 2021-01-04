@@ -1,5 +1,13 @@
 local attempted = 0
 
+copsonline = nil
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        copsonline = exports['urp-police']:CopsOnline()
+    end
+end)
+
 local pickup = false
 RegisterNetEvent('sec:PickupCash')
 AddEventHandler('sec:PickupCash', function()
@@ -161,25 +169,31 @@ end
 
 RegisterNetEvent('sec:usegroup6card')
 AddEventHandler('sec:usegroup6card', function()
-    print('Breasty bum')
-    local coordA = GetEntityCoords(GetPlayerPed(-1), 1)
-    local coordB = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 100.0, 0.0)
-    --local countpolice = exports["isPed"]:isPed("countpolice")
-    local targetVehicle = getVehicleInDirection(coordA, coordB)
-    if targetVehicle ~= 0 and GetHashKey("stockade") == GetEntityModel(targetVehicle) then
-        local entityCreatePoint = GetOffsetFromEntityInWorldCoords(targetVehicle, 0.0, -4.0, 0.0)
-        local coords = GetEntityCoords(GetPlayerPed(-1))
-        local aDist = GetDistanceBetweenCoords(coords["x"], coords["y"],coords["z"], entityCreatePoint["x"], entityCreatePoint["y"],entityCreatePoint["z"])
-        if aDist < 2.0 then
-            TriggerEvent("alert:noPedCheck", "banktruck")
-            local finished = exports["urp-taskbar"]:taskBar(45000, "Unlocking Vehicle")
-            if finished == 100 then
-                TriggerEvent("sec:AttemptHeist", targetVehicle)
-                print('kians massive')
-            else
-                TriggerEvent("DoLongHudText","You need to do this from behind the vehicle.")
+    if copsonline >= 6 then
+        TriggerEvent('inventory:removeItem', 'Gruppe6Card', 1)
+        local coordA = GetEntityCoords(GetPlayerPed(-1), 1)
+        local coordB = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 100.0, 0.0)
+        --local countpolice = exports["isPed"]:isPed("countpolice")
+        local targetVehicle = getVehicleInDirection(coordA, coordB)
+        if targetVehicle ~= 0 and GetHashKey("stockade") == GetEntityModel(targetVehicle) then
+            local entityCreatePoint = GetOffsetFromEntityInWorldCoords(targetVehicle, 0.0, -4.0, 0.0)
+            local coords = GetEntityCoords(GetPlayerPed(-1))
+            local aDist = GetDistanceBetweenCoords(coords["x"], coords["y"],coords["z"], entityCreatePoint["x"], entityCreatePoint["y"],entityCreatePoint["z"])
+            if aDist < 2.0 then
+                TriggerEvent("alert:noPedCheck", "banktruck")
+                FreezeEntityPosition(GetPlayerPed(-1), true)
+                local finished = exports["urp-taskbar"]:taskBar(45000, "Unlocking Vehicle")
+                if finished == 100 then
+                    FreezeEntityPosition(GetPlayerPed(-1), false)
+                    TriggerEvent("sec:AttemptHeist", targetVehicle)
+                else
+                    FreezeEntityPosition(GetPlayerPed(-1), false)
+                    TriggerEvent("DoLongHudText","You need to do this from behind the vehicle.")
+                end
             end
         end
+    else
+        TriggerEvent('DoLongHudText', 'There are not enough cops around', 2)
     end
 end)
 
@@ -189,7 +203,6 @@ Citizen.CreateThread(function()
         Citizen.Wait(10000)
         jobname = exports['isPed']:isPed('job')
         TriggerServerEvent('urp-securityheists:gatherjob', jobname)
-        print(jobname)
     end
 end)
 
