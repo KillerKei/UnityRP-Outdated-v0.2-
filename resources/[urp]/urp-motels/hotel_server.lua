@@ -46,7 +46,7 @@ AddEventHandler('hotel:createRoom', function(cid)
                         end
                     end
                 end
-                print(json.encode(asshole))
+                -- print(json.encode(asshole))
                 TriggerClientEvent('hotel:createRoom1', src, asshole[1].roomNumber, asshole[1].roomType, 0)
                 TriggerClientEvent('hotel:SetID', src, cid)
             end)

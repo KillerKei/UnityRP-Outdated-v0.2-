@@ -641,7 +641,7 @@ end
 	 TriggerEvent('houseRobberies:createHouse', id)
 	 break
 	else
-		print('heheheheheheh')
+		-- print('heheheheheheh')
 		isLockpicking = false
 		ClearPedTasksImmediately(GetPlayerPed(-1))
 		Citizen.Wait(1000)

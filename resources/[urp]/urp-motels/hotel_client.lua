@@ -568,7 +568,7 @@ function confirmSpawning(isClothesSpawn)
 		local house_model = myspawnpoints[currentselection]["house_model"]
 		TriggerServerEvent("house:enterhouse",exports['isPed']:isPed('cid'), false,house_id,house_model,false)
 	else
-		print("error spawning?")
+		print("Error Spawning?")
 	end
 	
 	--TriggerServerEvent("server-request-update")
