@@ -12,7 +12,9 @@ Jobs = {
     [9] = "DriftSchool",
     [10] = "News",
     [11] = "tuner_carshop",
-    [12] = "illegal_carshop"
+    [12] = "illegal_carshop",
+    [13] = "OffPolice",
+    [14] = "OffEMS"
 }
 
 JobRanks = {
@@ -118,6 +120,26 @@ JobRanks = {
             1,
             2,
             3,
+        }
+    },
+    [13] = {
+        name = "OffPolice",
+        ranks = {
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+        }
+    },
+    [14] = {
+        name = "OffEMS",
+        ranks = {
+            1,
         }
     },
 }
