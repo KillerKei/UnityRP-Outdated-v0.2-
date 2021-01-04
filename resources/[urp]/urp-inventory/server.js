@@ -668,7 +668,7 @@ onNet("server-jail-item", async (player,isSentToJail) => {
 });
 
 function removecash(src,amount) {
-    emit('cash:remove',src,amount)
+    emitNet('cash:remove',src,amount)
 }
 
 onNet("onResourceStart", async (resource) => {

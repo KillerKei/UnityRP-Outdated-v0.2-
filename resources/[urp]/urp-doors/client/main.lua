@@ -97,7 +97,7 @@ end
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Citizen.Wait(1)
 		local letSleep = true
 		local playerCoords = GetEntityCoords(PlayerPedId())
 

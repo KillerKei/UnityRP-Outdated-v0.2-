@@ -9,6 +9,9 @@ local signOnPoint = {
 	{x = 440.4243, y = -976.4591, z = 30.68958} -- MRPD
 }
 
+local LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
+local Player = LocalPlayer:getCurrentCharacter()
+
 local fixPoints = {
 	{428.05,-1020.76,28.92}, -- mrpd
 	{1861.26,3672.54,33.88}, -- sandypd
@@ -148,7 +151,22 @@ AddEventHandler('urp-policejob:updateBlip', function()
 
 end)
 
+CopAmount = 0
 
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+		if CopAmount < 0 then
+			CopAmount = 0
+		end
+	end
+end)
+
+RegisterNetEvent('urp-policejob:removeplayer')
+AddEventHandler('urp-policejob:removeplayer', function()
+	CopAmount = CopAmount - 1
+	local rank = exports['isPed']:GroupRank('Police')
+end)
 
 Citizen.CreateThread(function()
 	while true do
@@ -156,14 +174,16 @@ Citizen.CreateThread(function()
 		for k, v in ipairs(signOnPoint) do
 			local pX, pY, pZ = table.unpack(GetEntityCoords(PlayerPedId()))
 			local distance = Vdist2(v.x, v.y, v.z, pX, pY, pZ)
-		
 			if distance <= 5 then
 				if isCop() then
 					DrawText3DTest(v.x, v.y, v.z,"[E] - Sign Off Duty")
 		
 					if IsControlJustReleased(1, 38) then
 						TriggerEvent("DoLongHudText","10-42, thank you for your service.")
+						LocalPlayer:setJob(Player.id, 'OffPolice')
 						removeDutyRadio()
+						CopAmount = CopAmount - 1
+						print(CopAmount)
 					end
 		
 				else
@@ -171,7 +191,10 @@ Citizen.CreateThread(function()
 		
 					if IsControlJustReleased(1, 38) then
 						TriggerEvent("DoLongHudText","10-41 and restocked.")
+						LocalPlayer:setJob(Player.id, 'Police')
+						CopAmount = CopAmount + 1
 						giveDutyRadio()
+						print(CopAmount)
 					end
 				end
 			end
@@ -190,11 +213,11 @@ Citizen.CreateThread(function()
 			end
 		end
 
-		local lDistance = Vdist2(459.1117, -982.3354, 30.68961, plyX, plyY, plyZ)
+		local lDistance = Vdist2(460.1776,-993.101, 30.68956, plyX, plyY, plyZ)
 
 		if lDistance <= 5 then
 			if isCop() then
-				DrawText3DTest(459.186, -982.9637, 30.68961, "[E] - Open Personal Locker")
+				DrawText3DTest(460.1776,-993.101, 30.68956, "[E] - Open Personal Locker")
 
 				if IsControlJustReleased(1, 38) then
 					local cid = exports['isPed']:isPed('cid')
@@ -209,7 +232,7 @@ end)
 RegisterCommand('openlocker', function(source, args)
 	local rank = exports['isPed']:GroupRank('Police')
 	local plyX, plyY, plyZ = table.unpack(GetEntityCoords(PlayerPedId()))
-	local lDistance = Vdist2(459.1117, -982.3354, 30.68961, plyX, plyY, plyZ)
+	local lDistance = Vdist2(460.1776,-993.101, 30.68956, plyX, plyY, plyZ)
 
 	if lDistance <= 5 then
 		if not rank then return end

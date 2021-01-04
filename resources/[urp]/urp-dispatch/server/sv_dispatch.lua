@@ -7,7 +7,7 @@ AddEventHandler('dispatch:svNotify', function(data)
           }
           local blipSprite = 84
           local blipColor = 1
-        TriggerClientEvent('dispatch:clNotify',-1,{ dispatchCode = "10-13A", callSign = data.callSign, dispatchMessage = "officer down URGENT!", firstStreet = data.firstStreet, recipientList = recipientList, playSound = true, soundName = "10-1314", isImportant = true, priority = 3, origin = data.origin, blipSprite = blipSprite, blipColor = blipColor})
+        TriggerClientEvent('dispatch:clNotify',-1,{ dispatchCode = "10-13A", callSign = data.callSign, dispatchMessage = "Officer Down URGENT!", firstStreet = data.firstStreet, recipientList = recipientList, playSound = true, soundName = "10-1314", isImportant = true, priority = 3, origin = data.origin, blipSprite = blipSprite, blipColor = blipColor})
     elseif data.dispatchCode == "10-13B" then
         local recipientList = {
             Police = "Police",
