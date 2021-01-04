@@ -1,3 +1,8 @@
+lol = false
+PlayerData = {}
+job = nil
+
+
 local holdingCam = false
 local usingCam = false
 local holdingMic = false
@@ -22,6 +27,7 @@ local movcamera = false
 local holdingBoom = false
 local usingBoom = false
 
+
 ---------------------------------------------------------------------------
 -- Toggling Cam --
 ---------------------------------------------------------------------------
@@ -45,7 +51,7 @@ function ToggleCam()
         TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
         TaskPlayAnim(GetPlayerPed(PlayerId()), camanimDict, camanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
         holdingCam = true
-		DisplayNotification("To enter News cam press ~INPUT_PICKUP~ \nTo Enter Movie Cam press ~INPUT_INTERACTION_MENU~")
+		DisplayNotification("To Enter News Cam Press ~INPUT_PICKUP~ \nTo Enter Movie Cam Press ~INPUT_INTERACTION_MENU~")
     else
         removeCamera()
     end
@@ -119,19 +125,92 @@ function removeBoom()
     TriggerEvent("phone:currentNewsState",false)
 end
 
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10)
+        if IsControlJustPressed(0, 119) then
+            if holdingCam then
+                newsCam()
+            end
+        end
+    end
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10)
+        if IsControlJustReleased(0, 177) then
+			if holdingCam then
+                ToggleCam()
+                TriggerEvent("phone:currentNewsState",true)
+                RequestModel(GetHashKey(camModel))
+                while not HasModelLoaded(GetHashKey(camModel)) do
+                    Citizen.Wait(100)
+                end
+
+                local plyCoords = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 0.0, -5.0)
+                local camspawned = CreateObject(GetHashKey(camModel), plyCoords.x, plyCoords.y, plyCoords.z, 1, 1, 1)
+                cam_object = camspawned
+                AttachEntityToEntity(camspawned, GetPlayerPed(PlayerId()), GetPedBoneIndex(GetPlayerPed(PlayerId()), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 1, 0, 1)
+                while not HasAnimDictLoaded(camanimDict) do
+                    RequestAnimDict(camanimDict)
+                    Citizen.Wait(100)
+                end
+                --SetEntityAsMissionEntity(camspawned,false,true)
+                TaskPlayAnim(GetPlayerPed(PlayerId()), 1.0, -1, -1, 50, 0, 0, 0, 0) -- 50 = 32 + 16 + 2
+                TaskPlayAnim(GetPlayerPed(PlayerId()), camanimDict, camanimName, 1.0, -1, -1, 50, 0, 0, 0, 0)
+                holdingCam = true
+            end
+        end
+    end
+end)
+
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(10)
+        if IsControlJustPressed(0, 244) then
+            if holdingCam then
+                MovieCam()
+            end
+        end
+    end
+end)
 
 RegisterNetEvent('camera:setCamera')
 AddEventHandler('camera:setCamera', function()
+	--hold("camera")
+	local newscamera = true
+	ToggleCam()
+	if IsControlJustPressed(0, 153) then
+	end
 	currentHolding = "camera"
+end)
+
+RegisterCommand("mic", function()
+	if job == "News" then
+		ToggleMic()
+	end
 end)
 
 RegisterNetEvent('camera:setMic')
 AddEventHandler('camera:setMic', function()
+	--hold("handMic")
+	print("sex")
+	TriggerEvent('event:control:newsJob', 1)
 	currentHolding = "handMic"
+end)
+
+RegisterCommand("boom", function()
+	if job == "News" then
+		ToggleBoom()
+	end
 end)
 
 RegisterNetEvent('camera:setBoom')
 AddEventHandler('camera:setBoom', function()
+	--hold("boomarm")
+	TriggerEvent('event:control:newsJob', 1)
 	currentHolding = "boomarm"
 end)
 
@@ -140,21 +219,20 @@ RegisterNetEvent('event:control:newsJob')
 AddEventHandler('event:control:newsJob', function(useID)
 	if useID == 1 then
 		local isInVeh = IsPedInAnyVehicle(PlayerPedId(), false)
-		if exports["urp-base"]:getModule("LocalPlayer"):getVar("job") == "news" and not exports["isPed"]:isPed("disabled") and not isInVeh then
-			if currentHolding == "camera" then
+		if job == 'News' and not IsPedInAnyVehicle(PlayerPedId(), true) then
+			if useID == 1 and currentHolding == "camera" then
 				removeBoom()
 				removeMic()
 				ToggleCam()
-			elseif currentHolding == "handMic" then
+			elseif useID == 1 and currentHolding == "handMic" then
 				removeBoom()
 				removeCamera()
 				ToggleMic()
-			elseif currentHolding == "boomarm" then
+			elseif useID == 1 and currentHolding == "boomarm" then
 				removeMic()
 				removeCamera()
 				ToggleBoom()
 			end
-		end
 	elseif useID == 2 and not movcamera then
 
 		if newscamera then
@@ -172,14 +250,16 @@ AddEventHandler('event:control:newsJob', function(useID)
 			if holdingCam then MovieCam() end
 		end
 	end
+end
 end)
 
 local myJob = ""
 Citizen.CreateThread(function()
-	while true do
-		myJob = exports["urp-base"]:getModule("LocalPlayer"):getVar("job")
-		Citizen.Wait(50000)
-	end
+    while true do
+        Citizen.Wait(1000)
+       -- print("there is my job sir"..PlayerData.job.label)
+    if job == "Haberci" then myJob = "news" end
+    end
 end)
 
 Citizen.CreateThread(function()
@@ -195,7 +275,7 @@ Citizen.CreateThread(function()
 	  			removeBoom()
 	  		end
 	  	end
-		if not myJob == "news" then
+		if not myJob == "News" then
 	    	Citizen.Wait(5000)
 	    	if currentHolding == "camera" or currentHolding == "handMic" or currentHolding == "boomarm" then
 				removeCamera()
@@ -206,6 +286,8 @@ Citizen.CreateThread(function()
 	    end
 	end
 end)
+
+
 
 ---------------------------------------------------------------------------
 -- Cam Functions --
@@ -296,6 +378,7 @@ end
 function newsCam()
 
 	newscamera = true
+	lol = true
 	SetTimecycleModifier("default")
 
 	SetTimecycleModifierStrength(0.3)
@@ -532,7 +615,7 @@ AddEventHandler("news:light", function(args)
   if args[2] ~= nil then
     rgb = {tonumber(args[2]),tonumber(args[3]),tonumber(args[4])}
   end
-  TriggerServerEvent('light:addNews',rgb,tonumber(id),{pos.x,pos.y,pos.z})
+ -- TriggerServerEvent('light:addNews',rgb,tonumber(id),{pos.x,pos.y,pos.z})
 end)
 
 
@@ -554,7 +637,7 @@ Citizen.CreateThread(function()
 	    Citizen.Wait(0)
 	    if currentArray ~= nil and currentLight ~= nil then
 		    if #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(currentLight)) > 100 then
-		      TriggerServerEvent('light:removeLight')
+		      --TriggerServerEvent('light:removeLight')
 		      currentLight = nil
 		    end
 			for i,v in ipairs(currentArray) do
@@ -613,3 +696,11 @@ function quickmafs(dir)
   end
   return x,y
 end
+
+Citizen.CreateThread(function()
+	while true do
+        Citizen.Wait(5000)
+    	job = exports['isPed']:isPed('job')
+		print(rank)
+	end
+end)
