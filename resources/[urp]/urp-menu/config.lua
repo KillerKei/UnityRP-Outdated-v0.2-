@@ -183,7 +183,7 @@ newSubMenus = {
     ['general:emotes'] = {
         title = "Emotes",
         icon = "#general-emotes",
-        functionName = "urp:RecieveMenu"
+        functionName = "emotes:OpenMenu"
     },
     ['general:askfortrain'] = {
         title = "Request Train",
