@@ -167,14 +167,14 @@ hr {
 
 .Logs {
   position: absolute;
-  top: 82.5%;
-  left: 78%;
-  height: 8%;
-  width: 20%;
+  top: 78.5%;
+  left: 68%;
+  height: 12%;
+  width: 30%;
   max-height: 20%;
-  font-weight: 0;
+  font-weight: 5;
   opacity: 1;
-  font-size: 12px;
+  font-size: 0px;
   font-weight: 0;
   text-decoration: none;
   color: rgba(255, 255, 255, 1.0);
