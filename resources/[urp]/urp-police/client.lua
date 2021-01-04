@@ -4,13 +4,23 @@ dragStatus.isDragged = false
 local IsShackles = false
 local isHandcuffed = false
 local blipsCops = {}
+Player = nil
+LocalPlayer = nil
 
 local signOnPoint = {
 	{x = 440.4243, y = -976.4591, z = 30.68958} -- MRPD
 }
 
-local LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
-local Player = LocalPlayer:getCurrentCharacter()
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(100)
+		while LocalPlayer == nil do
+			LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
+			Player = LocalPlayer:getCurrentCharacter()
+		end
+	end
+end)
+
 
 local fixPoints = {
 	{428.05,-1020.76,28.92}, -- mrpd
@@ -48,14 +58,14 @@ end
 
 function giveDutyRadio()
 	if (not exports['urp-inventory']:hasEnoughOfItem('radio', 1, false)) then
-		print('dick')
+		-- print('dick')
 		TriggerEvent('player:receiveItem', 'radio', 1)
 	end
 end
 
 function removeDutyRadio()
 	if (exports['urp-inventory']:hasEnoughOfItem('radio', 1, false)) then
-		print('dick')
+		-- print('dick')
 		TriggerEvent("inventory:removeItem", 'radio', 1)
 	end
 end
@@ -153,6 +163,16 @@ end)
 
 CopAmount = 0
 
+function CopsOnline()
+	local breastybum = CopAmount
+	if CopAmount >= 1 then
+        return CopAmount
+    else
+        return CopAmount
+    end
+end
+
+
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1000)
@@ -183,7 +203,7 @@ Citizen.CreateThread(function()
 						LocalPlayer:setJob(Player.id, 'OffPolice')
 						removeDutyRadio()
 						CopAmount = CopAmount - 1
-						print(CopAmount)
+						-- print(CopAmount)
 					end
 		
 				else
@@ -194,7 +214,7 @@ Citizen.CreateThread(function()
 						LocalPlayer:setJob(Player.id, 'Police')
 						CopAmount = CopAmount + 1
 						giveDutyRadio()
-						print(CopAmount)
+						-- print(CopAmount)
 					end
 				end
 			end
