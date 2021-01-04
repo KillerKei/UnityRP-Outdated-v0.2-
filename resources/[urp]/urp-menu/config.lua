@@ -6,17 +6,19 @@ local isHandcuffedAndWalking = false
 local hasOxygenTankOn = false
 local gangNum = 0
 local cuffStates = {}
+job = nil
 
-local PlayerData              = {}
-
-RegisterNetEvent('urp:playerLoaded')
-AddEventHandler('urp:playerLoaded', function(xPlayer)
-  PlayerData = xPlayer
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(5000)
+        job = exports['isPed']:isPed('job')
+    end
 end)
+
 
 RegisterNetEvent("job")
 AddEventHandler("job", function()
-    if PlayerData.job ~= nil and PlayerData.job.name == 'police' then isPolice = true end
+    if job ~= nil and job == 'Police' then isPolice = true end
 end)
 
 rootMenuConfig =  {
