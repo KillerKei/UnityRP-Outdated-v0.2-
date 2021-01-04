@@ -470,7 +470,7 @@ itemList["comp"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "Comp
 
 itemList["corpsefeet"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Feet", price: 50, weight: 0, nonStack: false, model:  "", image: "feet2.png", information: "Wheres the rest of the body?" , deg: false}
 itemList["corpsehands"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Hands", price: 50, weight: 0, nonStack: false, model:  "", image: "hands.png", information: "Wheres the rest of the body?" , deg: false}
-itemList["coupon10"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "10% Off Coupon", price: 1, weight: 0, nonStack: false, model:  "", image: "coupon-ten.png", information: "Limit only one per sale!", deg: false }
+itemList["coupon10"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Election Card J.S", price: 1, weight: 0, nonStack: false, model:  "", image: "coupon-ten.png", information: "Limit only one per sale!", deg: false }
 itemList["coupon15"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "15% Off Coupon", price: 1, weight: 0, nonStack: false, model:  "", image: "coupon-fifteen.png", information: "Does not include jail time", deg: false }
 itemList["coupon25"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "25% Off Coupon", price: 1, weight: 0, nonStack: false, model:  "", image: "coupon-25.png", information: "Expires 01/2045", deg: false }
 itemList["cpelt"] 		= {fullyDegrades: false,  decayrate: 0.0, displayname: "Cougar Pelt", price: 1, weight: 0, nonStack: false, model: "", image: "cougar-pelt.png", information: "The hunter becomes the hunted", deg: false }
