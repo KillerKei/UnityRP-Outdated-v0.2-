@@ -32,7 +32,7 @@ AddEventHandler('urp-robbery:attemptRegisterRobbery', function(sId, rId)
     end
     
     for i = 1, #storeLocations[sId].registers do
-        print('Register: ' .. tostring(storeLocations[sId].registers[i]))
+        --print('Register: ' .. tostring(storeLocations[sId].registers[i]))
         if storeLocations[sId].registers[i] == rId then
             TriggerClientEvent('DoLongHudText', source, 'This register has been robbed already.', 2)
             return
@@ -46,7 +46,7 @@ end)
 
 RegisterNetEvent('urp-robbery:attemptSafeRobbery')
 AddEventHandler('urp-robbery:attemptSafeRobbery', function(sId)
-    print('Debug!')
+    --print('Debug!')
     if safeLocations[sId].robbed then 
         TriggerClientEvent('DoLongHudText', source, 'This safe has been robbed recently.', 2)
         return

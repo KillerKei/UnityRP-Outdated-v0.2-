@@ -22,7 +22,7 @@ AddEventHandler('urp-robbery:smallBankAttempt', function(bId)
 
     banks[bId]['robbing'] = true
     TriggerClientEvent('urp-robbery:updateBankData', -1, banks)
-    print('Robbing Bank; ' .. tostring(bId))
+    --print('Robbing Bank; ' .. tostring(bId))
 end)
 
 RegisterNetEvent('urp-robbery:sBankBox')
@@ -31,5 +31,5 @@ AddEventHandler('urp-robbery:sBankBox', function(bId, iType)
     banks[bId]['rob'][iType] = true
     TriggerClientEvent('urp-robbery:updateBankData', -1, banks)
     TriggerClientEvent('urp-robbery:sBankLoot', source)
-    print('Robbing Box; ' .. tostring(iType))
+    --print('Robbing Box; ' .. tostring(iType))
 end)
