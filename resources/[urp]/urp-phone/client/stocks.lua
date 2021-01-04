@@ -255,7 +255,7 @@ function sendStocksToPhone(isRefresh)
 end
 
 RegisterNUICallback('btnStocks', function()
-  --[[
+  
     for i = 1, #serverstockvalues do
       local colortype = 1
       if i == 1 or i == 3 or i == 5 then
