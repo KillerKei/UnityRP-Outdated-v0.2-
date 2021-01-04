@@ -26,7 +26,7 @@ AddEventHandler('admin:getGroup', function()
         if data ~= nil then
             if data[1].rank ~= nil then
                 TriggerClientEvent('admin:setGroup', source, data[1].rank)
-                print(data[1].rank)
+                -- print(data[1].rank)
             end
         end
     end)

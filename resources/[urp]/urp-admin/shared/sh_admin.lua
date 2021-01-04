@@ -21,7 +21,7 @@ function URP.Admin.Log(self, log, user)
         local time = os.date("%x - %I:%M:%S")
         log = string.format("%s - ADMIN: %s", time, log)
 
-        print(log)
+        -- print(log)
 
         exports["urp-log"]:AddLog("Admin", user and user or false, log, false)
 
@@ -29,7 +29,7 @@ function URP.Admin.Log(self, log, user)
     end
 
     log = string.format( "ADMIN: %s", log)
-    print(log)
+    -- print(log)
 end
 
 function URP.Admin.ChatPrint(self, msg, target)

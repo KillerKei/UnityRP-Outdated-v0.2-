@@ -14,7 +14,6 @@ end)
 local group = "user"
 RegisterNetEvent('admin:setGroup')
 AddEventHandler('admin:setGroup', function(g)
-    print(group)
 	group = g
 end) 
 
@@ -319,7 +318,6 @@ function TeleportToWaypoint()
 
 	if DoesBlipExist(WaypointHandle) then
 		local waypointCoords = GetBlipInfoIdCoord(WaypointHandle)
-		print(waypointCoords)
 
         for height = 1, 1000 do
             SetPedCoordsKeepVehicle(PlayerPedId(), waypointCoords["x"], waypointCoords["y"], height + 0.0)
@@ -363,7 +361,6 @@ RegisterCommand('setjob', function(source, args)
                     local jobs = exports['urp-base']:GetJobs()
 
                     for i = 1, #jobs do
-                        print(jobs[i])
                         if jobs[i] == args[2] then jId = i end
                     end
 
@@ -381,7 +378,7 @@ end)
 -- /setjob source, job, ran
 
 RegisterCommand('menu', function()
-    print(group)
+    -- print(group)
     if group == "superadmin" then
         TriggerEvent('urp-admin:openMenu')
     else

@@ -835,7 +835,7 @@ function cmd.DrawCommand()
 
     if WarMenu.Button("Enter Amount", "Amount: " .. (cmd.vars.amount and cmd.vars.amount or "1")) then
         URP.Admin.Menu:ShowTextEntry("Enter Amount", "", function(result)
-            print(result)
+            -- print(result)
             if result then
                 if string.gsub(result, " ", "") == "" or result == "" then result = nil end
             end
