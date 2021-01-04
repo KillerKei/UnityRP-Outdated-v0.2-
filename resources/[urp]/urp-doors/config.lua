@@ -925,7 +925,7 @@ Config.DoorList = {
 		textCoords = {x = 434.747, y = -981.50, z = 31.50},
 		authorizedJobs = { 'Police' },
 		locked = false,
-		distance = 1.5
+		distance = 1.5 --
 	},
 	{
 		objName = 'v_ilev_fib_door1',
@@ -981,7 +981,7 @@ Config.DoorList = {
 		textCoords = {x = 434.747, y = -982.50, z = 31.50},
 		authorizedJobs = { 'Police' },
 		locked = false,
-		distance = 1.5
+		distance = 1.5 --
 	},
 	-- To locker room & roof
 	{
@@ -989,7 +989,7 @@ Config.DoorList = {
 		objCoords  = {x = 449.698, y = -986.469, z = 30.689},
 		textCoords = {x = 450.104, y = -986.388, z = 31.739},
 		authorizedJobs = { 'Police' },
-		locked = true
+		locked = true --
 	},
 	-- Rooftop
 	{
@@ -997,7 +997,7 @@ Config.DoorList = {
 		objCoords  = {x = 464.361, y = -984.678, z = 43.834},
 		textCoords = {x = 464.361, y = -984.050, z = 44.834},
 		authorizedJobs = { 'Police' },
-		locked = true
+		locked = true --
 	},
 	-- Hallway to roof
 	{
@@ -1005,7 +1005,7 @@ Config.DoorList = {
 		objCoords  = {x = 461.286, y = -985.320, z = 30.839},
 		textCoords = {x = 461.50, y = -986.00, z = 31.50},
 		authorizedJobs = { 'Police' },
-		locked = true
+		locked = true --
 	},
 	-- Captain Office
 	{
@@ -1014,7 +1014,7 @@ Config.DoorList = {
 		textCoords = {x = 447.200, y = -980.010, z = 31.739},
 		authorizedJobs = { 'Police' },
 		locked = true,
-		distance = 1.5
+		distance = 1.5 --
 	},
 	-- To downstairs (double doors)
 	
