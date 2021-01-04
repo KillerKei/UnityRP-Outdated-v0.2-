@@ -105,8 +105,8 @@ Citizen.CreateThread(function()
              if IsControlJustReleased(0,38) and distance < 1.0 then
              	if exports["urp-inventory"]:hasEnoughOfItem("Gruppe6Card3",1,false) then
              		TriggerEvent("inventory:removeItem", "Gruppe6Card3", 1)
-				    TriggerServerEvent("irp-doors:alterlockstate",199)
-             		TriggerServerEvent("irp-doors:alterlockstate",198)
+				    TriggerServerEvent("urp-doors:alterlockstate",199)
+             		TriggerServerEvent("urp-doors:alterlockstate",198)
              	end
 
              end
