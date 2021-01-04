@@ -28,7 +28,7 @@ function ST.Scoreboard.AddAllPlayers(self)
     local xPlayers   = GetPlayers()
 
     for _, playerId in ipairs(xPlayers) do
-        print(playerId)
+        --print(playerId)
         local identifiers, steamIdentifier = GetPlayerIdentifiers(playerId)
         for _, v in pairs(identifiers) do
             if string.find(v, "steam") then
