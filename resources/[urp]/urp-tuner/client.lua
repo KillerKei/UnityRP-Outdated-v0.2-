@@ -63,13 +63,13 @@ local vehicleTable = {
 }
 
 function doBoostFuel(amount,amount2,veh,plate)
-    print("Boost Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
-    print("Low Traction Loss Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult'))
+   -- print("Boost Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
+   -- print("Low Traction Loss Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult'))
     local amount = amount
     if amount == 0 then
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce', vehicleDefaultTable["" .. veh .. ""]["fInitialDriveForce"])
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult', vehicleDefaultTable["" .. veh .. ""]["fLowSpeedTractionLossMult"])
-      print("Set boost and fuel to default")
+     -- print("Set boost and fuel to default")
     else
       local defaultBoost = vehicleDefaultTable["" .. veh .. ""]["fInitialDriveForce"]
       local defaultTLoss = vehicleDefaultTable["" .. veh .. ""]["fLowSpeedTractionLossMult"]
@@ -78,19 +78,19 @@ function doBoostFuel(amount,amount2,veh,plate)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce', new)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult', new2)
     end
-    print("Boost Set: " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
-    print("Low Traction Loss End  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult'))
+   -- print("Boost Set: " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
+   -- print("Low Traction Loss End  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fLowSpeedTractionLossMult'))
 
 
 
 
-    print("Boost Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
-    print("fDriveInertia : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia'))
+   -- print("Boost Start  : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
+   -- print("fDriveInertia : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia'))
 
     if amount2 == 0 and amount == 0 then
 
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia', vehicleDefaultTable["" .. veh .. ""]["fDriveInertia"])
-      print("Set boost and fuel to default")
+    --  print("Set boost and fuel to default")
     else
       local defaultBoost = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce')
       local defaultfDriveInertia = vehicleDefaultTable["" .. veh .. ""]["fDriveInertia"]
@@ -103,22 +103,22 @@ function doBoostFuel(amount,amount2,veh,plate)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce', new)
        SetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia', new2)
     end
-    print("Boost Set: " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
-    print("fDriveInertia : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia'))
+   -- print("Boost Set: " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'))
+   -- print("fDriveInertia : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveInertia'))
 
 
 end
 
 function doGears(amount,veh,plate)
-    print("fClutchChangeRateScaleUpShift : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift'))
+    --print("fClutchChangeRateScaleUpShift : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift'))
 
-    print("fInitialDragCoeff : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDragCoeff'))
+   -- print("fInitialDragCoeff : " .. GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDragCoeff'))
 
     if amount == 0 then
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift', vehicleDefaultTable["" .. veh .. ""]["fClutchChangeRateScaleUpShift"])
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleDownShift', vehicleDefaultTable["" .. veh .. ""]["fClutchChangeRateScaleDownShift"])
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDragCoeff', vehicleDefaultTable["" .. veh .. ""]["fInitialDragCoeff"])
-      print("Set gears to default")
+     -- print("Set gears to default")
     else
       local defaultShift = vehicleDefaultTable["" .. veh .. ""]["fClutchChangeRateScaleUpShift"]
       local defaultShift2 = vehicleDefaultTable["" .. veh .. ""]["fClutchChangeRateScaleUpShift"]
@@ -129,31 +129,31 @@ function doGears(amount,veh,plate)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift', new)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleDownShift', new2)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDragCoeff', new3)
-      print("Gears | Downshift | Take Off",new,new2,new3)
+     -- print("Gears | Downshift | Take Off",new,new2,new3)
     end
 end
 
 function doBraking(amount,veh,plate)
     if amount == 5 then
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fBrakeBiasFront', vehicleDefaultTable["" .. veh .. ""]["fBrakeBiasFront"])
-      print("Braking set to default.")
+     -- print("Braking set to default.")
     else
       local defaultBrakeBias = vehicleDefaultTable["" .. veh .. ""]["fBrakeBiasFront"]
       local new = (amount/10)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fBrakeBiasFront', new)
-      print("Braking Bias Set: " .. new)
+    --  print("Braking Bias Set: " .. new)
     end
 end
 
 function doDrive(amount,veh,plate)
     if amount == 5 then
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveBiasFront', vehicleDefaultTable["" .. veh .. ""]["fDriveBiasFront"])
-      print("Drive set to default.")
+    --  print("Drive set to default.")
     else
       local defaultBrakeBias = vehicleDefaultTable["" .. veh .. ""]["fDriveBiasFront"]
       local new = (amount/10)
       SetVehicleHandlingFloat(veh, 'CHandlingData', 'fDriveBiasFront', new)
-      print("Drive Train Set: " .. new)
+     -- print("Drive Train Set: " .. new)
     end
 end
 
@@ -185,7 +185,7 @@ AddEventHandler('tuner:setDriver', function()
         local gr2 = vehicleTable["" .. veh .. ""][3]
         local bb = vehicleTable["" .. veh .. ""][4]
         local db = vehicleTable["" .. veh .. ""][5]
-        print("Stored Alterions Attached",df,gr1,gr2,bb,db)
+        --print("Stored Alterions Attached",df,gr1,gr2,bb,db)
         modify(df,gr1,gr2,bb,db,veh,plate)
       end
     end
@@ -205,9 +205,9 @@ AddEventHandler('tuner:open', function()
         local plate = GetVehicleNumberPlateText(veh)
 
         if vehicleTable["" .. veh .. ""] then
-          print("We already have default values set.")
+         -- print("We already have default values set.")
         else
-          print("We are setting our default values.")
+         -- print("We are setting our default values.")
           vehicleDefaultTable["" .. veh .. ""] = {
             ["fInitialDriveForce"] = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fInitialDriveForce'), 
             ["fClutchChangeRateScaleUpShift"] = GetVehicleHandlingFloat(veh, 'CHandlingData', 'fClutchChangeRateScaleUpShift'),
