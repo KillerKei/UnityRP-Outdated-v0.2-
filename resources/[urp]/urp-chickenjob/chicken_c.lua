@@ -396,7 +396,7 @@ local x,y,z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 
 	TaskPlayAnim(GetPlayerPed(-1), 'amb@medic@standing@tendtodead@exit', 'exit', 8.0, -8.0, -1, 1, 0.0, 0, 0, 0)
 	ClearPedTasks(GetPlayerPed(-1))
 	DeleteEntity(prop)
-	print("selling chicken")
+	-- print("selling chicken")
 	TriggerEvent('inventory:removeItem', "packaged_chicken", 2)
 	TriggerServerEvent('cunt:pay', 85 )
 else

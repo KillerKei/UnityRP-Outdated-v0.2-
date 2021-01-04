@@ -22,7 +22,7 @@ local function randomizeBlipLocation(pOrigin)
 end
 
 local function sendNewsBlip(pNotificationData)
-  print("SENDING NEW BLIP?", exports['isPed']:isPed('job'), pNotificationData.isImportant)
+  print(".", exports['isPed']:isPed('job'), pNotificationData.isImportant)
     TriggerEvent("phone:registerBlip", {
         currentJob = exports['isPed']:isPed('job'),
         isImportant = pNotificationData.isImportant,

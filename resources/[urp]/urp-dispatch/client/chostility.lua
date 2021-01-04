@@ -684,12 +684,12 @@ AddEventHandler("civilian:alertPolice",function(basedistance,alertType,objPassed
     end
 
     if alertType == "fight" then
-      print("THIS IS ALERT FIGHT EVIDENCE")
+      -- print("THIS IS ALERT FIGHT EVIDENCE")
       AlertFight()      
     end
 
     if (alertType == "gunshot" or alertType == "gunshotvehicle") and not pd then
-      print("ALERT FOR GUNSHOT")
+      -- print("ALERT FOR GUNSHOT")
       AlertGunShot()
     end
 
