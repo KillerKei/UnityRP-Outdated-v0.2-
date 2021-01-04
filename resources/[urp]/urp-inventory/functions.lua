@@ -9,7 +9,6 @@ Citizen.CreateThread(function()
 	while true do
         Citizen.Wait(5000)
     	job = exports['isPed']:isPed('job')
-		print(rank)
 	end
 end)
 

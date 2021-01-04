@@ -561,7 +561,7 @@ function DisplayInventory(sqlInventory, itemCount, invName, main, plyID) {
   }
   let slot = 0;
 
-  //InventoryLog(invName + " is Loading.")
+  InventoryLog(invName + " is Loading.")
 
   let inventoryNumber = 1;
 
@@ -749,7 +749,7 @@ function DisplayInventory(sqlInventory, itemCount, invName, main, plyID) {
 
   }
 
-  //InventoryLog("Loaded " + inventoryName + " without recorded Error.")
+  InventoryLog("Loaded " + inventoryName + " without recorded Error.")
   PlayerCIDName = plyID
   UpdateSetWeights()
   clicking = true
@@ -1049,7 +1049,7 @@ function DropItem(slot, amountDropped) {
     inventoryUsedNameText = "Player Inventory"
   }
 
-  //InventoryLog("Dropped: " + name + " x(" + amountDropped + ") from slot " + slotusing + " of " + inventoryUsedNameText)
+  InventoryLog("Dropped: " + name + " x(" + amountDropped + ") from slot " + slotusing + " of " + inventoryUsedNameText)
 
    //$.post('http://urp-inventory/dropitem', JSON.stringify({
    // currentInventory: currentInventory,
@@ -1108,7 +1108,7 @@ function CompileStacks(targetSlot, originSlot, inv1, inv2, originAmount, remaini
   invStack(targetSlot, moveAmount, targetInventory, originSlot, originInventory, purchase, itemCosts, itemidsent, moveAmount, crafting, isWeapon, remainingAmount);
 
 
-  //InventoryLog("Changed Slot: " + originSlot + "(" + originAmount + ") of " + targetInventory + " to " + targetSlot + "(" + targetAmount + ") of " + originInventory + " ")
+  InventoryLog("Changed Slot: " + originSlot + "(" + originAmount + ") of " + targetInventory + " to " + targetSlot + "(" + targetAmount + ") of " + originInventory + " ")
   UpdateSetWeights()
   if (crafting) {
     removeCraftItems(itemidsent, moveAmount)
@@ -1146,7 +1146,7 @@ function MoveStack(targetSlot, originSlot, inv1, inv2, purchase, itemCosts, item
 
   invMove(targetSlot, originSlot, targetInventory, originInventory, purchase, itemCosts, itemidsent, moveAmount, crafting, isWeapon);
 
-  //InventoryLog("Moved Slot " + originSlot + " of " + originInventory + " to " + targetSlot + " of " + targetInventory + " #" + itemidsent)
+  InventoryLog("Moved Slot " + originSlot + " of " + originInventory + " to " + targetSlot + " of " + targetInventory + " #" + itemidsent)
   UpdateSetWeights()
   if (crafting) {
     removeCraftItems(itemidsent, moveAmount)
@@ -1191,7 +1191,7 @@ function SwapStacks(targetSlot, originSlot, inv1, inv2) {
 
   invSwap(targetSlot, targetInventory, originSlot, originInventory);
 
-  //InventoryLog("Swapped Slot " + originSlot + " of " + originInventory + " and " + targetSlot + " of " + targetInventory + " ")
+  InventoryLog("Swapped Slot " + originSlot + " of " + originInventory + " and " + targetSlot + " of " + targetInventory + " ")
   UpdateSetWeights()
 }
 
@@ -1239,7 +1239,7 @@ function CheckCraftFail(itemid, moveAmount) {
 
   }
 
-  //InventoryLog("We should add " + moveAmount + " of " + itemid)
+  InventoryLog("We should add " + moveAmount + " of " + itemid)
   return itemcheck;
 }
 
@@ -1371,11 +1371,11 @@ function AttemptDropInFilledSlot(slot) {
       let purchaseCost = parseInt(item.dataset.fwewef) * parseInt(moveAmount);
 
       if (TargetInventoryName == "Shop" || TargetInventoryName.indexOf("Shop") > -1 || (!StoreOwner && PlayerStore)) {
-        //InventoryLog("eh: PURCHASE")
+        InventoryLog("eh: PURCHASE")
         if (purchaseCost > userCash) {
           result = "You cant afford this.!";
           result2 = "You cant afford this.!";
-          //InventoryLog("Error: " + result)
+          InventoryLog("Error: " + result)
           EndDragError(slot);
           return
         } else {
@@ -1391,7 +1391,7 @@ function AttemptDropInFilledSlot(slot) {
               print(userWeaponLicense + exports.isPed.isPed('job'))
               result = "You do not have a license.!";
               result2 = "You do not have a license.!";
-              //InventoryLog("Error: " + result)
+              InventoryLog("Error: " + result)
               EndDragError(slot);
               return
             }
@@ -1399,13 +1399,13 @@ function AttemptDropInFilledSlot(slot) {
 
           if (currentInventory == 2 && inventoryDropName == "wrapmain") {
             userCash = userCash - purchaseCost;
-            //InventoryLog("Purchase Cost: $" + purchaseCost + " you have $" + userCash + " left.")
+            InventoryLog("Purchase Cost: $" + purchaseCost + " you have $" + userCash + " left.")
             purchase = true;
           }
         }
       }
 
-      //InventoryLog(item.dataset.fwewef + " | " + purchaseCost + " | " + moveAmount);
+      InventoryLog(item.dataset.fwewef + " | " + purchaseCost + " | " + moveAmount);
 
       let newAmount = parseInt(amountReturnItem) + parseInt(moveAmount);
       itemReturnItem.dataset.amount = newAmount;
@@ -1450,7 +1450,7 @@ function AttemptDropInFilledSlot(slot) {
       if (TargetInventoryName == "Shop" || TargetInventoryName.indexOf("Shop") > -1 || TargetInventoryName == "Craft" || (!StoreOwner && PlayerStore) || TargetInventoryName.indexOf("Craft") > -1) {
         result = "You can not drop items into the shop!";
         EndDragError(slot);
-        //InventoryLog("Error: " + result2 + " | " + result)
+        InventoryLog("Error: " + result2 + " | " + result)
       } else {
         SwapStacks(parseInt(slot.replace(/\D/g, '')), parseInt(draggingid.replace(/\D/g, '')), inventoryDropName, inventoryReturnItemDropName)
 
@@ -1472,7 +1472,7 @@ function AttemptDropInFilledSlot(slot) {
   } else {
     // errored?
     EndDragError(slot);
-    //InventoryLog("Error: " + result2 + " | " + result)
+    InventoryLog("Error: " + result2 + " | " + result)
   }
 }
 
@@ -1633,13 +1633,13 @@ function AttemptDropInEmptySlot(slot, isDropped, half) {
     UpdateSetWeights()
 
     let purchaseCost = parseInt(item.dataset.fwewef) * parseInt(moveAmount);
-    //InventoryLog(item.dataset.fwewef + " | " + purchaseCost + " | " + moveAmount);
+    InventoryLog(item.dataset.fwewef + " | " + purchaseCost + " | " + moveAmount);
     if (TargetInventoryName == "Shop" || TargetInventoryName.indexOf("Shop") > -1 || (!StoreOwner && PlayerStore)) {
-      //InventoryLog("eh: PURCHASE")
+      InventoryLog("eh: PURCHASE")
       if (purchaseCost > userCash) {
         result = "You cant afford that, bitch!";
         EndDragError(slot);
-        //InventoryLog("Error: " + result);
+        InventoryLog("Error: " + result);
         //userCash = userCash - purchaseCost; unsure why we are taking money on not enough money taken
       } else {
 
@@ -1647,7 +1647,7 @@ function AttemptDropInEmptySlot(slot, isDropped, half) {
           
           if (!exluded[itemidsent] && !userWeaponLicense) {
             result = "You do not have a license.!";
-            //InventoryLog("Error: " + result)
+            InventoryLog("Error: " + result)
             EndDragError(slot);
             return
           }
@@ -1655,24 +1655,24 @@ function AttemptDropInEmptySlot(slot, isDropped, half) {
 
         if (currentInventory == 2 && inventoryDropName == "wrapmain") {
           userCash = userCash - purchaseCost;
-          //InventoryLog("Purchase Cost: $" + purchaseCost + " you have $" + userCash + " left.")
+          InventoryLog("Purchase Cost: $" + purchaseCost + " you have $" + userCash + " left.")
           purchase = true;
         }
       }
     }
 
     if (TargetInventoryName == "Craft" || TargetInventoryName.indexOf("Craft") > -1) {
-      //InventoryLog("eh: Crafting")
+      InventoryLog("eh: Crafting")
 
       if (CheckCraftFail(itemidsent, moveAmount)) {
         result = "You dont have the required materials.!";
         EndDragError(slot);
-        //InventoryLog("Error: " + result)
+        InventoryLog("Error: " + result)
         
       } else {
         //After fucking the crafting by trying to craft more than a craftable amount, it completely fuckes the system.  Not entirely sure if the best method of action would be to set crafting to true outside of this conditional.  Look over this again.
         if (currentInventory == 2 && inventoryDropName == "wrapmain") {
-          //InventoryLog("Attempted to craft item with itemid: " + itemidsent)
+          InventoryLog("Attempted to craft item with itemid: " + itemidsent)
           crafting = true;
         }
         else {
@@ -1755,11 +1755,11 @@ function AttemptDropInEmptySlot(slot, isDropped, half) {
   } else {
     if (isDropped) {
       CleanEndDrag()
-      //InventoryLog("Error: " + result)
+      InventoryLog("Error: " + result)
     } else {
       EndDragError(slot);
       // errored?
-      //InventoryLog("Error: " + result)
+      InventoryLog("Error: " + result)
     }
   }
 }
@@ -1813,7 +1813,7 @@ function useitem() {
       
       let arr = [inventoryUsedName, itemid, slotusing, isWeapon]
       $.post("http://urp-inventory/invuse", JSON.stringify(arr));
-      //InventoryLog("Using item: " + name + "(" + amount + ") from " + inventoryUsedName + " | slot " + slotusing)
+      InventoryLog("Using item: " + name + "(" + amount + ") from " + inventoryUsedName + " | slot " + slotusing)
     }
     EndDrag(slotusing);
     closeInv(true)
