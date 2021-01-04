@@ -375,7 +375,7 @@ AddEventHandler('attachWeapons', function()
 		return
 	end
 	attaching = true
-	print("attaching")
+	--print("attaching")
 	Wait(100)
 	removeAttachedProp()
 	
@@ -388,7 +388,7 @@ AddEventHandler('attachWeapons', function()
 		curwName = activeTesting[curw]["name"]
 	end
 
-	print(curwName)
+	--print(curwName)
 
 	for i = 1, #currentWeapons do
 
