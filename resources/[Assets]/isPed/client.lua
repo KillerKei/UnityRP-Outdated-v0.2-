@@ -36,11 +36,9 @@ function GlobalObject(object)
   --  for i = 1, 32 do
   --    SetNetworkIdSyncToPlayer(netid, i, true)
   --  end
-  --  print("New networked object: " .. netid)
 end
 
 function IsPedNearCoords(x,y,z)
-  print("ped wr?")
   local handle, ped = FindFirstPed()
   local pedfound = false
   local success
@@ -55,9 +53,8 @@ function IsPedNearCoords(x,y,z)
   until not success
   EndFindPed(handle)
   if pedfound then
-    print("got one")
   else
-    print("nup brah")
+    print("Nah mate")
   end
   return pedfound
 end
