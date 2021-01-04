@@ -23,7 +23,7 @@ AddEventHandler('drugdelivery:server', function()
     local source = source
     if cash >= 100 then
         TriggerClientEvent('cash:add', 100)
-        print("cash")
+        -- print("cash")
         TriggerEvent('drugdelivery:startDealing', source)
         TriggerClientEvent('drugdelivery:client', source)
     else

@@ -12,9 +12,9 @@ end)
 RegisterServerEvent('urp-inventory:openInventorySteal')
 AddEventHandler('urp-inventory:openInventorySteal', function(target)
     local source = source
-    print(source)
+    -- print(source)
     if target ~= nil then
-        print(target)
+        -- print(target)
         local steam = GetPlayerIdentifiers(target)[1]
         local userData = promise:new()
 

@@ -312,7 +312,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(500)
         if insideDriftSchool then
             rank = exports['isPed']:isPed('job')
-            print(rank)
+            -- print(rank)
             Citizen.Wait(10000)
         end
     end

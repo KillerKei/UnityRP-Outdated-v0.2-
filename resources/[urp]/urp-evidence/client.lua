@@ -566,7 +566,7 @@ AddEventHandler('evidence:clear:done', function(DeleteIds)
     for i = 1, #DeleteIds do
         scannedEvidence[DeleteIds[i]] = nil
     end
-    print(DeleteIds)
+    -- print(DeleteIds)
 end)
 RegisterNetEvent('evidence:remove:done')
 AddEventHandler('evidence:remove:done', function(Id)
