@@ -105,7 +105,7 @@ local function nuiCallBack(data)
         TriggerEvent('isPed:updateCid', char.id)
 
         Citizen.Wait(2500)
-        print(json.encode(LocalPlayer:getCurrentCharacter()))
+        -- print(json.encode(LocalPlayer:getCurrentCharacter()))
         
         Citizen.Wait(2500)
         sendMessage({close = true})

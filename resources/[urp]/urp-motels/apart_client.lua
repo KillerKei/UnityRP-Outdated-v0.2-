@@ -4344,7 +4344,7 @@ function buildShop(house_id)
 	end
     local building = CreateObject(GetHashKey("shell_store3"), generator.x, generator.y, generator.z, network and network or false, false, false)
 	 FreezeEntityPosition(building,true)
-	 print("Loaded shell_store3")
+	--  print("Loaded shell_store3")
    	 Citizen.Wait(100)
      SetEntityCoords(PlayerPedId(),curHouseCoords["x"] - 0.03, curHouseCoords["y"] - 7.86, generator.z + 2)
      FreezeEntityPosition(PlayerPedId(),false)
@@ -4758,7 +4758,7 @@ function buildNorth()
 	end
 	local building = CreateObject(GetHashKey("shell_frankaunt"),generator.x+1.05453500,generator.y-3.61683300,generator.z+0.64563890,false,false,false)
 	FreezeEntityPosition(building,true)
-	print("Loaded shell_frankaunt")
+	-- print("Loaded shell_frankaunt")
 	SetEntityCoordsNoOffset(PlayerPedId(),curHouseCoords["x"] + 0.64,curHouseCoords["y"] - 9.51,curHouseCoords["z"] - 25.65)
 	SetEntityHeading(PlayerPedId(),267.0)
 	SetGameplayCamRelativeHeading(0.0)
@@ -4855,7 +4855,7 @@ function buildTrevor()
 	while not HasModelLoaded(GetHashKey("shell_trevor")) do 
 		Wait(0) 
 	end
-	print("Loaded shell_trevor")
+	-- print("Loaded shell_trevor")
 	local building = CreateObject(GetHashKey("shell_trevor"),generator.x+0.42222900,generator.y-0.13131700,generator.z+1.18855100,false,false,false)
 	FreezeEntityPosition(building,true)
 	SetEntityCoordsNoOffset(PlayerPedId(),curHouseCoords["x"] + 0.57,curHouseCoords["y"] - 3.97,curHouseCoords["z"] - 31.38)
@@ -4876,7 +4876,7 @@ function buildApartment(heading)
 	while not HasModelLoaded(GetHashKey('shell_v16low')) do 
 		Wait(0) 
 	end
-	print("Loaded shell_v16low")
+	-- print("Loaded shell_v16low")
 	local building = CreateObject(GetHashKey('shell_v16low'),generator.x,generator.y,generator.z,false,false,false)
 
 	FreezeEntityPosition(building,true)

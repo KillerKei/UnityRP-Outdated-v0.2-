@@ -896,8 +896,6 @@ end
 RegisterNetEvent('civputInVehicle')
 AddEventHandler('civputInVehicle', function()
     local target, distance = GetClosestPlayer()
-    print(target)
-    print(distance)
     if target and distance < 3 then
         TriggerServerEvent('urp-interactions:putInVehicle', GetPlayerServerId(target))
 	else

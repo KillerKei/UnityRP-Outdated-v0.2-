@@ -133,6 +133,6 @@ end)
 
 RegisterNetEvent("menu:VehReq")
 AddEventHandler("menu:VehReq", function()
-    print("VEHICLE REQUEST")
+    -- print("VEHICLE REQUEST")
     TriggerEvent('veh:requestUpdate')
 end)

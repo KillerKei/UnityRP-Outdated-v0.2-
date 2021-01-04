@@ -32,7 +32,7 @@ AddEventHandler('house:enterhouse', function(cid,isRealEstate,house_id,house_mod
                 TriggerClientEvent('house:entersuccess', src, house_id, house_model, furniture)
             else
                 for k, v in pairs(data) do
-                    print(v.furniture)
+                    -- print(v.furniture)
                     TriggerClientEvent('house:entersuccess', src, house_id, house_model, v.furniture, v.storage, v.clothing, v.garages)
                 end
             end
