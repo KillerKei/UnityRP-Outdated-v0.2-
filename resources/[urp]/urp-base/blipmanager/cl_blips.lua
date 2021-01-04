@@ -70,6 +70,13 @@ local blips = {
 
     {id = "repo", name = "Govt Vehicle Repo", scale = 0.7, color = 8, sprite = 147, x = 400.85, y = -1632.37, z = 29.3},
 
+    {id = "MRPD", name = "Mission Row Police Department", scale = 0.7, sprite = 60, color = 3, x = 432.2126, y = -981.8344, z = 30.71072 },
+
+    {id = "SRPD", name = "Blaine County Sheriffs Office", scale = 0.7, sprite = 60, color = 3, x = 1856.148, y = 3682.553, z = 34.26754 },
+
+    {id = "BCSO", name = "Police Department", scale = 0.7, sprite = 60, color = 3, x = -443.0547, y = 6016.782, z = 31.71227 },
+
+
     -- {id = "burgies", name = "Burger Shot", scale = 0.7, color = 8, sprite = 106, x = -1199.61, y = -899.79, z = 14.0},
 
     -- {id = "burgies2", name = "Burger Bar", scale = 0.7, color = 8, sprite = 106, x = 282.58, y = -214.76, z = 54.0},
