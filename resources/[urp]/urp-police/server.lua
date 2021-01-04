@@ -55,6 +55,7 @@ AddEventHandler('playerDropped', function()
 	if char.job == 'Police' then
 		Citizen.Wait(5000)
         TriggerClientEvent('urp-policejob:updateBlip', -1)
+        TriggerClientEvent('urp-policejob:removeplayer')
     end
 end)
 
