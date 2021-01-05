@@ -934,93 +934,64 @@ function cmd.DrawCommand()
     if cmd.vars.lastPos then if WarMenu.Button("Return to your last position") then URP.Admin:GetCommandData(cmd.command).runcommand({target = false, retn = true}) end end
 end
 
-URP.Admin:AddCommand(cmd)
 
 local cmd = {}
 cmd = {
-    title = "Rave Mode",
-    command = "rave",
-    concmd = "rave",
-    category = "Fun",
-    usage = "rave",
-    description = "Enables rave mode",
-    ranks = {"superadmin"},
+    title = "Fix Car",
+    command = "fixc",
+    concmd = "fixc",
+    category = "Player",
+    usage = "fixc <source>",
+    description = "Fixes the car the selected target is in or Current vehicle",
+    ranks = {"admin"},
     vars = {}
 }
 
 function cmd.RunCommand(caller, args)
-        TriggerServerEvent("urp-admin:RaveMode", cmd.vars.toggle)
-end
-
-function cmd.Init()
+    if not args.target then return end
+    local log = string.format("%s [%s] fixed %s's [%s] vehicle", caller:getVar("name"), caller:getVar("steamid"), args.target:getVar("name"), args.target:getVar("steamid"))
+    URP.Admin:Log(log, caller)
 end
 
 function cmd.RunClCommand(args)
+    local ped = PlayerPedId()
+    
+
+    if args.runontarget then
+        local playerIdx = GetPlayerFromServerId(args.target.source)
+        ped = GetPlayerPed(playerIdx)
+    end
+
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if not vehicle then return end
+
+    SetVehicleFixed(vehicle)
+    SetVehiclePetrolTankHealth(vehicle, 4000.0)
 end
 
 function cmd.DrawCommand()
-    cmd.vars.toggle = cmd.vars.toggle ~= nil and cmd.vars.toggle or nil
-    if WarMenu.Button("Rave Mode: " .. (cmd.vars.toggle and "Disable" or "Enable")) then cmd.vars.toggle = not cmd.vars.toggle URP.Admin:GetCommandData(cmd.command).runcommand({toggle = cmd.vars.toggle}) end
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+    cmd.vars.target = cmd.vars.target or nil
+
+    if WarMenu.Button("Select a target", "Selected: " .. (cmd.vars.target and cmd.vars.target.name or "None")) then URP.Admin.Menu:DrawTargets(cmd.command, function(_target)
+        cmd.vars.target = _target
+    end) end
+
+    if cmd.vars.target then if WarMenu.Button("Fix " .. cmd.vars.target.name .. "'s vehicle") then URP.Admin:GetCommandData(cmd.command).runcommand({target = cmd.vars.target, runontarget = true}) 
+    TriggerServerEvent('urp-admin:repair', _target)
+    end 
 end
+    if GetVehiclePedIsIn(PlayerPedId(), false) ~= 0 then 
+        if WarMenu.Button("Fix Current vehicle.") then 
+		SetVehicleEngineHealth(vehicle, 1000)
+		SetVehicleEngineOn( vehicle, true, true )
+		SetVehicleFixed(vehicle)
+    end 
+end
+
+end
+
 URP.Admin:AddCommand(cmd)
-
-local colorsss = {255, 255, 255}
-local particles = {}
-local toggles
-function StartRaveMode()
-    Citizen.CreateThread(function()
-        local particleDict = "core"
-        local particleName = "ent_amb_wind_grass_dir"
-
-        RequestNamedPtfxAsset(particleDict)
-
-        while not HasNamedPtfxAssetLoaded(particleDict) do Citizen.Wait(0) end
-
-        UseParticleFxAssetNextCall(particleDict)
-
-        for i = 0, 255 do
-            if IsPlayerPlaying(i) then
-                local particle = StartParticleFxLoopedOnPedBone(particleName, GetPlayerPed(i), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 31086, 0.5, 0.0, 0.0, 0.0)
-                particles[#particles+1]= particle
-            end
-        end
-
-        while true do
-            Citizen.Wait(200)
-            colorsss = {GetRandomIntInRange(1, 255), GetRandomIntInRange(1, 255),GetRandomIntInRange(1, 255)}
-            if not toggles then return end
-        end
-    end)
-
-    Citizen.CreateThread(function()
-        while true do
-            Citizen.Wait(0)
-            for i = 0, 255 do
-                if IsPlayerPlaying(i) then
-                    local coords = GetEntityCoords(GetPlayerPed(i), false)
-                    DrawLightWithRange(coords.x, coords.y, coords.z + 5.0, colorsss[1], colorsss[2], colorsss[3], 999999999999.0, 9999.0)
-                end
-                NetworkOverrideClockTime(23, 12, 23)
-            end
-            if not toggles then 
-                for i = 0, 255 do
-                    for k,v in pairs(particles) do
-                        RemoveParticleFx(v, true)
-                    end
-                end
-                return
-            end
-        end
-    end)
-end
-
-RegisterNetEvent('urp-admin:toggleRave')
-AddEventHandler('urp-admin:toggleRave', function(toggle)
-    toggles = toggle
-    if toggles == true then
-        StartRaveMode()
-    end
-end)
 
 local cmd = {}
 cmd = {
