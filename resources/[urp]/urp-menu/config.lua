@@ -91,6 +91,18 @@ rootMenuConfig =  {
             return Player.job == 'EMS' and downed end
     },
     {
+        id = "k9",
+        displayName = "K9",
+        icon = "#k9",
+        enableMenu = function()
+            isDead = exports["urp-deathmanager"]:GetDeath()
+            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
+            local Player = LocalPlayer:getCurrentCharacter()
+            return (Player.job == 'Police' and not isDead)
+        end,
+       subMenus = {"k9:follow", "k9:vehicle",  "k9:sniffvehicle", "k9:huntfind", "k9:sit", "k9:stand", "k9:sniff", "k9:lay",  "k9:spawn", "k9:delete", }
+    },
+    {
         id = "animations",
         displayName = "Walkstyle",
         icon = "#walking",
@@ -455,6 +467,56 @@ newSubMenus = {
         title = "Panic",
         icon = "#police-action-panic",
         functionName = "police:panic"
+    },
+    ['k9:spawn'] = {
+        title = "Summon",
+        icon = "#k9-spawn",
+        functionName = "K9:Create"
+    },
+    ['k9:delete'] = {
+        title = "Dismiss",
+        icon = "#k9-dismiss",
+        functionName = "K9:Delete"
+    },
+    ['k9:follow'] = {
+        title = "Follow",
+        icon = "#k9-follow",
+        functionName = "K9:Follow"
+    },
+    ['k9:vehicle'] = {
+        title = "Get in/out",
+        icon = "#k9-vehicle",
+        functionName = "K9:Vehicle"
+    },
+    ['k9:sit'] = {
+        title = "Sit",
+        icon = "#k9-sit",
+        functionName = "K9:Sit"
+    },
+    ['k9:lay'] = {
+        title = "Lay",
+        icon = "#k9-lay",
+        functionName = "K9:Lay"
+    },
+    ['k9:stand'] = {
+        title = "Stand",
+        icon = "#k9-stand",
+        functionName = "K9:Stand"
+    },
+    ['k9:sniff'] = {
+        title = "Sniff Person",
+        icon = "#k9-sniff",
+        functionName = "K9:Sniff"
+    },
+    ['k9:sniffvehicle'] = {
+        title = "Sniff Vehicle",
+        icon = "#k9-sniff-vehicle",
+        functionName = "sniffVehicle"
+    },
+    ['k9:huntfind'] = {
+        title = "Hunt nearest",
+        icon = "#k9-huntfind",
+        functionName = "K9:Huntfind"
     },
     ['judge:grantDriver'] = {
         title = "Grant Drivers",
