@@ -898,7 +898,7 @@ AddEventHandler("raid_clothes:hasEnough", function(menu)
             Citizen.Wait(1)
         end
     end
-
+    TriggerEvent('cash:remove', 400)
     OpenMenu(menu)
 end)
 
@@ -931,7 +931,7 @@ AddEventHandler("raid_clothes:setclothes", function(data,alreadyExist)
                 TriggerEvent("player:receiveItem","mobilephone",1)
             end
             TriggerEvent("tokovoip:onPlayerLoggedIn", true)
-            TriggerEvent("DoLongHudText","Looks like you picked a character, nice job! You have a Hotel booked in the city, type /phone or press P to call a Taxi, Or, if you see one, hit F to jump inside it(this works anywhere). Once in the Taxi, mark the location on the map where you want to go for free! (Hotel 1).", 2)
+            TriggerEvent("DoLongHudText","Looks like you picked a character, nice job! You have a Hotel booked in the city, P to call a Taxi, Or, if you see one, hit F to jump inside it(this works anywhere). Once in the Taxi, mark the location on the map where you want to go for free! (Hotel 1).", 2)
             SetNewWaypoint(312.96966552734,-218.2705078125)
             local dstHt = #(vector3(GetEntityCoords(PlayerPedId())) - vector3(312.96966552734,-218.2705078125,54.221797943115))
 
