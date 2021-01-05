@@ -11,7 +11,6 @@ AddEventHandler('urp-doors:updateState', function(doorID, state)
 	-- assign information
 	DoorInfo[doorID].state = state
 	DoorInfo[doorID].doorID = doorID
-
 	TriggerClientEvent('urp-doors:setState', -1, doorID, state)
 end)
 

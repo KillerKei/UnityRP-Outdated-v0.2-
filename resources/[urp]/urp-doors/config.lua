@@ -836,6 +836,27 @@ Config.DoorList = {
 	},
 
 
+
+	-- Jewelry
+
+	{
+		objName = 'p_jewel_door_r1',
+		objCoords  = {x=-631.1656, y= -238.2915,z= 38.095},
+		textCoords = {x=-631.1656, y= -238.2915,z= 38.095},
+		authorizedJobs = { 'Police' },
+		locked = true,
+		distance = 3
+	},
+
+	{
+		objName = 'p_jewel_door_l',
+		objCoords  = {x=-632.0387, y= -236.8175,z= 38.4993},
+		textCoords = {x=-632.0387, y= -236.8175,z= 38.4993},
+		authorizedJobs = { 'Police' },
+		locked = true,
+		distance = 3
+	},
+
 	-- END NEW PRISON --
 
 	--
