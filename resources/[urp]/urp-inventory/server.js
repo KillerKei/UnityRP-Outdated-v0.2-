@@ -378,7 +378,7 @@ onNet("server-inventory-open", async ( coords, player, secondInventory, targetNa
 {
     var targetinvname = targetName;
     var shopArray = HardwareStore();
-    var shopAmount = 15;
+    var shopAmount = 20;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }
     else if(secondInventory == "5")
@@ -399,7 +399,7 @@ onNet("server-inventory-open", async ( coords, player, secondInventory, targetNa
 {
     var targetinvname = targetName;
     var shopArray = PoliceArmory();
-    var shopAmount = 19;
+    var shopAmount = 18;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 }    
     else if(secondInventory == "12")
@@ -519,7 +519,7 @@ onNet("server-inventory-open", async ( coords, player, secondInventory, targetNa
 } else if(secondInventory == "33") {
     var targetinvname = targetName;
     var shopArray = CraftRifleCivilians();
-    var shopAmount = 27;
+    var shopAmount = 26;
     emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
 } else if(secondInventory == "34") {
     var targetinvname = targetName;
@@ -954,24 +954,23 @@ onNet("server-inventory-swap", (player, data, coords) => {
 function PoliceArmory() {
     var shopItems = [
         { item_id: "-1075685676", id: 0, name: "Shop", information: "{}", slot: 1, amount: 1 },
-        { item_id: "-771403250", id: 0, name: "Shop", information: "{}", slot: 2, amount: 1 },
-        { item_id: "-2084633992", id: 0, name: "Shop", information: "{}", slot: 3, amount: 1 },
-        { item_id: "-86904375", id: 0, name: "Shop", information: "{}", slot: 4, amount: 1 },
-        { item_id: "1432025498", id: 0, name: "Shop", information: "{}", slot: 5, amount: 1 },
-        { item_id: "2024373456", id: 0, name: "Shop", information: "{}", slot: 6, amount: 1 },
-        { item_id: "2210333304", id: 0, name: "Shop", information: "{}", slot: 7, amount: 1 },
-        { item_id: "3219281620", id: 0, name: "Shop", information: "{}", slot: 8, amount: 1 },
-        { item_id: "487013001", id: 0, name: "Shop", information: "{}", slot: 9, amount: 1 },
-        { item_id: "736523883", id: 0, name: "Shop", information: "{}", slot: 10, amount: 1 },
-        { item_id: "911657153", id: 0, name: "Shop", information: "{}", slot: 11, amount: 1 },
-        { item_id: "2343591895", id: 0, name: "Shop", information: "{}", slot: 12, amount: 1 },
-        { item_id: "shotgunammo", id: 0, name: "Shop", information: "{}", slot: 13, amount: 50 },
-        { item_id: "pistolammo", id: 0, name: "Shop", information: "{}", slot: 14, amount: 50 },
-        { item_id: "subammo", id: 0, name: "Shop", information: "{}", slot: 15, amount: 50 },
-        { item_id: "rifleammo", id: 0, name: "Shop", information: "{}", slot: 16, amount: 50 },
-        { item_id: "IFAK", id: 0, name: "Shop", information: "{}", slot: 17, amount: 50 },
-        { item_id: "armor", id: 0, name: "Shop", information: "{}", slot: 18, amount: 50 },
-        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 19, amount: 50 },
+        { item_id: "-2084633992", id: 0, name: "Shop", information: "{}", slot: 2, amount: 1 },
+        { item_id: "-86904375", id: 0, name: "Shop", information: "{}", slot: 3, amount: 1 },
+        { item_id: "1432025498", id: 0, name: "Shop", information: "{}", slot: 4, amount: 1 },
+        { item_id: "2024373456", id: 0, name: "Shop", information: "{}", slot: 5, amount: 1 },
+        { item_id: "2210333304", id: 0, name: "Shop", information: "{}", slot: 6, amount: 1 },
+        { item_id: "3219281620", id: 0, name: "Shop", information: "{}", slot: 7, amount: 1 },
+        { item_id: "487013001", id: 0, name: "Shop", information: "{}", slot: 8, amount: 1 },
+        { item_id: "736523883", id: 0, name: "Shop", information: "{}", slot: 9, amount: 1 },
+        { item_id: "911657153", id: 0, name: "Shop", information: "{}", slot: 10, amount: 1 },
+        { item_id: "2343591895", id: 0, name: "Shop", information: "{}", slot: 11, amount: 1 },
+        { item_id: "shotgunammo", id: 0, name: "Shop", information: "{}", slot: 12, amount: 50 },
+        { item_id: "pistolammo", id: 0, name: "Shop", information: "{}", slot: 13, amount: 50 },
+        { item_id: "subammo", id: 0, name: "Shop", information: "{}", slot: 14, amount: 50 },
+        { item_id: "rifleammo", id: 0, name: "Shop", information: "{}", slot: 15, amount: 50 },
+        { item_id: "IFAK", id: 0, name: "Shop", information: "{}", slot: 16, amount: 50 },
+        { item_id: "armor", id: 0, name: "Shop", information: "{}", slot: 17, amount: 50 },
+        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 18, amount: 50 },
     ];
     return JSON.stringify(shopItems);
 }
@@ -1073,19 +1072,25 @@ function HardwareStore() {
     var shopItems = [
         { item_id: "repairkit", id: 0, name: "Shop", information: "{}", slot: 1, amount: 50 },
         { item_id: "oxygentank", id: 0, name: "Shop", information: "{}", slot: 2, amount: 50 },
-        { item_id: "binoculars", id: 0, name: "Shop", information: "{}", slot: 3, amount: 50 },
-        { item_id: "cuffs", id: 0, name: "Shop", information: "{}", slot: 4, amount: 50 },
-        { item_id: "keya", id: 0, name: "Shop", information: "{}", slot: 5, amount: 50 },
-        { item_id: "mk2usbdevice", id: 0, name: "Shop", information: "{}", slot: 6, amount: 50 },
-        { item_id: "shotgunammo", id: 0, name: "Shop", information: "{}", slot: 7, amount: 50 },
-        { item_id: "armor", id: 0, name: "Shop", information: "{}", slot: 8, amount: 50 },
-        { item_id: "pistolammo", id: 0, name: "Shop", information: "{}", slot: 9, amount: 50 },
-        { item_id: "bandage", id: 0, name: "Shop", information: "{}", slot: 10, amount: 50 },
-        { item_id: "lsdtab", id: 0, name: "Shop", information: "{}", slot: 11, amount: 50 },
-        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 12, amount: 50 },
-        { item_id: "badlsdtab", id: 0, name: "Shop", information: "{}", slot: 13, amount: 50 },
-        { item_id: "heavydutydrill", id: 0, name: "Shop", information: "{}", slot: 14, amount: 50 },
-        { item_id: "fishingrod", id: 0, name: "Shop", information: "{}", slot: 15, amount: 50 },
+        { item_id: "heavycutters", id: 0, name: "Shop", information: "{}", slot: 3, amount: 50 },
+        { item_id: "drill", id: 0, name: "Shop", information: "{}", slot: 4, amount: 50 },
+        { item_id: "armor", id: 0, name: "Shop", information: "{}", slot: 5, amount: 50 },
+        { item_id: "scanner", id: 0, name: "Shop", information: "{}", slot: 6, amount: 50 },
+        { item_id: "Toolbox", id: 0, name: "Shop", information: "{}", slot: 7, amount: 50 },
+        { item_id: "repairtoolkit", id: 0, name: "Shop", information: "{}", slot: 8, amount: 50 },
+        { item_id: "radio", id: 0, name: "Shop", information: "{}", slot: 9, amount: 50 },
+        { item_id: "umbrella", id: 0, name: "Shop", information: "{}", slot: 10, amount: 50 },
+        { item_id: "smallscales", id: 0, name: "Shop", information: "{}", slot: 11, amount: 50 },
+        { item_id: "qualityscales", id: 0, name: "Shop", information: "{}", slot: 12, amount: 50 },
+        { item_id: "heavydutydrill", id: 0, name: "Shop", information: "{}", slot: 13, amount: 50 },
+        { item_id: "fertilizer", id: 0, name: "Shop", information: "{}", slot: 14, amount: 50 },
+        { item_id: "Suitcase", id: 0, name: "Shop", information: "{}", slot: 15, amount: 50 },
+        { item_id: "Boombox", id: 0, name: "Shop", information: "{}", slot: 16, amount: 50 },
+        { item_id: "Box", id: 0, name: "Shop", information: "{}", slot: 17, amount: 50 },
+        { item_id: "DuffelBag", id: 0, name: "Shop", information: "{}", slot: 18, amount: 50 },
+        { item_id: "MedicalBag", id: 0, name: "Shop", information: "{}", slot: 19, amount: 50 },
+        { item_id: "watch", id: 0, name: "Shop", information: "{}", slot: 20, amount: 50 },
+
     ];
     return JSON.stringify(shopItems);
 }
@@ -1218,28 +1223,27 @@ function CraftRifleCivilians() {
         { item_id: "1593441988", id: 0, name: "Craft", information: "{}", slot: 3, amount: 50 },
         { item_id: "subammo", id: 0, name: "Craft", information: "{}", slot: 4, amount: 50 },
         { item_id: "584646201", id: 0, name: "Craft", information: "{}", slot: 5, amount: 50 },
-        { item_id: "-771403250", id: 0, name: "Craft", information: "{}", slot: 6, amount: 50 },
-        { item_id: "1649403952", id: 0, name: "Craft", information: "{}", slot: 7, amount: 50 },
-        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 8, amount: 50 },
-        { item_id: "-619010992", id: 0, name: "Craft", information: "{}", slot: 9, amount: 50 },
-        { item_id: "137902532", id: 0, name: "Craft", information: "{}", slot: 10, amount: 50 },
-        { item_id: "-2066285827", id: 0, name: "Craft", information: "{}", slot: 11, amount: 50 },
-        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 12, amount: 50 },
-        { item_id: "extended_ap", id: 0, name: "Craft", information: "{}", slot: 13, amount: 50 },
-        { item_id: "extended_micro", id: 0, name: "Craft", information: "{}", slot: 14, amount: 50 },
-        { item_id: "extended_sns", id: 0, name: "Craft", information: "{}", slot: 15, amount: 50 },
-        { item_id: "extended_tec9", id: 0, name: "Craft", information: "{}", slot: 16, amount: 50 },
-        { item_id: "silencer_l", id: 0, name: "Craft", information: "{}", slot: 17, amount: 50 },
-        { item_id: "silencer_l2", id: 0, name: "Craft", information: "{}", slot: 18, amount: 50 },
-        { item_id: "silencer_s", id: 0, name: "Craft", information: "{}", slot: 19, amount: 50 },
-        { item_id: "silencer_s2", id: 0, name: "Craft", information: "{}", slot: 20, amount: 50 },
-        { item_id: "SmallScope", id: 0, name: "Craft", information: "{}", slot: 21, amount: 50 },
-        { item_id: "1627465347", id: 0, name: "Craft", information: "{}", slot: 22, amount: 50 },
-        { item_id: "2937143193", id: 0, name: "Craft", information: "{}", slot: 23, amount: 50 },
-        { item_id: "2144741730", id: 0, name: "Craft", information: "{}", slot: 24, amount: 50 },
-        { item_id: "heavyammo", id: 0, name: "Craft", information: "{}", slot: 25, amount: 50 },
-        { item_id: "615608432", id: 0, name: "Craft", information: "{}", slot: 26, amount: 50 },
-        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 27, amount: 50 },
+        { item_id: "1649403952", id: 0, name: "Craft", information: "{}", slot: 6, amount: 50 },
+        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 7, amount: 50 },
+        { item_id: "-619010992", id: 0, name: "Craft", information: "{}", slot: 8, amount: 50 },
+        { item_id: "137902532", id: 0, name: "Craft", information: "{}", slot: 9, amount: 50 },
+        { item_id: "-2066285827", id: 0, name: "Craft", information: "{}", slot: 10, amount: 50 },
+        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 11, amount: 50 },
+        { item_id: "extended_ap", id: 0, name: "Craft", information: "{}", slot: 12, amount: 50 },
+        { item_id: "extended_micro", id: 0, name: "Craft", information: "{}", slot: 13, amount: 50 },
+        { item_id: "extended_sns", id: 0, name: "Craft", information: "{}", slot: 14, amount: 50 },
+        { item_id: "extended_tec9", id: 0, name: "Craft", information: "{}", slot: 15, amount: 50 },
+        { item_id: "silencer_l", id: 0, name: "Craft", information: "{}", slot: 16, amount: 50 },
+        { item_id: "silencer_l2", id: 0, name: "Craft", information: "{}", slot: 17, amount: 50 },
+        { item_id: "silencer_s", id: 0, name: "Craft", information: "{}", slot: 18, amount: 50 },
+        { item_id: "silencer_s2", id: 0, name: "Craft", information: "{}", slot: 19, amount: 50 },
+        { item_id: "SmallScope", id: 0, name: "Craft", information: "{}", slot: 20, amount: 50 },
+        { item_id: "1627465347", id: 0, name: "Craft", information: "{}", slot: 21, amount: 50 },
+        { item_id: "2937143193", id: 0, name: "Craft", information: "{}", slot: 22, amount: 50 },
+        { item_id: "2144741730", id: 0, name: "Craft", information: "{}", slot: 23, amount: 50 },
+        { item_id: "heavyammo", id: 0, name: "Craft", information: "{}", slot: 24, amount: 50 },
+        { item_id: "615608432", id: 0, name: "Craft", information: "{}", slot: 25, amount: 50 },
+        { item_id: "rifleammo", id: 0, name: "Craft", information: "{}", slot: 26, amount: 50 },
     ];
     return JSON.stringify(shopItems);
 }
