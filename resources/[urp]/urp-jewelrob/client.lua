@@ -1,291 +1,293 @@
--- this is literally ass because its a copy pasterino of parts of another shit script
+local leftdoor, rightdoor		= nil, nil
+local HasAlreadyEnteredArea 	= false
+local IsAbleToRob				= false
+local policeclosed				= false
+local IsBusy, HasNotified		= false, false
+local CopsOnline 				= 0
+local shockingevent 			= false
+job = nil
 
--- thenks you for lissten me :)
-
-hasrobbed = {}
-hasrobbed[1] = false
-hasrobbed[2] = false
-hasrobbed[3] = false
-hasrobbed[4] = false
-hasrobbed[5] = false
-hasrobbed[6] = false
-hasrobbed[7] = false
-hasrobbed[8] = false
-hasrobbed[9] = false
-hasrobbed[10] = false
-hasrobbed[11] = false
-hasrobbed[12] = false
-hasrobbed[13] = false
-hasrobbed[14] = false
-hasrobbed[15] = false
-hasrobbed[16] = false
-hasrobbed[17] = false
-hasrobbed[18] = false
-hasrobbed[19] = false
-hasrobbed[20] = false
-
-local weaponTypes = {
-    ["2685387236"] = { "Unarmed", ["slot"] = 0 },
-    ["3566412244"] = { "Melee", ["slot"] = 1 },
-    ["-728555052"] = { "Melee", ["slot"] = 1 },
-    ["416676503"] = { "Pistol", ["slot"] = 2 },
-    ["3337201093"] = { "SMG", ["slot"] = 3 },
-    ["970310034"] = { "AssaultRifle", ["slot"] = 4 },
-    ["-957766203"] = { "AssaultRifle", ["slot"] = 4 },
-    ["3539449195"] = { "DigiScanner", ["slot"] = 4 },
-    ["4257178988"] = { "FireExtinguisher", ["slot"] = 0 },
-    ["1159398588"] = { "MG", ["slot"] = 4 },
-    ["3493187224"] = { "NightVision", ["slot"] = 0 },
-    ["431593103"] = { "Parachute", ["slot"] = 0 },
-    ["860033945"] = { "Shotgun", ["slot"] = 3 },
-    ["3082541095"] = { "Sniper", ["slot"] = 3 },
-    ["690389602"] = { "Stungun", ["slot"] = 1 },
-    ["2725924767"] = { "Heavy", ["slot"] = 4 },
-    ["1548507267"] = { "Thrown", ["slot"] = 0 },
-    ["1595662460"] = { "PetrolCan", ["slot"] = 1 }
-}
-
-local locations = {
-	[1] = {-626.5326,-238.3758,38.05},
-	[2] = {-625.6032, -237.5273, 38.05},
-	[3] = {-626.9178, -235.5166, 38.05},
-	[4] = {-625.6701, -234.6061, 38.05},
-	[5] = {-626.8935, -233.0814, 38.05},
-	[6] = {-627.9514, -233.8582, 38.05},
-	[7] = {-624.5250, -231.0555, 38.05},
-	[8] = {-623.0003, -233.0833, 38.05},
-	[9] = {-620.1098, -233.3672, 38.05},
-	[10] = {-620.2979, -234.4196, 38.05},
-	[11] = {-619.0646, -233.5629, 38.05},
-	[12] = {-617.4846, -230.6598, 38.05},
-	[13] = {-618.3619, -229.4285, 38.05},
-	[14] = {-619.6064, -230.5518, 38.05},
-	[15] = {-620.8951, -228.6519, 38.05},
-	[16] = {-619.7905, -227.5623, 38.05},
-	[17] = {-620.6110, -226.4467, 38.05},
-	[18] = {-623.9951, -228.1755, 38.05},
-	[19] = {-624.8832, -227.8645, 38.05},
-	[20] = {-623.6746, -227.0025, 38.05},
-}
-
-
-local copAmount = 0
-
-function weaponTypeC()
-	local w = GetSelectedPedWeapon(PlayerPedId())
-	local wg = GetWeapontypeGroup(w)
-	if weaponTypes[""..wg..""] then
-		return weaponTypes[""..wg..""]["slot"]
-	else
-		return 0
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(5000)
+		job = exports['isPed']:isPed('job')
+		TriggerServerEvent('urp-jewelrob:getjob', job)
 	end
-end
-function loadAnimDict( dict )  
-    while ( not HasAnimDictLoaded( dict ) ) do
-        RequestAnimDict( dict )
-        Citizen.Wait( 5 )
-    end
-end 
-
-RegisterNetEvent("jewel:cops")
-AddEventHandler("jewel:cops", function(cops) 
-	copAmount = cops
 end)
 
+RegisterNetEvent('urp-jewelrobbery:policeclosure')
+AddEventHandler('urp-jewelrobbery:policeclosure', function()
+	policeclosed = true
+	storeclosed = false
+	IsAbleToRob = false
+end)
+
+RegisterNetEvent('urp-jewelrobbery:resetcases')
+AddEventHandler('urp-jewelrobbery:resetcases', function(list)
+	if GetDistanceBetweenCoords(GetEntityCoords(GetPlayerPed(-1)), -622.2496, -230.8000, 38.05705, true)  < 20.0  then
+		for i, v in pairs(Config.CaseLocations) do
+			if v.Broken then
+				RemoveModelSwap(v.Pos.x, v.Pos.y, v.Pos.z, 0.1, GetHashKey(v.Prop1), GetHashKey(v.Prop), false )
+			end
+		end
+	end
+	Config.CaseLocations = list
+	HasNotified = false
+	policeclosed = false
+	storeclosed = false
+	IsAbleToRob = false
+	HasAlreadyEnteredArea = false
+end)
+
+
+
+RegisterNetEvent('urp-jewelrobbery:setcase')
+AddEventHandler('urp-jewelrobbery:setcase', function(casenumber, switch)
+	Config.CaseLocations[casenumber].Broken = switch
+	HasAlreadyEnteredArea = false
+end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(3000)
+		local playerCoords = GetEntityCoords(PlayerPedId())
+		local currentStreetHash, intersectStreetHash = GetStreetNameAtCoord(playerCoords.x, playerCoords.y, playerCoords.z, currentStreetHash, intersectStreetHash)
+		currentStreetName = GetStreetNameFromHashKey(currentStreetHash)
+		intersectStreetName = GetStreetNameFromHashKey(intersectStreetHash)
+	end
+end)
+
+
+RegisterNetEvent('urp-jewelrobbery:loadconfig')
+AddEventHandler('urp-jewelrobbery:loadconfig', function(casestatus)
+	while not DoesEntityExist(GetPlayerPed(-1)) do
+		Citizen.Wait(100)
+	end
+	Config.CaseLocations = casestatus
+	if GetDistanceBetweenCoords(plyloc, -622.2496, -230.8000, 38.05705, true)  < 20.0 then
+		for i, v in pairs(Config.CaseLocations) do
+			if v.Broken then
+				CreateModelSwap(v.Pos.x, v.Pos.y, v.Pos.z, 0.1, GetHashKey(v.Prop1), GetHashKey(v.Prop), false )
+			end
+		end
+	end
+end)
+
+
+RegisterNetEvent('urp-jewelrobbery:playsound')
+AddEventHandler('urp-jewelrobbery:playsound', function(x,y,z, soundtype)
+	ply = GetPlayerPed(-1)
+	plyloc = GetEntityCoords(ply)
+	if GetDistanceBetweenCoords(plyloc,x,y,z,true) < 20.0 then
+		if soundtype == 'break' then
+			PlaySoundFromCoord(-1, "Glass_Smash", x,y,z, 0, 0, 0)
+		elseif soundtype == 'nonbreak' then
+			PlaySoundFromCoord(-1, "Drill_Pin_Break", x,y,z, "DLC_HEIST_FLEECA_SOUNDSET", 0, 0, 0)
+		end
+	end
+end)
+
+
+AddEventHandler('urp-jewelrobbery:EnteredArea', function()
+	for i, v in pairs(Config.CaseLocations) do
+		if v.Broken then
+			CreateModelSwap(v.Pos.x, v.Pos.y, v.Pos.z, 0.1, GetHashKey(v.Prop1), GetHashKey(v.Prop), false )
+		end
+	end
+end)
+
+AddEventHandler('urp-jewelrobbery:LeftArea', function()
+	for i, v in pairs(Config.CaseLocations) do
+		if v.Broken then
+			RemoveModelSwap(v.Pos.x, v.Pos.y, v.Pos.z, 0.1, GetHashKey(v.Prop1), GetHashKey(v.Prop), false )
+		end
+	end
+end)
+
+function UnAuthJob()
+	local UnAuthjob = false
+	for i,v in pairs(Config.UnAuthJobs) do
+		if job == v then
+			UnAuthjob = true
+			break
+		end
+	end
+
+	return UnAuthjob
+end
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end
+
+
+Citizen.CreateThread( function()
+	while true do 
+		ply = GetPlayerPed(-1)
+		plyloc = GetEntityCoords(ply)
+		IsInArea = false
+		
+		if GetDistanceBetweenCoords(plyloc, -622.2496, -230.8000, 38.05705, true)  < 20.0 then
+			IsInArea = true
+		end
+		
+		if IsInArea and not HasAlreadyEnteredArea then
+			TriggerEvent('urp-jewelrobbery:EnteredArea')
+			shockingevent = false
+			if Config.Closed and not (CheckPolice() >= Config.MinPolice) and not policeclosed then
+				leftdoor = GetClosestObjectOfType(-631.9554, -236.3333, 38.20653, 11.0, GetHashKey("p_jewel_door_l"), false, false, false)
+				rightdoor = GetClosestObjectOfType(-631.9554, -236.3333, 38.20653, 11.0, GetHashKey("p_jewel_door_r1"), false, false, false)			
+				ClearAreaOfPeds(-622.2496, -230.8000, 38.05705, 10.0, 1)
+				storeclosed = true
+				HasNotified = false
+			else
+				leftdoor = GetClosestObjectOfType(-631.9554, -236.3333, 38.20653, 11.0, GetHashKey("p_jewel_door_l"), false, false, false)
+				rightdoor = GetClosestObjectOfType(-631.9554, -236.3333, 38.20653, 11.0, GetHashKey("p_jewel_door_r1"), false, false, false)			
+				storeclosed = false
+				Citizen.Wait(100)
+				freezedoors(false)
+				IsAbleToRob = true
+			
+			end
+			HasAlreadyEnteredArea = true
+		end
+
+		if not IsInArea and HasAlreadyEnteredArea then
+			TriggerEvent('urp-jewelrobbery:LeftArea')
+			HasAlreadyEnteredArea = false
+			shockingevent = false
+			IsAbleToRob = false
+			storeclosed = false
+			HasNotified = false
+		end
+		
+		if Config.Closed and not (CheckPolice() >= Config.MinPolice) and not storeclosed and not policeclosed then
+			Citizen.Wait(1250)
+		else
+			Citizen.Wait(3250)
+		end
+	end
+end)
+
+function CheckPolice()
+	if CopsOnline ~= exports['urp-police']:CopsOnline()	then
+		HasAlreadyEnteredArea = false
+	end
+	CopsOnline = exports['urp-police']:CopsOnline()
+	return exports['urp-police']:CopsOnline()
+end
+
+function freezedoors(status)
+	FreezeEntityPosition(leftdoor, status)
+	FreezeEntityPosition(rightdoor, status)
+end
+
+
+Citizen.CreateThread( function()
+	while true do 
+		sleep = 1500
+		while IsAbleToRob and not UnAuthJob() and (CheckPolice() >= Config.MinPolice) do
+			Citizen.Wait(0)
+			sleep = 0
+			ply = GetPlayerPed(-1)
+			plyloc = GetEntityCoords(ply)
+			for i, v in pairs(Config.CaseLocations) do
+				if GetDistanceBetweenCoords(plyloc, v.Pos.x, v.Pos.y, v.Pos.z, true) < 1.0  and not v.Broken and not IsBusy then
+					local robalbe = false
+					local _, weaponname = GetCurrentPedWeapon(ply)
+					for index, weapon in pairs (Config.AllowedWeapons) do
+						if GetHashKey(weapon.name) == weaponname then
+							robalbe = weapon
+							break 
+						end
+					end
+					if robalbe then	
+						DrawText3Ds(v.Pos.x, v.Pos.y, v.Pos.z + 0.5, 'Press ~g~E~w~ to Break')
+						if IsControlJustPressed(0, 38) and not IsBusy and not IsPedWalking(ply) and not IsPedRunning(ply) and not IsPedSprinting(ply) then
+							local policenotify = math.random(1,100)
+							if not shockingevent  then
+								AddShockingEventAtPosition(99, v.Pos.x, v.Pos.y, v.Pos.z,25.0)
+								shockingevent = true
+							end
+							IsBusy = true				
+							TaskTurnPedToFaceCoord(ply, v.Pos.x, v.Pos.y, v.Pos.z, 1250)
+							Citizen.Wait(1250)
+							if not HasAnimDictLoaded("missheist_jewel") then
+								RequestAnimDict("missheist_jewel") 
+							end
+							while not HasAnimDictLoaded("missheist_jewel") do 
+							Citizen.Wait(0)
+							end
+							TaskPlayAnim(ply, 'missheist_jewel', 'smash_case', 1.0, -1.0,-1,1,0,0, 0,0)
+							local breakchance = math.random(1, 100)
+							if breakchance <= robalbe.chance then
+								if policenotify <= Config.PoliceNotifyBroken and not HasNotified then
+									local playerCoords = GetEntityCoords(PlayerPedId())
+									TriggerEvent('urp-dispatch:jewelrobbery')
+									HasNotified = true
+								end
+								Citizen.Wait(2100)
+								TriggerServerEvent('urp-jewelrobbery:playsound', v.Pos.x, v.Pos.y, v.Pos.z, 'break')
+								CreateModelSwap(v.Pos.x, v.Pos.y, v.Pos.z,  0.1, GetHashKey(v.Prop1), GetHashKey(v.Prop), false )
+								ClearPedTasksImmediately(ply)
+								TriggerServerEvent("urp-jewelrobbery:setcase", i, true)	
+							else
+								Citizen.Wait(2100)
+								TriggerServerEvent('urp-jewelrobbery:playsound', v.Pos.x, v.Pos.y, v.Pos.z, 'nonbreak')
+								ClearPedTasksImmediately(ply)
+								if policenotify <= Config.PoliceNotifyNonBroken and not HasNotified then
+									local playerCoords = GetEntityCoords(PlayerPedId())
+									TriggerEvent('urp-dispatch:jewelrobbery')
+									HasNotified = true
+								end
+							end	
+							Citizen.Wait(1250)
+							IsBusy = false			
+						end
+					end
+				end
+			end
+		end
+		Citizen.Wait(sleep)
+	end
+end)
 
 Citizen.CreateThread(function()
     Wait(900)
     while true do 
         local player = GetEntityCoords(PlayerPedId())
         local distance = #(vector3(-596.47, -283.96, 50.33) - player)
-        if distance < 3.0 and not hasrobbed[1] and not hasrobbed[5] and not hasrobbed[10] and not hasrobbed[15] and not hasrobbed[20] then
+        if distance < 3.0 then
         	Wait(1)
              DrawMarker(27,-596.47, -283.96, 50.33, 0, 0, 0, 0, 0, 0, 0.60, 0.60, 0.3, 11, 111, 11, 60, 0, 0, 2, 0, 0, 0, 0) 
              DT(-596.47, -283.96, 50.33, "[E] Use Purple G6 Card")
-             if IsControlJustReleased(0,38) and distance < 1.0 then
-             	if exports["urp-inventory"]:hasEnoughOfItem("Gruppe6Card3",1,false) then
-             		TriggerEvent("inventory:removeItem", "Gruppe6Card3", 1)
-				    TriggerServerEvent("urp-doors:alterlockstate",199)
-             		TriggerServerEvent("urp-doors:alterlockstate",198)
+			 if IsControlJustReleased(0,38) and distance < 1.0 then
+				if CheckPolice() >= Config.MinPolice then
+             		if exports["urp-inventory"]:hasEnoughOfItem("Gruppe6Card3",1,false) then
+						TriggerEvent("inventory:removeItem", "Gruppe6Card3", 1)
+						TriggerServerEvent("urp-doors:updateState",52,false)
+						TriggerServerEvent("urp-doors:updateState",53,false)
+					 end
              	end
-
              end
-        else
+		else
             Wait(3000)
         end        
     end
 end)
-
-RegisterNetEvent("jewel:robbed")
-AddEventHandler("jewel:robbed", function(newSet) 
-    hasrobbed = newSet
-end)
-
-local jewelKOS = true
-RegisterNetEvent('JewelKOS')
-AddEventHandler('JewelKOS', function()
-	if jewelKOS then
-		return
-	end
-	jewelKOS = true
-    SetPedRelationshipGroupDefaultHash(PlayerPedId(),`MISSION3`)
-    SetPedRelationshipGroupHash(PlayerPedId(),`MISSION3`)
-    Wait(60000)
-    SetPedRelationshipGroupDefaultHash(PlayerPedId(),`PLAYER`)
-    SetPedRelationshipGroupHash(PlayerPedId(),`PLAYER`)
-    jewelKOS = false
-end)
-
-
-function DropItemPedBankCard()
-
-    local pos = GetEntityCoords(PlayerPedId())
-    local myluck = math.random(5)
-
-    if myluck == 1 then
-        TriggerEvent("player:receiveItem","securityblue",1)
-    elseif myluck == 2 then
-        TriggerEvent("player:receiveItem","securityblack",1)
-    elseif myluck == 3 then
-        TriggerEvent("player:receiveItem","securitygreen",1)
-    elseif myluck == 4 then
-        TriggerEvent("player:receiveItem","securitygold",1)
-    else
-        TriggerEvent("player:receiveItem","securityred",1)
-    end
-    
-end
-
-function giveitems()
-	
-	if weaponTypeC() > 2 then
-
-		if math.random(25) == 20 then
-			DropItemPedBankCard()
-		end
-
-		TriggerEvent("player:receiveItem", "rolexwatch",math.random(5,20))
-
-		if math.random(5) == 1 then
-			TriggerEvent("player:receiveItem", "goldbar",math.random(1,20))
-		end
-
-		if math.random(69) == 69 then
-			TriggerEvent("player:receiveItem", "valuablegoods",math.random(15))
-		end
-
-		TriggerEvent("player:receiveItem", "goldbar",1)
-
-	end
-
-end
-
-isCop = false
- 
-RegisterNetEvent('nowCopSpawn')
-AddEventHandler('nowCopSpawn', function()
-    isCop = true
-end)
-
-RegisterNetEvent('nowCopSpawnOff')
-AddEventHandler('nowCopSpawnOff', function()
-    isCop = false
-end)
-RegisterNetEvent('spawning')
-AddEventHandler('spawning', function()
-    TriggerServerEvent("jewel:request")
-end)
-
-function AttackGlass(num)
-	TriggerEvent("JewelKOS")
-	if math.random(100) > 70 or weaponTypeC() > 2 then
-		Citizen.Wait(1500)
-		ClearPedTasks(PlayerPedId())
-		local plyPos = GetEntityCoords(PlayerPedId())
-		if math.random(50) > 35 then
-			TriggerServerEvent("dispatch:svNotify", {
-				dispatchCode = "10-90A",
-				origin = {
-					x = plyPos.x,
-					y = plyPos.y,
-					z = plyPos.z
-				}
-			})
-		end
-		TriggerServerEvent("jewel:hasrobbed",num)
-		TriggerEvent("customNotification","You broke the glass and got some items!",2)
-		giveitems()
-		hasrobbed[num] = true
-	else
-		TriggerEvent("customNotification","You failed to break the glass - more force would help.",2)
-		ClearPedTasks(PlayerPedId())
-	end	
-end
---jewel:request
-
-
-RegisterNetEvent('event:control:jewelRob')
-AddEventHandler('event:control:jewelRob', function(useID)
-	if not IsPedRunning(PlayerPedId()) and not IsPedSprinting(PlayerPedId()) and not isCop and copAmount >= 0 and not hasrobbed[useID] then
-		local v = locations[useID]
-		local player = GetPlayerPed( -1 )
-		TaskTurnPedToFaceCoord(player,v[1],v[2],v[3],1.0)
-		Citizen.Wait(2000)
-		loadParticle()
-		StartParticleFxLoopedAtCoord("scr_jewel_cab_smash",v[1],v[2],v[3], 0.0, 0.0, 0.0, 1.0, false, false, false, false)
-		loadAnimation()
-		AttackGlass(useID)
-	end
-end)
-
--- #MarkedForMarker
-local warning = false
-Citizen.CreateThread(function()
-	while true do
-
-		if (#(GetEntityCoords(PlayerPedId()) - vector3(-626.5326, -238.3758, 38.05)) < 100.0 and not isCop and copAmount >= 0) then
-
-			--if (#(GetEntityCoords(PlayerPedId()) - vector3(-626.5326, -238.3758, 38.05)) < 20.0 and not isCop) then
-			--	if IsPedArmed(PlayerPedId(), 7) or IsPedInMeleeCombat(PlayerPedId()) or GetPedStealthMovement(PlayerPedId()) or IsPedPerformingStealthKill(PlayerPedId()) then
-			--		TriggerEvent("JewelKOS")
-			--	end
-			--end
-
-			for i=1,#locations do
-				local v = locations[i]
-				if (#(GetEntityCoords(PlayerPedId()) - vector3(v[1],v[2],v[3])) < 0.8 ) then
-					if (not hasrobbed[i]) then
-						DrawText3Ds(v[1],v[2],v[3])
-						 if IsControlJustReleased(0, 38) then
-						 	TriggerEvent('event:control:jewelRob', 1)
-						 end
-
-					end
-				end
-			end
-			Citizen.Wait(1)
-		else
-			Citizen.Wait(6000)
-		end
-	end
-end)
-
-function loadParticle()
-	if not HasNamedPtfxAssetLoaded("scr_jewelheist") then
-    RequestNamedPtfxAsset("scr_jewelheist")
-    end
-    while not HasNamedPtfxAssetLoaded("scr_jewelheist") do
-    Citizen.Wait(0)
-    end
-    SetPtfxAssetNextCall("scr_jewelheist")
-end
-
-function loadAnimation()
-	loadAnimDict( "missheist_jewel" ) 
-	TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 2.0, 'robberyglassbreak', 0.5)
-	TaskPlayAnim( PlayerPedId(), "missheist_jewel", "smash_case", 8.0, 1.0, -1, 2, 0, 0, 0, 0 ) 
-	Citizen.Wait(2200)
-end
 
 function DT(x,y,z,text)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
@@ -302,21 +304,3 @@ function DT(x,y,z,text)
     local factor = (string.len(text)) / 370
     DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
 end
-
-function DrawText3Ds(x,y,z)
-	local text = "Press [E] to rob!"
-    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
-    local px,py,pz=table.unpack(GetGameplayCamCoords())
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-
-    SetTextEntry("STRING")
-    SetTextCentre(1)
-    AddTextComponentString(text)
-    DrawText(_x,_y)
-    local factor = (string.len(text)) / 370
-    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
-end
-
