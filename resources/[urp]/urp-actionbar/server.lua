@@ -1,6 +1,7 @@
 RegisterServerEvent("urp-weapons:updateAmmo")
 AddEventHandler('urp-weapons:updateAmmo', function(cid,newammo,ammoType,ammoTable, firstLoad)
     local source = source
+    print('breasty')
     if firstLoad == false then
         exports.ghmattimysql:execute('SELECT * FROM __ammo WHERE id = @id', {
             ['@id'] = cid,
