@@ -346,7 +346,7 @@ AddEventHandler('armed:success', function(wp,sc)
 
 end)
 
-
+--DevelopedBySterious
 function GetRandomHostile(sc,wp)
     local playerped = plyId
     local playerCoords = GetEntityCoords(playerped)
@@ -522,7 +522,7 @@ AddEventHandler('drugs:corner', function()
     MyStreetName = GetStreetNameFromHashKey(currentStreetHash)
     local dst = #(vector3(plyCoords) - vector3(143.62,-1766.86,28.4))
 
-    if (MyStreetName == "Forum Dr" or MyStreetName == "Brouge Ave" or MyStreetName == "Grove St" or MyStreetName == "Macdonald St" or MyStreetName == "Jamestown St" or MyStreetName == "Carson Ave") and exports["urp-inventory"]:hasEnoughOfItem("weedq",1,false) and dst < 500.0 then
+    if (MyStreetName == "Forum Dr" or MyStreetName == "Brouge Ave" or MyStreetName == "Grove St" or MyStreetName == "Macdonald St" or MyStreetName == "Jamestown St" or MyStreetName == "Carson Ave") and exports["np-inventory"]:hasEnoughOfItem("weedq",1,false) and dst < 500.0 then
 
 	    	TriggerEvent("DoShortHudText", "You are corner selling weed.",10)
 	    	sellingweed = true
@@ -623,7 +623,7 @@ AddEventHandler("MovePed",function(p)
 	if pedOwner == PlayerId() then
 		DecorSetBool(usingped, 'ScriptedPed', true)
 	else
-		TriggerServerEvent('urp:peds:decor', GetPlayerServerId(pedOwner), PedToNet(usingped))
+		TriggerServerEvent('np:peds:decor', GetPlayerServerId(pedOwner), PedToNet(usingped))
 	end
 
     local nm1 = math.random(6,9) / 100
@@ -711,7 +711,7 @@ AddEventHandler('AllowSale', function(NPC,saleprice, amount)
 			if pedOwner == PlayerId() then
 				DecorSetBool(NPC, 'ScriptedPed', true)
 			else
-				TriggerServerEvent('urp:peds:decor', GetPlayerServerId(pedOwner), PedToNet(NPC))
+				TriggerServerEvent('np:peds:decor', GetPlayerServerId(pedOwner), PedToNet(NPC))
 			end
 
 			-- e stroke
@@ -786,18 +786,18 @@ function SellDrugs(NPC,saleprice, amount)
 		return
 	end
 
-	local crack = exports["urp-inventory"]:hasEnoughOfItem("1gcrack",amount,false)
+	local crack = exports["np-inventory"]:hasEnoughOfItem("1gcrack",amount,false)
 	if crack and sellingcrack then
 		TriggerEvent("inventory:removeItem", "1gcrack", amount)
 	end
 
-	local weedbaggies = exports["urp-inventory"]:hasEnoughOfItem("weedq",amount,false)
+	local weedbaggies = exports["np-inventory"]:hasEnoughOfItem("weedq",amount,false)
 	if weedbaggies and sellingweed then
 		TriggerEvent("inventory:removeItem", "weedq", amount)
 	end
 
 
-	local cocaine = exports["urp-inventory"]:hasEnoughOfItem("1gcocaine",amount,false) 
+	local cocaine = exports["np-inventory"]:hasEnoughOfItem("1gcocaine",amount,false) 
 	if cocaine and sellingcocaine then
 		TriggerEvent("inventory:removeItem", "1gcocaine", amount)
 	end
@@ -1046,7 +1046,7 @@ end)
 
 function CheckAcceptWeed(workNumber,amountRequired)
 	local itemid = workArray[workNumber]["itemid"]
-	local hasitems = exports["urp-inventory"]:hasEnoughOfItem(itemid,amountRequired,false)
+	local hasitems = exports["np-inventory"]:hasEnoughOfItem(itemid,amountRequired,false)
 	if hasitems then
 		currentWorkNumber = 0
 		TriggerEvent("DoLongHudText","You have fixed the problems.",1)
@@ -1999,7 +1999,7 @@ function DoBodyTask(TaskNumber,failure,taskveh,ped)
 	if pedOwner == PlayerId() then
 		DecorSetBool(ped, 'ScriptedPed', true)
 	else
-		TriggerServerEvent('urp:peds:decor', GetPlayerServerId(pedOwner), PedToNet(ped))
+		TriggerServerEvent('np:peds:decor', GetPlayerServerId(pedOwner), PedToNet(ped))
 	end
 	SetBlockingOfNonTemporaryEvents(ped, true)		
 	SetPedSeeingRange(ped, 0.0)		
@@ -2217,50 +2217,50 @@ local storageCoords = {
 	[7] =  { ["groupid"] = "illegal_carshop",  ['x'] = -344.69,['y'] = -123.0,['z'] = 39.01,['h'] = 317.49, ['info'] = ' Customs Stash' },
 	[8] =  { ["groupid"] = "repairs_harmony", ['x'] = 1174.99,['y'] = 2636.17,['z'] = 37.76,['h'] = 317.49, ['info'] = ' Harmony Stash' },
 	[9] =  { ["groupid"] = "chop_shop", ['x'] = 548.708,['y'] = -182.292,['z'] = 54.4813,['h'] = 317.49, ['info'] = 'Stroke Masters Stash' },
-	[10] =  { ["groupid"] = "tuner_carshop", ['x'] = 949.89,['y'] = -966.78,['z'] = 39.51,['h'] = 88.5, ['info'] = ' [E] Tuner Shop Stash' },
+	[10] =  { ["groupid"] = "tuner_carshop", ['x'] = 949.89,['y'] = -966.78,['z'] = 39.51,['h'] = 88.5, ['info'] = ' Tuner Shop Stash' },
 	[11] =  { ["groupid"] = "lost_mc", ['x'] = 120.42,['y'] = 3607.11,['z'] = -26.84,['h'] = 267.32, ['info'] = ' The Lost Storage' },
 	[12] =  { ["groupid"] = "rooster_academy", ['x'] = -154.37,['y'] = 319.92,['z'] = 98.88,['h'] = 274.0, ['info'] = ' Rooster Academy Stash' },
-	[13] =  { ["groupid"] = "drift_school", ['x'] = -52.61,['y'] = -2524.91,['z'] = 7.41,['h'] = 231.69, ['info'] = ' Overboost Drift Stash' },
+	[13] =  { ["groupid"] = "DriftSchool", ['x'] = -56.17,['y'] = -2520.1,['z'] = 7.4,['h'] = 231.69, ['info'] = ' Overboost Drift Stash' },
 	[14] =  { ["groupid"] = "sahara_int", ['x'] = 883.26,['y'] = -3202.7,['z'] = -98.2,['h'] = 231.69, ['info'] = ' Sahara Stash' },
 }
 
-Citizen.CreateThread( function()
-	while not plyCoords
-	do
-		Citizen.Wait(2000)
-		plyId = PlayerPedId()
-		plyCoords = GetEntityCoords(plyId)
-	end
-	while true do 
-		local dst = 1000.0
-		for i = 1, #storageCoords do
-			local storagedist = #(vector3(storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"]) - plyCoords)
-			if storagedist < 5.0 and storagedist < dst then
-				dst = storagedist
-				if #(vector3(storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"]-0.3) - plyCoords) < 1.5 then
-					DrawText3Ds( storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"] , storageCoords[i]["info"])
-					if IsControlJustReleased(2, Controlkey["generalUse"][1]) then
-						local currentStorage = storageCoords[i]["groupid"]
-						local rank = exports['isPed']:GroupRank('tuner_carshop')
-						local job = exports["isPed"]:isPed("job")
-						if currentStorage == "tuner_carshop" and rank > 2 or job == "Police" or job == "DOJ" then
-							TriggerEvent("server-inventory-open", "1", "storage-"..storageCoords[i]["groupid"])
-						elseif currentStorage ~= "tuner_carshop" and rank > 2 or job == "Police" or job == "DOJ" then
-							TriggerEvent("server-inventory-open", "1", "storage-"..storageCoords[i]["groupid"]);	
-						else
-							TriggerEvent("DoLongHudText","You dont have permission to use this.")
-						end
-					end
-				end			
-			end
-		end
-		if dst > 5.0 then
-			Citizen.Wait(3000)
-		else
-			Citizen.Wait(1)
-		end
-	end
-end)
+-- Citizen.CreateThread( function()
+-- 	while not plyCoords
+-- 	do
+-- 		Citizen.Wait(2000)
+-- 		plyId = PlayerPedId()
+-- 		plyCoords = GetEntityCoords(plyId)
+-- 	end
+-- 	while true do 
+-- 		local dst = 1000.0
+-- 		for i = 1, #storageCoords do
+-- 			local storagedist = #(vector3(storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"]) - plyCoords)
+-- 			if storagedist < 5.0 and storagedist < dst then
+-- 				dst = storagedist
+-- 				if #(vector3(storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"]-0.3) - plyCoords) < 1.5 then
+-- 					DrawText3Ds( storageCoords[i]["x"],storageCoords[i]["y"],storageCoords[i]["z"] , storageCoords[i]["info"])
+-- 					if IsControlJustReleased(2, Controlkey["generalUse"][1]) then
+-- 						local currentStorage = storageCoords[i]["groupid"]
+-- 						local rank = exports["isPed"]:GroupRank(storageCoords[i]["groupid"])
+-- 						local myjob = exports["isPed"]:isPed("myjob")
+-- 						if currentStorage == "strip_club" and rank > 3 or myjob == "police" or myjob == "judge" then
+-- 							TriggerEvent("server-inventory-open", "1", "storage-"..storageCoords[i]["groupid"])
+-- 						elseif currentStorage ~= "strip_club" and rank > 1 or myjob == "police" or myjob == "judge" then
+-- 							TriggerEvent("server-inventory-open", "1", "storage-"..storageCoords[i]["groupid"]);	
+-- 						else
+-- 							TriggerEvent("DoLongHudText","You dont have permission to use this.")
+-- 						end
+-- 					end
+-- 				end			
+-- 			end
+-- 		end
+-- 		if dst > 5.0 then
+-- 			Citizen.Wait(3000)
+-- 		else
+-- 			Citizen.Wait(1)
+-- 		end
+-- 	end
+-- end)
 
 
 function DrawText3Ds(x,y,z, text)
@@ -2402,7 +2402,7 @@ RegisterNetEvent("weed:startcrop")
 AddEventHandler("weed:startcrop", function(seedType)
 
 
-	if not exports["urp-inventory"]:hasEnoughOfItem("plastic",3,true) then
+	if not exports["np-inventory"]:hasEnoughOfItem("plastic",3,true) then
 		return
 	end
 
@@ -2449,7 +2449,7 @@ AddEventHandler("weed:destroyplant", function()
 			end
 		end
 	end
-	local finished = exports["urp-taskbar"]:taskBar(6000,"Destroy")
+	local finished = exports["np-taskbar"]:taskBar(6000,"Destroy")
 	if finished == 100 then
 		TriggerServerEvent("weed:destroy",crops[close]["dbID"])
 	end
@@ -2565,7 +2565,7 @@ Citizen.CreateThread( function()
 					DrawText3Ds( crops[close]["x"],crops[close]["y"], crops[close]["z"] , "["..Controlkey["generalUse"][2].."] " .. crops[close]["strain"] .. " Strain  @ " .. crops[close]["growth"] .. "% - " .. cropstatus[num]["info"])
 					if IsControlJustReleased(2, Controlkey["generalUse"][1]) and #(vector3(crops[close]["x"],crops[close]["y"],crops[close]["z"]-0.3) - plyCoords) < 2.0 and counter == 0 then
 						if crops[close]["growth"] > 100 then
-							local finished = exports["urp-taskbar"]:taskBar(1000,"Picking")
+							local finished = exports["np-taskbar"]:taskBar(1000,"Picking")
 							TriggerEvent("Evidence:StateSet",4,1600)
 							
 							TriggerServerEvent("weed:killplant",crops[close]["dbID"])
@@ -2575,7 +2575,7 @@ Citizen.CreateThread( function()
 								TriggerEvent("customNotification","This crop doesnt need any attention.")
 							else
 								if crops[close]["strain"] == "Seeded" then
-									if exports["urp-inventory"]:hasEnoughOfItem("fertilizer",1,false) then
+									if exports["np-inventory"]:hasEnoughOfItem("fertilizer",1,false) then
 										TriggerEvent("Evidence:StateSet",4,1600)
 										if math.random(100) > 85 then
 											TriggerEvent("customNotification","You just consumed all the Fertilizer.")
@@ -2587,7 +2587,7 @@ Citizen.CreateThread( function()
 										TriggerEvent("customNotification","You need Fertilizer for this!")
 									end
 								else
-									if exports["urp-inventory"]:hasEnoughOfItem("water",1,false) then
+									if exports["np-inventory"]:hasEnoughOfItem("water",1,false) then
 										TriggerEvent("Evidence:StateSet",4,1600)
 										TriggerEvent("inventory:removeItem", "water", 1)
 										local new = crops[close]["growth"] + math.random(14,17)
@@ -2603,6 +2603,112 @@ Citizen.CreateThread( function()
 				end
 			end
 
+		end
+	end
+end)
+
+
+
+ Citizen.CreateThread(function()
+     while true do
+         Citizen.Wait(1)
+         local storagedist = PlayerPedId()
+         local x,y,z = 949.89, -966.78, 39.51
+ 		local drawtext = " Tuner Shop Stash"
+ 		local rank = exports['isPed']:GroupRank('tuner_carshop')
+ 		local job = exports["isPed"]:isPed("job")
+         local plyCoords = GetEntityCoords(storagedist)
+         local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+         if distance <= 1.2 then
+             DrawText3Ds(x,y,z, drawtext) 
+             if IsControlJustReleased(0, 38) then
+ 			if currentStorage == "tuner_carshop" and rank > 2 or job == "Police" or job == "DOJ" then
+ 				TriggerEvent("server-inventory-open", "1", "storage-tuner_carshop")
+ 			elseif currentStorage ~= "tuner_carshop" and rank > 2 or job == "Police" or job == "DOJ" then
+ 				TriggerEvent("server-inventory-open", "1", "storage-tuner_carshop")	
+ 			else
+ 				TriggerEvent("DoLongHudText","You dont have permission to use this.")
+             	end
+         	end
+ 		end
+ 	end
+ end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		local storagedist = PlayerPedId()
+		local x,y,z = 955.81, -958.27, 40.2
+		local drawtext = " [E] To Access Materials"
+		local rank = exports['isPed']:GroupRank('tuner_carshop')
+		local job = exports["isPed"]:isPed("job")
+		local plyCoords = GetEntityCoords(storagedist)
+		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+		if distance <= 1.2 then
+			DrawText3Ds(x,y,z, drawtext) 
+			if IsControlJustReleased(0, 38) then
+			if currentStorage == "tuner_carshop" and rank > 0 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-materials")
+			elseif currentStorage ~= "tuner_carshop" and rank > 0 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-materials")	
+			else
+				TriggerEvent("DoLongHudText","You dont have permission to use this.")
+				end
+			end
+		end
+	end
+end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		local storagedist = PlayerPedId()
+		local x,y,z = -56.17, -2520.1, 7.4
+		local drawtext = " Overboost Drift Stash"
+		local rank = exports['isPed']:GroupRank('DriftSchool')
+		local job = exports["isPed"]:isPed("job")
+		local plyCoords = GetEntityCoords(storagedist)
+		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+		if distance <= 1.2 then
+			DrawText3Ds(x,y,z, drawtext) 
+			if IsControlJustReleased(0, 38) then
+			if currentStorage == "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
+			elseif currentStorage ~= "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")	
+			else
+				TriggerEvent("DoLongHudText","You dont have permission to use this.")
+				end
+			end
+		end
+	end
+end)
+
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1)
+		local storagedist = PlayerPedId()
+		local x,y,z = 1174.99, 2636.17, 37.76
+		local drawtext = " Harmony Stash"
+		local rank = exports['isPed']:GroupRank('repairs_harmony')
+		local job = exports["isPed"]:isPed("job")
+		local plyCoords = GetEntityCoords(storagedist)
+		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+		if distance <= 1.2 then
+			DrawText3Ds(x,y,z, drawtext) 
+			if IsControlJustReleased(0, 38) then
+			if currentStorage == "repairs_harmony" and rank > 2 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-Harmony Stash")
+			elseif currentStorage ~= "repairs_harmony" and rank > 2 or job == "Police" or job == "DOJ" then
+				TriggerEvent("server-inventory-open", "1", "storage-Harmony Stash")	
+			else
+				TriggerEvent("DoLongHudText","You dont have permission to use this.")
+				end
+			end
 		end
 	end
 end)
