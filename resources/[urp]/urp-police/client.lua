@@ -12,12 +12,9 @@ local signOnPoint = {
 }
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(100)
-		while LocalPlayer == nil do
-			LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
-			Player = LocalPlayer:getCurrentCharacter()
-		end
+	while LocalPlayer == nil do
+		LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
+		Player = LocalPlayer:getCurrentCharacter()
 	end
 end)
 
@@ -46,6 +43,7 @@ local isDead = false
 function isCop()
 	local uJob = exports['isPed']:isPed('job')
 	if uJob == "Police" then return true end
+	if uJob == 'OffPolice' then return true end
 	return false
 end
 
@@ -199,22 +197,24 @@ Citizen.CreateThread(function()
 					DrawText3DTest(v.x, v.y, v.z,"[E] - Sign Off Duty")
 		
 					if IsControlJustReleased(1, 38) then
+						LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
+						Player = LocalPlayer:getCurrentCharacter()
 						TriggerEvent("DoLongHudText","10-42, thank you for your service.")
 						LocalPlayer:setJob(Player.id, 'OffPolice')
 						removeDutyRadio()
 						CopAmount = CopAmount - 1
-						-- print(CopAmount)
 					end
 		
 				else
 					DrawText3DTest(v.x, v.y, v.z,"[E] - Sign On Duty")
 		
 					if IsControlJustReleased(1, 38) then
+						LocalPlayer = exports['urp-base']:getModule("LocalPlayer")
+						Player = LocalPlayer:getCurrentCharacter()
 						TriggerEvent("DoLongHudText","10-41 and restocked.")
 						LocalPlayer:setJob(Player.id, 'Police')
 						CopAmount = CopAmount + 1
 						giveDutyRadio()
-						-- print(CopAmount)
 					end
 				end
 			end
@@ -227,7 +227,10 @@ Citizen.CreateThread(function()
 				DrawText3DTest(452.1969, -980.0229, 30.6896, "[E] - Open Police Armory")
 
 				if IsControlJustReleased(1, 38) then
-					TriggerEvent('server-inventory-open', 10, "Shop")
+					local job = exports['isPed']:isPed('job')
+					if job == 'Police' or 'OffPolice' then
+						TriggerEvent('server-inventory-open', 10, "Shop")
+					end
 				end
 
 			end
