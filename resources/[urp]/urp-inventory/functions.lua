@@ -486,6 +486,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
 
     if (itemid == "thermite") then
       TriggerServerEvent("robbery:triggerItemUsedServer",itemid)
+      TriggerEvent('urp-robbery:securityBlueUsed')
     end
 
     if(itemid == "evidencebag") then
@@ -895,7 +896,6 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
            
     end
     if (itemid == "securityblue")  then
-        TriggerEvent('urp-robbery:securityBlueUsed')       
     end
 
     if (itemid == "Largesupplycrate") then
