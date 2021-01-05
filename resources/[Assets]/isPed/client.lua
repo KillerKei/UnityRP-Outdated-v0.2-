@@ -16,6 +16,22 @@ userValues = {
   carkeys = {}, -- Unfinished (Think Of Way To Manage)
 }
 
+--RegisterCommand("myPed", function(src, args)
+--  TriggerServerEvent("kazumi:getUserId")
+  --local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
+  --local Player = LocalPlayer:getCurrentCharacter()
+
+  --print(json.encode(Player.firstname)) --null
+  --print(json.encode(Player.lastname)) --null
+  --print(json.encode(Player.bank))
+  --print(json.encode(Player.cash))
+  --print(json.encode(Player.licenses)) --null
+  --print(json.encode(Player.job))
+
+
+
+--end)
+
 local pedsused = {}
 
 
