@@ -14,10 +14,6 @@ local plyFirstJoin = false
 local nearDefault = false
 local bennyLocation = vector3(-211.55, -1324.55, 30.90)
 
-
-
-
-
 local bennyHeading = 319.73135375977
 
 local originalCategory = nil
