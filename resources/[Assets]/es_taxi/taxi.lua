@@ -45,14 +45,14 @@ local lastSpawn
 local isTaxi = false
 local isNews = false
 
-
+local myjob = exports["isPed"]:isPed("job")
 
 
 
 jobs = {peds = {}, flag = {}, blip = {}, cars = {}, coords = {cx={}, cy={}, cz={}}}
 
 function StartJob(jobid)
-	if jobid == 1 then -- taxi
+	if myjob == "taxi" then -- taxi
 		showLoadingPromt("Loading taxi mission", 2000, 3)
 		jobs.coords.cx[1],jobs.coords.cy[1],jobs.coords.cz[1] = 293.476,-590.163,42.7371
 		jobs.coords.cx[2],jobs.coords.cy[2],jobs.coords.cz[2] = 253.404,-375.86,44.0819
