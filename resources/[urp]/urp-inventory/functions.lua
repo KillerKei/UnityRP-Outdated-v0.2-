@@ -709,6 +709,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
 
     if (itemid == "coffee") then
         AttachPropAndPlayAnimation("amb@world_human_drinking@coffee@male@idle_a", "idle_c", 49,6000,"Drink","coffee:drink",true,itemid,playerVeh)
+        SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
     end
 
     if (itemid == "chips") then
