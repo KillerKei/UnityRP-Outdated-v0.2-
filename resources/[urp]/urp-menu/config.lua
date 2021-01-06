@@ -44,6 +44,7 @@ rootMenuConfig =  {
         end,
         subMenus = {"police:escort", "police:putinvehicle", "police:unseatnearest", "police:hardcuff", "police:softcuff", "police:uncuff", "police:panic", "police:pdrevive", "cuffs:checkinventory", "police:frisk", "police:mdt"}
     },
+
     {
         id = "police-vehicle",
         displayName = "Police Vehicle",
@@ -101,6 +102,18 @@ rootMenuConfig =  {
             return (Player.job == 'Police' and not isDead)
         end,
        subMenus = {"k9:follow", "k9:vehicle",  "k9:sniffvehicle", "k9:huntfind", "k9:sit", "k9:stand", "k9:sniff", "k9:lay",  "k9:spawn", "k9:delete", }
+    },
+    {
+        id = "uberdriver",
+        displayName = "Uber Delivery",
+        icon = "#police-vehicle",
+        enableMenu = function()
+            isDead = exports["urp-deathmanager"]:GetDeath()
+            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
+            local Player = LocalPlayer:getCurrentCharacter()
+            return (Player.job == 'uberdevelivery' and not isDead)
+        end,
+       subMenus = {"uber:start", "uber:finish", }
     },
     {
         id = "animations",
@@ -517,6 +530,16 @@ newSubMenus = {
         title = "Hunt nearest",
         icon = "#k9-huntfind",
         functionName = "K9:Huntfind"
+    },
+    ['uber:start'] = {
+        title = "Start Delivery",
+        icon = "#police-action-mdt",
+        functionName = "urp-uberdelivery:start"
+    },
+    ['uber:finish'] = {
+        title = "End Delivery",
+        icon = "#police-action-mdt",
+        functionName = "urp-uberdelivery:end"
     },
     ['judge:grantDriver'] = {
         title = "Grant Drivers",
