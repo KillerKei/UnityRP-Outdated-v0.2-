@@ -907,7 +907,7 @@ function rundropoff(boxcount,costs)
   local location = pickuppoints[math.random(#pickuppoints)]
   CreateBlip(location)
   while timer > 0 do
-    Citizen.Wait(1)
+    Citizen.Wait(1000)
     local plycoords = GetEntityCoords(PlayerPedId())
     local dstcheck = #(plycoords - vector3(location["x"],location["y"],location["z"])) 
     if dstcheck < 5.0 then

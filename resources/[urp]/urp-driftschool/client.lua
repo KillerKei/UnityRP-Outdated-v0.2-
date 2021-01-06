@@ -1,3 +1,5 @@
+job = nil
+
 local repairPoints = {
     vector3(-105.95,-2512.33,5.36),
     vector3(-169.13,-2462.67,6.3)
@@ -315,5 +317,39 @@ Citizen.CreateThread(function()
             -- print(rank)
             Citizen.Wait(10000)
         end
+    end
+end)
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end
+
+Citizen.CreateThread(function()
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z,-56.17852,-2520.19, 7.401162,false)
+        if distance <= 1.2 then
+            DrawText3D(-56.17852,-2520.19, 7.401162, "[E] - Overboost Drift Stash")
+            if IsControlJustReleased(0, 38) then
+               if exports['isPed']:isPed('job') == 'DriftSchool' then
+                Citizen.Wait(1)
+                TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
+               end 
+            end
+        end
+        Citizen.Wait(5)
     end
 end)
