@@ -301,7 +301,7 @@ function rewarduber()
 	if ispedhomechance == 1 then
 		chanceofcivstick = math.random(1,6)
 		price = math.random(80,100)
-        TriggerServerEvent( 'urp-uber:pay', 250 )
+        TriggerServerEvent( 'urp-uber:pay', 82 )
 		TriggerEvent('DoLongHudText', 'Package Delivered', 1)
 		TriggerEvent('DoLongHudText', 'Recieved Tip', 2)
 		removeblips()
@@ -312,7 +312,7 @@ function rewarduber()
 		enditall()
 		elseif ispedhomechance ~= 1 then
 		price = math.random(60,80)
-		TriggerServerEvent( 'urp-uber:pay', 250 )
+		TriggerServerEvent( 'urp-uber:pay', 82 )
 		TriggerEvent('DoLongHudText', 'Package Delivered', 1)
 		removeblips()
 		hasdelivery = false
