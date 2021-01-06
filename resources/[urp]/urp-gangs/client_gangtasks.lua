@@ -522,7 +522,7 @@ AddEventHandler('drugs:corner', function()
     MyStreetName = GetStreetNameFromHashKey(currentStreetHash)
     local dst = #(vector3(plyCoords) - vector3(143.62,-1766.86,28.4))
 
-    if (MyStreetName == "Forum Dr" or MyStreetName == "Brouge Ave" or MyStreetName == "Grove St" or MyStreetName == "Macdonald St" or MyStreetName == "Jamestown St" or MyStreetName == "Carson Ave") and exports["np-inventory"]:hasEnoughOfItem("weedq",1,false) and dst < 500.0 then
+    if (MyStreetName == "Forum Dr" or MyStreetName == "Brouge Ave" or MyStreetName == "Grove St" or MyStreetName == "Macdonald St" or MyStreetName == "Jamestown St" or MyStreetName == "Carson Ave") and exports["urp-inventory"]:hasEnoughOfItem("weedq",1,false) and dst < 500.0 then
 
 	    	TriggerEvent("DoShortHudText", "You are corner selling weed.",10)
 	    	sellingweed = true
@@ -786,18 +786,18 @@ function SellDrugs(NPC,saleprice, amount)
 		return
 	end
 
-	local crack = exports["np-inventory"]:hasEnoughOfItem("1gcrack",amount,false)
+	local crack = exports["urp-inventory"]:hasEnoughOfItem("1gcrack",amount,false)
 	if crack and sellingcrack then
 		TriggerEvent("inventory:removeItem", "1gcrack", amount)
 	end
 
-	local weedbaggies = exports["np-inventory"]:hasEnoughOfItem("weedq",amount,false)
+	local weedbaggies = exports["urp-inventory"]:hasEnoughOfItem("weedq",amount,false)
 	if weedbaggies and sellingweed then
 		TriggerEvent("inventory:removeItem", "weedq", amount)
 	end
 
 
-	local cocaine = exports["np-inventory"]:hasEnoughOfItem("1gcocaine",amount,false) 
+	local cocaine = exports["urp-inventory"]:hasEnoughOfItem("1gcocaine",amount,false) 
 	if cocaine and sellingcocaine then
 		TriggerEvent("inventory:removeItem", "1gcocaine", amount)
 	end
@@ -1046,7 +1046,7 @@ end)
 
 function CheckAcceptWeed(workNumber,amountRequired)
 	local itemid = workArray[workNumber]["itemid"]
-	local hasitems = exports["np-inventory"]:hasEnoughOfItem(itemid,amountRequired,false)
+	local hasitems = exports["urp-inventory"]:hasEnoughOfItem(itemid,amountRequired,false)
 	if hasitems then
 		currentWorkNumber = 0
 		TriggerEvent("DoLongHudText","You have fixed the problems.",1)
@@ -2402,7 +2402,7 @@ RegisterNetEvent("weed:startcrop")
 AddEventHandler("weed:startcrop", function(seedType)
 
 
-	if not exports["np-inventory"]:hasEnoughOfItem("plastic",3,true) then
+	if not exports["urp-inventory"]:hasEnoughOfItem("plastic",3,true) then
 		return
 	end
 
@@ -2449,7 +2449,7 @@ AddEventHandler("weed:destroyplant", function()
 			end
 		end
 	end
-	local finished = exports["np-taskbar"]:taskBar(6000,"Destroy")
+	local finished = exports["urp-taskbar"]:taskBar(6000,"Destroy")
 	if finished == 100 then
 		TriggerServerEvent("weed:destroy",crops[close]["dbID"])
 	end
@@ -2566,7 +2566,7 @@ Citizen.CreateThread( function()
 					DrawText3Ds( crops[close]["x"],crops[close]["y"], crops[close]["z"] , "["..Controlkey["generalUse"][2].."] " .. crops[close]["strain"] .. " Strain  @ " .. crops[close]["growth"] .. "% - " .. cropstatus[num]["info"])
 					if IsControlJustReleased(2, Controlkey["generalUse"][1]) and #(vector3(crops[close]["x"],crops[close]["y"],crops[close]["z"]-0.3) - plyCoords) < 2.0 and counter == 0 then
 						if crops[close]["growth"] > 100 then
-							local finished = exports["np-taskbar"]:taskBar(1000,"Picking")
+							local finished = exports["urp-taskbar"]:taskBar(1000,"Picking")
 							TriggerEvent("Evidence:StateSet",4,1600)
 							
 							TriggerServerEvent("weed:killplant",crops[close]["dbID"])
@@ -2576,7 +2576,7 @@ Citizen.CreateThread( function()
 								TriggerEvent("customNotification","This crop doesnt need any attention.")
 							else
 								if crops[close]["strain"] == "Seeded" then
-									if exports["np-inventory"]:hasEnoughOfItem("fertilizer",1,false) then
+									if exports["urp-inventory"]:hasEnoughOfItem("fertilizer",1,false) then
 										TriggerEvent("Evidence:StateSet",4,1600)
 										if math.random(100) > 85 then
 											TriggerEvent("customNotification","You just consumed all the Fertilizer.")
@@ -2588,7 +2588,7 @@ Citizen.CreateThread( function()
 										TriggerEvent("customNotification","You need Fertilizer for this!")
 									end
 								else
-									if exports["np-inventory"]:hasEnoughOfItem("water",1,false) then
+									if exports["urp-inventory"]:hasEnoughOfItem("water",1,false) then
 										TriggerEvent("Evidence:StateSet",4,1600)
 										TriggerEvent("inventory:removeItem", "water", 1)
 										local new = crops[close]["growth"] + math.random(14,17)
@@ -2608,9 +2608,7 @@ Citizen.CreateThread( function()
 	end
 end)
 
-
-
- Citizen.CreateThread(function()
+ --[[ Citizen.CreateThread(function()
      while true do
          Citizen.Wait(6)
          local storagedist = PlayerPedId()
@@ -2659,30 +2657,84 @@ Citizen.CreateThread(function()
 			end
 		end
 	end
-end)
+end)--]]
 
+--NEW CODE MORTAL 
 
 Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(6)
-		local storagedist = PlayerPedId()
-		local x,y,z = 1174.99, 2636.17, 37.76
-		local drawtext = " Harmony Stash"
-		local rank = exports['isPed']:GroupRank('repairs_harmony')
-		local job = exports["isPed"]:isPed("job")
-		local plyCoords = GetEntityCoords(storagedist)
-		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
-		if distance <= 1.2 then
-			DrawText3Ds(x,y,z, drawtext) 
-			if IsControlJustReleased(0, 38) then
-			if currentStorage == "repairs_harmony" and rank > 2 or job == "Police" or job == "DOJ" then
-				TriggerEvent("server-inventory-open", "1", "storage-Harmony Stash")
-			elseif currentStorage ~= "repairs_harmony" and rank > 2 or job == "Police" or job == "DOJ" then
-				TriggerEvent("server-inventory-open", "1", "storage-Harmony Stash")	
-			else
-				TriggerEvent("DoLongHudText","You dont have permission to use this.")
-				end
-			end
-		end
-	end
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z,949.89, -966.78, 39.51,false)
+        if distance <= 1.2 then
+            DrawText3D(949.89, -966.78, 39.51, "Tuner Shop Stash")
+            if IsControlJustReleased(0, 38) then
+               if exports['isPed']:isPed('job') == 'tuner_carshop' then
+                Citizen.Wait(1)
+				TriggerEvent("server-inventory-open", "1", "storage-tuner_carshop")	
+               end 
+            end
+        end
+        Citizen.Wait(5)
+    end
 end)
+
+Citizen.CreateThread(function()
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z, 955.81, -958.27, 40.2,false)
+        if distance <= 1.2 then
+            DrawText3D( 955.81, -958.27, 40.2, "[E] To Access Materials")
+            if IsControlJustReleased(0, 38) then
+               if exports['isPed']:isPed('job') == 'tuner_carshop' then
+                Citizen.Wait(1)
+				TriggerEvent("server-inventory-open", "1", "storage-materials")	
+               end 
+            end
+        end
+        Citizen.Wait(5)
+    end
+end)
+
+Citizen.CreateThread(function()
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z, 955.81, -958.27, 40.2,false)
+        if distance <= 1.2 then
+            DrawText3D( 955.81, -958.27, 40.2, "[E] To Access Materials")
+            if IsControlJustReleased(0, 38) then
+               if exports['isPed']:isPed('job') == 'tuner_carshop' then
+                Citizen.Wait(1)
+				TriggerEvent("server-inventory-open", "1", "storage-materials")	
+               end 
+            end
+        end
+        Citizen.Wait(5)
+    end
+end)
+
+function DrawText3D(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    local dist = #(vector3(px,py,pz) - vector3(x,y,z))
+    local fov = (1/GetGameplayCamFov())*100
+    if onScreen then
+        SetTextScale(0.2,0.2)
+        SetTextFont(0)
+        SetTextProportional(1)
+        SetTextColour(255, 255, 255, 255)
+        SetTextDropshadow(0, 0, 0, 0, 55)
+        SetTextEdge(2, 0, 0, 0, 150)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        SetTextCentre(1)
+        AddTextComponentString(text)
+        DrawText(_x,_y)
+    end
+end
