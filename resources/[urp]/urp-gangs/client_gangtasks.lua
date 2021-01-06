@@ -993,7 +993,7 @@ function workvehicle()
     SetVehicleOnGroundProperly(veh)
 	local plate = "wine" .. math.random(111,999)
 	SetVehicleNumberPlateText(veh, plate)
-	Citizen.Wait(100)
+	Citizen.Wait(1)
 	plate = GetVehicleNumberPlateText(veh)
     TriggerEvent("keys:addNew",veh,plate)
     TriggerServerEvent('garges:addJobPlate', plate)
@@ -2522,6 +2522,7 @@ end)
 Citizen.CreateThread( function()
 	local counter = 0
 	while true do 
+		Citizen.Wait(20)
 
 		if not inhouse then
 			Citizen.Wait(3000)
@@ -2611,7 +2612,7 @@ end)
 
  Citizen.CreateThread(function()
      while true do
-         Citizen.Wait(1)
+         Citizen.Wait(6)
          local storagedist = PlayerPedId()
          local x,y,z = 949.89, -966.78, 39.51
  		local drawtext = " Tuner Shop Stash"
@@ -2637,7 +2638,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Citizen.Wait(6)
 		local storagedist = PlayerPedId()
 		local x,y,z = 955.81, -958.27, 40.2
 		local drawtext = " [E] To Access Materials"
@@ -2663,34 +2664,7 @@ end)
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(1)
-		local storagedist = PlayerPedId()
-		local x,y,z = -56.17, -2520.1, 7.4
-		local drawtext = " Overboost Drift Stash"
-		local rank = exports['isPed']:GroupRank('DriftSchool')
-		local job = exports["isPed"]:isPed("job")
-		local plyCoords = GetEntityCoords(storagedist)
-		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
-		if distance <= 1.2 then
-			DrawText3Ds(x,y,z, drawtext) 
-			if IsControlJustReleased(0, 38) then
-			if currentStorage == "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
-				TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
-			elseif currentStorage ~= "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
-				TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")	
-			else
-				TriggerEvent("DoLongHudText","You dont have permission to use this.")
-				end
-			end
-		end
-	end
-end)
-
-
-
-Citizen.CreateThread(function()
-	while true do
-		Citizen.Wait(1)
+		Citizen.Wait(6)
 		local storagedist = PlayerPedId()
 		local x,y,z = 1174.99, 2636.17, 37.76
 		local drawtext = " Harmony Stash"

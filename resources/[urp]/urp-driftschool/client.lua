@@ -1,3 +1,5 @@
+job = nil
+
 local repairPoints = {
     vector3(-105.95,-2512.33,5.36),
     vector3(-169.13,-2462.67,6.3)
@@ -314,6 +316,47 @@ Citizen.CreateThread(function()
             rank = exports['isPed']:isPed('job')
             -- print(rank)
             Citizen.Wait(10000)
+        end
+    end
+end)
+
+function DrawText3Ds(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+    local factor = (string.len(text)) / 370
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end
+
+Citizen.CreateThread(function()
+	while true do
+        Citizen.Wait(6)
+		local storagedist = PlayerPedId()
+		local x,y,z = -56.17, -2520.1, 7.4
+		local drawtext = " Overboost Drift Stash"
+		local rank = exports['isPed']:GroupRank('DriftSchool')
+		local job = exports["isPed"]:isPed("job")
+		local plyCoords = GetEntityCoords(storagedist)
+		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+        if distance <= 1.2 then
+			DrawText3Ds(x,y,z, drawtext) 
+			if IsControlJustReleased(0, 38) then
+                if currentStorage == "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
+                    TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
+                elseif currentStorage ~= "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
+                    TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")	
+                else
+                    TriggerEvent("DoLongHudText","You dont have permission to use this.")
+                    end
+                end
+            end
         end
     end
 end)
