@@ -336,27 +336,20 @@ function DrawText3Ds(x,y,z, text)
 end
 
 Citizen.CreateThread(function()
-	while true do
-        Citizen.Wait(6)
-		local storagedist = PlayerPedId()
-		local x,y,z = -56.17, -2520.1, 7.4
-		local drawtext = " Overboost Drift Stash"
-		local rank = exports['isPed']:GroupRank('DriftSchool')
-		local job = exports["isPed"]:isPed("job")
-		local plyCoords = GetEntityCoords(storagedist)
-		local distance = GetDistanceBetweenCoords(plyCoords.x,plyCoords.y,plyCoords.z,x,y,z,false)
+    Citizen.Wait(1000)
+    while true do
+    local ped = GetPlayerPed(-1)
+    local pos = GetEntityCoords(ped)
+    local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z,-56.17852,-2520.19, 7.401162,false)
         if distance <= 1.2 then
-			DrawText3Ds(x,y,z, drawtext) 
-			if IsControlJustReleased(0, 38) then
-                if currentStorage == "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
-                    TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
-                elseif currentStorage ~= "DriftSchool" and rank > 2 or job == "Police" or job == "DOJ" then
-                    TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")	
-                else
-                    TriggerEvent("DoLongHudText","You dont have permission to use this.")
-                    end
-                end
+            DrawText3D(-56.17852,-2520.19, 7.401162, "[E] - Overboost Drift Stash")
+            if IsControlJustReleased(0, 38) then
+               if exports['isPed']:isPed('job') == 'DriftSchool' then
+                Citizen.Wait(1)
+                TriggerEvent("server-inventory-open", "1", "storage-Overboost Drift Stash")
+               end 
             end
         end
+        Citizen.Wait(5)
     end
 end)
