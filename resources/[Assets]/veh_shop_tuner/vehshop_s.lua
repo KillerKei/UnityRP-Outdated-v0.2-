@@ -17,8 +17,8 @@ AddEventHandler('BuyForVeh', function(cid, plate, name, model, vehicle, price, p
     end
 end)
 
-RegisterServerEvent('carshop:table')
-AddEventHandler('carshop:table', function(data)
+RegisterServerEvent('carshop:table69')
+AddEventHandler('carshop:table69', function(data)
     TriggerClientEvent('veh_shop_tuner:returnTable', -1, data)
     carTable = data
 end)

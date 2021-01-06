@@ -240,10 +240,10 @@ function updateCarTable(model,price,name)
 	carTable[currentCarSpawnLocation]["model"] = model
 	carTable[currentCarSpawnLocation]["baseprice"] = price
 	carTable[currentCarSpawnLocation]["name"] = name
-	TriggerServerEvent("carshop:table",carTable)
+	TriggerServerEvent("carshop:table69",carTable)
 end
 Citizen.CreateThread(function()
-	TriggerServerEvent("carshop:table",carTable)
+	TriggerServerEvent("carshop:table69",carTable)
 end)
 
 
