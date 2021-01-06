@@ -11,11 +11,8 @@ local jobs = {
   {name="News", id="News"},
   {name="Taxi Driver", id="Taxi"},
   {name="Barber", id="Barber"},
-  --{name="Lumberjack Job", id="lumberjack"},
+  {name="Uber Delivery", id="uberdevelivery"},
 }
-
-
-
 ---------------------------------- FUNCTIONS ----------------------------------
 
 function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
