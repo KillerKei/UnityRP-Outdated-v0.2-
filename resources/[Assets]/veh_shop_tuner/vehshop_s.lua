@@ -1,13 +1,13 @@
 local carTable = {}
 
-RegisterServerEvent('CheckMoneyForVeh')
-AddEventHandler('CheckMoneyForVeh', function(name, model, costs, financed)
+RegisterServerEvent('CheckMoneyForVeh69')
+AddEventHandler('CheckMoneyForVeh69', function(name, model, costs, financed)
     local source = source
     TriggerClientEvent('FinishMoneyCheckForVeh', source, name, model, costs, financed)
 end)
 
-RegisterServerEvent('BuyForVeh')
-AddEventHandler('BuyForVeh', function(cid, plate, name, model, vehicle, price, personalvehicle, financed, amount_due)
+RegisterServerEvent('BuyForVeh69')
+AddEventHandler('BuyForVeh69', function(cid, plate, name, model, vehicle, price, personalvehicle, financed, amount_due)
     if financed == true then
         exports.ghmattimysql:execute('INSERT INTO __vehicles(cid, plate, name, model, vehicle, price, personalvehicle, financed, amount_due, last_payment) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', {cid, plate, name, model, json.encode(vehicle), price, personalvehicle, financed, amount_due, 2880})
         TriggerClientEvent("veh_shop_tuner:setPlate", source, vehicle, plate)
@@ -23,9 +23,9 @@ AddEventHandler('carshop:table69', function(data)
     carTable = data
 end)
 
-RegisterServerEvent('finance:enable')
-AddEventHandler('finance:enable', function(plate)
-    TriggerClientEvent('finance:enableOnClient', -1, plate)
+RegisterServerEvent('finance:enable69')
+AddEventHandler('finance:enable69', function(plate)
+    TriggerClientEvent('finance:enableOnClient69', -1, plate)
 end)
 
 RegisterServerEvent('carshop:requesttable')

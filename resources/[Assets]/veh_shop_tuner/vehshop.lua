@@ -298,12 +298,12 @@ RegisterCommand('setfinance', function(source)
 		return
 	end
 	local vehplate = GetVehicleNumberPlateText(veh)	
-	TriggerServerEvent("finance:enable",vehplate)
+	TriggerServerEvent("finance:enable69",vehplate)
 	TriggerEvent('DoLongHudText', "This vehicle can now be financed for the next 1 minute(s).")
 end)
 
-RegisterNetEvent("finance:enableOnClient")
-AddEventHandler("finance:enableOnClient", function(addplate)
+RegisterNetEvent("finance:enableOnClient69")
+AddEventHandler("finance:enableOnClient69", function(addplate)
 	financedPlates[addplate] = true
 	Citizen.Wait(60000)
 	financedPlates[addplate] = nil
@@ -382,7 +382,7 @@ function AttemptBuy(tableid,financed)
 	if tonumber(Player.bank) >= price then
 		currentlocation = vehshop_blips[1]
 		TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
-		TriggerServerEvent('CheckMoneyForVeh',name, model, price, financed)
+		TriggerServerEvent('CheckMoneyForVeh69',name, model, price, financed)
 		commissionbuy = (baseprice * commission/200)
 		if financed == true then
 			LocalPlayer:removeBank(Player.id, math.ceil(price/4))
@@ -392,7 +392,7 @@ function AttemptBuy(tableid,financed)
 	elseif tonumber(Player.cash) >= price then
 		currentlocation = vehshop_blips[1]
 		TaskWarpPedIntoVehicle(PlayerPedId(),veh,-1)
-		TriggerServerEvent('CheckMoneyForVeh',name, model, price, financed)
+		TriggerServerEvent('CheckMoneyForVeh69',name, model, price, financed)
 		commissionbuy = (baseprice * commission/200)
 		if financed == true then
 			LocalPlayer:removeCash(Player.id, math.ceil(price/4))
@@ -742,10 +742,10 @@ function CloseCreator(name, veh, price, financed)
 				local Player = LocalPlayer:getCurrentCharacter()
 				if financed ~= nil then
 					TriggerEvent("DoLongHudText", "Purchased vehicle for: [$".. math.ceil(price/4).."] down & still owe: [$".. price .. "] over 10 week(s).")
-					TriggerServerEvent('BuyForVeh', Player.id, plate, name, vehicle, vehProps, price, personalvehicle, financed, price - math.ceil(price/4))
+					TriggerServerEvent('BuyForVeh69', Player.id, plate, name, vehicle, vehProps, price, personalvehicle, financed, price - math.ceil(price/4))
 				else
 					TriggerEvent("DoLongHudText", "Purchased vehicle for: [$".. price.."]")
-					TriggerServerEvent('BuyForVeh', Player.id, plate, name, vehicle, vehProps, price, personalvehicle, false, 0)
+					TriggerServerEvent('BuyForVeh69', Player.id, plate, name, vehicle, vehProps, price, personalvehicle, false, 0)
 				end
 				DespawnSaleVehicles()
 				SpawnSaleVehicles()
