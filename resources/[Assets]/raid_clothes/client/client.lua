@@ -650,6 +650,90 @@ AddEventHandler("clothing:close", function()
     EnableGUI(false, false)
 end)
 
+RegisterCommand("outfitadd", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) then
+        if args[1] and args[2] then
+            TriggerEvent('raid_clothes:outfits', 1, args[1], args[2])
+        else
+            TriggerEvent('DoLongHudText', "You need to do something like /outfitadd 1 party | 1 being the slot id, party is the name of your outfit", 1)
+        end
+    else
+        TriggerEvent('DoLongHudText', "You are not near a wardrobe", 2)
+    end
+end, false)
+
+RegisterCommand("outfituse", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) then
+        if args[1] then
+            TriggerEvent('raid_clothes:outfits', 3, args[1])
+        else
+            TriggerEvent('DoLongHudText', "You need to do something like /outfituse 1 | 1 being the slot id that you will have had previously saved", 1)
+        end
+    else
+        TriggerEvent('DoLongHudText', "You are not near a wardrobe", 2)
+    end
+end, false) 
+
+RegisterCommand("outfitdel", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) then
+        if args[1] then
+            TriggerEvent('raid_clothes:outfits', 2, args[1])
+        else
+            TriggerEvent('DoLongHudText', "You need to do something like /outfituse 1 | 1 being the slot id that you will have had previously saved", 1)  
+        end
+    else
+        TriggerEvent('DoLongHudText', "You are not near a wardrobe", 2)
+    end
+end, false) 
+
+RegisterCommand("outfits", function(source, args, rawCommand)
+    if (IsNearShop(clothingShops) < 9.0) then
+        TriggerEvent('raid_clothes:outfits', 4)
+    else
+        TriggerEvent('DoLongHudText', "You are not near a wardrobe", 2)
+    end
+end, false)  
+
+RegisterCommand("g1", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",2,false)
+end, false)
+
+RegisterCommand("g0", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",2,true)
+end, false)
+
+RegisterCommand("e1", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",3,false)
+end, false)
+
+RegisterCommand("e0", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",3,true)
+end, false)
+
+RegisterCommand("m1", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",4,false)
+end, false)
+
+RegisterCommand("m0", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",4,true)
+end, false)
+
+RegisterCommand("t1", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",5,false)
+end, false)
+
+RegisterCommand("t0", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",5,true)
+end, false)
+
+RegisterCommand("h1", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",6,false)
+end, false)
+
+RegisterCommand("h0", function(source, args, rawCommand)
+    TriggerEvent("facewear:adjust",6,true)
+end, false)
+
 RegisterNUICallback('escape', function(data, cb)
     TriggerServerEvent("Police:getMeta")
     Save(data['save'])
@@ -825,7 +909,7 @@ Citizen.CreateThread(function()
         local nearbarber = IsNearShop(barberShops)
         local jailcheck = GetInteriorFromEntity(GetPlayerPed(PlayerId()))
 
-        local StoreCost = 400;
+        local StoreCost = 50;
 
         local menu = nil
 
@@ -898,7 +982,7 @@ AddEventHandler("raid_clothes:hasEnough", function(menu)
             Citizen.Wait(1)
         end
     end
-    TriggerEvent('cash:remove', 400)
+    TriggerEvent('cash:remove', 50)
     OpenMenu(menu)
 end)
 
