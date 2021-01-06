@@ -45,3 +45,18 @@ AddEventHandler("customNotification", function(msg, length, type)
 
 	TriggerEvent("chatMessage","SYSTEM",4,msg)
 end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        health = GetEntityMaxHealth(PlayerPedId())
+        if health < 200 then
+            SetPedMaxHealth(PlayerPedId(), 200)
+            Citizen.Wait(10)
+            SetEntityMaxHealth(PlayerPedId(), 200)
+            Citizen.Wait(10)
+            SetEntityHealth(PlayerPedId(), 200)
+            -- print('Module Triggered')
+        end
+    end
+end)
