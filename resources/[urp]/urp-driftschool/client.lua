@@ -320,7 +320,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-function DrawText3Ds(x,y,z, text)
+function DrawText3D(x,y,z, text)
     local onScreen,_x,_y=World3dToScreen2d(x,y,z)
     local px,py,pz=table.unpack(GetGameplayCamCoords())
     SetTextScale(0.35, 0.35)
@@ -342,7 +342,7 @@ Citizen.CreateThread(function()
     local pos = GetEntityCoords(ped)
     local distance = GetDistanceBetweenCoords(pos.x,pos.y,pos.z,-56.17852,-2520.19, 7.401162,false)
         if distance <= 1.2 then
-            DrawText3D(-56.17852,-2520.19, 7.401162, "[E] - Overboost Drift Stash")
+            DrawText3D(-56.17852,-2520.19, 7.401162, "Overboost Drift Stash")
             if IsControlJustReleased(0, 38) then
                if exports['isPed']:isPed('job') == 'DriftSchool' then
                 Citizen.Wait(1)
