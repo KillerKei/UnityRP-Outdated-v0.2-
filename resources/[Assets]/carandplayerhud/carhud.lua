@@ -1578,10 +1578,10 @@ AddEventHandler('food:Condiment', function()
 	end
 
 	if 0 > 500 then
-		SetRunSprintMultiplierForPlayer(PlayerId(), 1.15)
+		SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
 		dstamina = math.random(10,15)
 	else
-		SetRunSprintMultiplierForPlayer(PlayerId(), 1.25)
+		SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
 		dstamina = math.random(10,15)
 	end
 
