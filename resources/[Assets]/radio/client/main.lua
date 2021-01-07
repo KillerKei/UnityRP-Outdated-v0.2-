@@ -24,7 +24,7 @@ end)
 Citizen.CreateThread(function()
   while true do
       Citizen.Wait(15)
-          if IsControlPressed(0,14) then
+          if IsControlPressed(0,243) then
             TriggerEvent('radioGui')
               end
           end
@@ -53,6 +53,7 @@ function openGui()
   end
   TriggerEvent("animation:radio",GuiOpened)
 end
+
 
 local function handleConnectionEvent(pChannel)
   local newChannel = formattedChannelNumber(pChannel)
