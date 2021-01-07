@@ -340,37 +340,37 @@ AddEventHandler("emote:setEmotesFromDB", function(emotesResult)
     currentKeys = data
 end)
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        if IsControlJustReleased(0, 244) then
-            if exports['urp-deathmanager']:GetDeath() then
-                TriggerEvent('DoLongHudText', "You're dead...", 2)
-            else
-                TriggerEvent('emotes:OpenMenu')
-            end
-        end
-        for i,v in ipairs(currentKeys) do
-            if v.key[2] ~= nil then
-                if IsControlPressed(0,21) and IsControlJustReleased(0, v.key[1]) then
-                    if v.anim == "Cancel Emote" then
-                        ClearPedTasks(PlayerPedId()) playing_emote = false
-                    else
-                        TriggerEvent("animation:PlayAnimation", v.anim)
-                    end
-                end
-            else
-                if not IsControlPressed(0,21) and IsControlJustReleased(0, v.key[1]) then
-                    if v.anim == "Cancel Emote" then
-                        ClearPedTasks(PlayerPedId()) playing_emote = false
-                    else
-                        TriggerEvent("animation:PlayAnimation", v.anim)
-                    end
-                end
-            end
-        end
-    end
-end)
+-- Citizen.CreateThread(function()
+--     while true do
+--         Citizen.Wait(1)
+--         if IsControlJustReleased(0, 244) then
+--             if exports['urp-deathmanager']:GetDeath() then
+--                 TriggerEvent('DoLongHudText', "You're dead...", 2)
+--             else
+--                 TriggerEvent('emotes:OpenMenu')
+--             end
+--         end
+--         for i,v in ipairs(currentKeys) do
+--             if v.key[2] ~= nil then
+--                 if IsControlPressed(0,21) and IsControlJustReleased(0, v.key[1]) then
+--                     if v.anim == "Cancel Emote" then
+--                         ClearPedTasks(PlayerPedId()) playing_emote = false
+--                     else
+--                         TriggerEvent("animation:PlayAnimation", v.anim)
+--                     end
+--                 end
+--             else
+--                 if not IsControlPressed(0,21) and IsControlJustReleased(0, v.key[1]) then
+--                     if v.anim == "Cancel Emote" then
+--                         ClearPedTasks(PlayerPedId()) playing_emote = false
+--                     else
+--                         TriggerEvent("animation:PlayAnimation", v.anim)
+--                     end
+--                 end
+--             end
+--         end
+--     end
+-- end)
 
 --[walkingstyles]
 function WalkMenuStart(name)
