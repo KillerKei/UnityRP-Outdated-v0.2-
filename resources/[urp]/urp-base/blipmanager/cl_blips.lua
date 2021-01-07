@@ -58,6 +58,14 @@ local blips = {
     -- {id = "burgies", name = "Burger Shot", scale = 0.7, color = 8, sprite = 106, x = -1199.61, y = -899.79, z = 14.0},
     -- {id = "burgies2", name = "Burger Bar", scale = 0.7, color = 8, sprite = 106, x = 282.58, y = -214.76, z = 54.0},
     {id = "di", name = "Driving Instructor", scale = 0.6, color = 44, sprite = 380, x = 983.83, y= -206.17, z= 71.07},
+    {id = "Bennys", name = "Bennys Motorsport", scale = 0.7, color = 3, sprite = 72, x = -211.8794, y= -1324.497, z= 30.2385},
+    -- {id = "FR", name = "FR & R", scale = 0.7, color = 3, sprite = 72, x = 481.2653, y= -1317.757, z= 28.5517},
+    {id = "LSC", name = "Los Santos Customs", scale = 0.7, color = 3, sprite = 72, x = -337.8257, y= -139.2422, z= 38.35894},
+    {id = "QuickFix", name = "Quick Fix", scale = 0.7, color = 3, sprite = 72, x = 1146.701, y= -771.8019, z= 57.59522},
+
+
+
+
 }
 
 

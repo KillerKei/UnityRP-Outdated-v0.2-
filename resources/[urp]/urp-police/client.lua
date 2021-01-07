@@ -43,7 +43,6 @@ local isDead = false
 function isCop()
 	local uJob = exports['isPed']:isPed('job')
 	if uJob == "Police" then return true end
-	if uJob == 'OffPolice' then return true end
 	return false
 end
 
@@ -192,6 +191,7 @@ Citizen.CreateThread(function()
 		for k, v in ipairs(signOnPoint) do
 			local pX, pY, pZ = table.unpack(GetEntityCoords(PlayerPedId()))
 			local distance = Vdist2(v.x, v.y, v.z, pX, pY, pZ)
+			local job = exports['isPed']:isPed('job')
 			if distance <= 5 then
 				if isCop() then
 					DrawText3DTest(v.x, v.y, v.z,"[E] - Sign Off Duty")
@@ -205,7 +205,7 @@ Citizen.CreateThread(function()
 						CopAmount = CopAmount - 1
 					end
 		
-				else
+				elseif job == 'OffPolice' then
 					DrawText3DTest(v.x, v.y, v.z,"[E] - Sign On Duty")
 		
 					if IsControlJustReleased(1, 38) then

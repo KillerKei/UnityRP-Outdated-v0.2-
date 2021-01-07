@@ -12,9 +12,28 @@ local plyFirstJoin = false
 
 
 local nearDefault = false
+-- Bennys
 local bennyLocation = vector3(-211.55, -1324.55, 30.90)
+--FR & R
+local bennyLocation2 = vector3(481.2653, -1317.757, 28.55117)
 
+-- LSC
+local bennyLocation3 = vector3(-337.8257, -139.2422, 38.35894)
+
+-- Quick Fix
+local bennyLocation4 = vector3(1146.701, -771.8019, 57.59522)
+
+
+-- Bennys
 local bennyHeading = 319.73135375977
+--FR & R
+local bennyHeading2 = 115.557762146
+-- LSC
+local bennyHeading3 = 292.66375732422
+-- Quick fix
+local bennyHeading4 = 176.26370239258
+
+
 
 local originalCategory = nil
 local originalMod = nil
@@ -743,7 +762,7 @@ end
 
 
 
-
+-- Bennys
 
 RegisterNetEvent('event:control:bennys')
 AddEventHandler('event:control:bennys', function(useID)
@@ -755,6 +774,40 @@ AddEventHandler('event:control:bennys', function(useID)
     end
 end)
 
+-- FR & R
+
+RegisterNetEvent('event:control:bennys2')
+AddEventHandler('event:control:bennys2', function(useID)
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+        bennyHeading = 115.55762146
+        if useID == 1 and not isPlyInBennys then -- Bennys
+            enterLocation(bennyLocation2)
+        end
+    end
+end)
+-- LSC
+RegisterNetEvent('event:control:bennys3')
+AddEventHandler('event:control:bennys3', function(useID)
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+        bennyHeading = 292.66375732422
+        if useID == 1 and not isPlyInBennys then -- Bennys
+            enterLocation(bennyLocation3)
+        end
+    end
+end)
+
+-- Quick fix
+RegisterNetEvent('event:control:bennys4')
+AddEventHandler('event:control:bennys4', function(useID)
+    if IsPedInAnyVehicle(PlayerPedId(), false) then
+        bennyHeading = 176.26370239258
+        if useID == 1 and not isPlyInBennys then -- Bennys
+            enterLocation(bennyLocation4)
+        end
+    end
+end)
+
+-- Bennys
 function enterLocation(locationsPos)
     local plyPed = PlayerPedId()
     local plyVeh = GetVehiclePedIsIn(plyPed, false)
@@ -787,7 +840,105 @@ function enterLocation(locationsPos)
 
     isPlyInBennys = true
 end
+-- FR & R
+function enterLocation2(locationsPos)
+    local plyPed = PlayerPedId()
+    local plyVeh = GetVehiclePedIsIn(plyPed, false)
+    local isMotorcycle = false
 
+    SetVehicleModKit(plyVeh, 0)
+    SetEntityCoords(plyVeh, locationsPos)
+    SetEntityHeading(plyVeh, bennyHeading2)
+    FreezeEntityPosition(plyVeh, true)
+    SetEntityCollision(plyVeh, false, true)
+
+    if GetVehicleClass(plyVeh) == 8 then --Motorcycle
+        isMotorcycle = true
+    else
+        isMotorcycle = false
+    end
+
+    InitiateMenus(isMotorcycle, GetVehicleBodyHealth(plyVeh))
+
+    SetTimeout(100, function()
+        if GetVehicleBodyHealth(plyVeh) < 1000.0 then
+            DisplayMenu(true, "repairMenu")
+        else
+            DisplayMenu(true, "mainMenu")
+        end
+        
+        DisplayMenuContainer(true)
+        PlaySoundFrontend(-1, "OK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+    end)
+
+    isPlyInBennys = true
+end
+-- LSC
+function enterLocation3(locationsPos)
+    local plyPed = PlayerPedId()
+    local plyVeh = GetVehiclePedIsIn(plyPed, false)
+    local isMotorcycle = false
+
+    SetVehicleModKit(plyVeh, 0)
+    SetEntityCoords(plyVeh, locationsPos)
+    SetEntityHeading(plyVeh, bennyHeading2)
+    FreezeEntityPosition(plyVeh, true)
+    SetEntityCollision(plyVeh, false, true)
+
+    if GetVehicleClass(plyVeh) == 8 then --Motorcycle
+        isMotorcycle = true
+    else
+        isMotorcycle = false
+    end
+
+    InitiateMenus(isMotorcycle, GetVehicleBodyHealth(plyVeh))
+
+    SetTimeout(100, function()
+        if GetVehicleBodyHealth(plyVeh) < 1000.0 then
+            DisplayMenu(true, "repairMenu")
+        else
+            DisplayMenu(true, "mainMenu")
+        end
+        
+        DisplayMenuContainer(true)
+        PlaySoundFrontend(-1, "OK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+    end)
+
+    isPlyInBennys = true
+end
+-- Quick fix
+function enterLocation4(locationsPos)
+    local plyPed = PlayerPedId()
+    local plyVeh = GetVehiclePedIsIn(plyPed, false)
+    local isMotorcycle = false
+
+    SetVehicleModKit(plyVeh, 0)
+    SetEntityCoords(plyVeh, locationsPos)
+    SetEntityHeading(plyVeh, bennyHeading2)
+    FreezeEntityPosition(plyVeh, true)
+    SetEntityCollision(plyVeh, false, true)
+
+    if GetVehicleClass(plyVeh) == 8 then --Motorcycle
+        isMotorcycle = true
+    else
+        isMotorcycle = false
+    end
+
+    InitiateMenus(isMotorcycle, GetVehicleBodyHealth(plyVeh))
+
+    SetTimeout(100, function()
+        if GetVehicleBodyHealth(plyVeh) < 1000.0 then
+            DisplayMenu(true, "repairMenu")
+        else
+            DisplayMenu(true, "mainMenu")
+        end
+        
+        DisplayMenuContainer(true)
+        PlaySoundFrontend(-1, "OK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
+    end)
+
+    isPlyInBennys = true
+end
 
 function disableControls()
     DisableControlAction(1, 38, true) --Key: E
@@ -821,9 +972,50 @@ function disableControls()
         PlaySoundFrontend(-1, "NO", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1)
     end
 end
+-- FR & R
+Citizen.CreateThread(function()
+    while true do 
+        local plyPed = PlayerPedId()
+
+        if IsPedInAnyVehicle(plyPed, false) then
+            local plyPos = GetEntityCoords(plyPed)
+
+
+            nearDefault = isNear(plyPos, bennyLocation2, 10) 
+
+            if nearDefault then
+
+                if not isPlyInBennys and nearDefault then
+                    DrawMarker(21, bennyLocation2.x, bennyLocation2.y, bennyLocation2.z + 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 148, 0, 211, 255, true, false, 2, true, nil, nil, false)
+
+                end
+
+
+
+                if nearDefault then
+                    if not isPlyInBennys then
+                        Draw3DText(bennyLocation2.x, bennyLocation2.y, bennyLocation2.z + 0.5, "[Press ~p~E~w~ - Enter Benny's Motorworks]", 255, 255, 255, 255, 4, 0.45, true, true, true, true, 0, 0, 0, 0, 55)
+                        if IsControlJustReleased(1, 38) then
+                            TriggerEvent('event:control:bennys2', 1)
+                        end
+                    else
+                        disableControls()
+                    end
+                end
+
+            else
+                Wait(1000)
+            end
+        else
+            Wait(2000)
+        end
+
+        Citizen.Wait(1)
+    end
+end)
 
 -- #MarkedForMarker
---#[Citizen Threads]#--
+--#[Citizen Threads]#-- Bennys
 Citizen.CreateThread(function()
     while true do 
         local plyPed = PlayerPedId()
@@ -838,6 +1030,7 @@ Citizen.CreateThread(function()
 
                 if not isPlyInBennys and nearDefault then
                     DrawMarker(21, bennyLocation.x, bennyLocation.y, bennyLocation.z + 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 148, 0, 211, 255, true, false, 2, true, nil, nil, false)
+
                 end
 
 
@@ -847,6 +1040,88 @@ Citizen.CreateThread(function()
                         Draw3DText(bennyLocation.x, bennyLocation.y, bennyLocation.z + 0.5, "[Press ~p~E~w~ - Enter Benny's Motorworks]", 255, 255, 255, 255, 4, 0.45, true, true, true, true, 0, 0, 0, 0, 55)
                         if IsControlJustReleased(1, 38) then
                             TriggerEvent('event:control:bennys', 1)
+                        end
+                    else
+                        disableControls()
+                    end
+                end
+
+            else
+                Wait(1000)
+            end
+        else
+            Wait(2000)
+        end
+
+        Citizen.Wait(1)
+    end
+end)
+-- LSC
+Citizen.CreateThread(function()
+    while true do 
+        local plyPed = PlayerPedId()
+
+        if IsPedInAnyVehicle(plyPed, false) then
+            local plyPos = GetEntityCoords(plyPed)
+
+
+            nearDefault = isNear(plyPos, bennyLocation3, 10) 
+
+            if nearDefault then
+
+                if not isPlyInBennys and nearDefault then
+                    DrawMarker(21, bennyLocation3.x, bennyLocation3.y, bennyLocation3.z + 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 148, 0, 211, 255, true, false, 2, true, nil, nil, false)
+
+                end
+
+
+
+                if nearDefault then
+                    if not isPlyInBennys then
+                        Draw3DText(bennyLocation3.x, bennyLocation3.y, bennyLocation3.z + 0.5, "[Press ~p~E~w~ - Enter Benny's Motorworks]", 255, 255, 255, 255, 4, 0.45, true, true, true, true, 0, 0, 0, 0, 55)
+                        if IsControlJustReleased(1, 38) then
+                            TriggerEvent('event:control:bennys3', 1)
+                        end
+                    else
+                        disableControls()
+                    end
+                end
+
+            else
+                Wait(1000)
+            end
+        else
+            Wait(2000)
+        end
+
+        Citizen.Wait(1)
+    end
+end)
+-- Quick fix
+Citizen.CreateThread(function()
+    while true do 
+        local plyPed = PlayerPedId()
+
+        if IsPedInAnyVehicle(plyPed, false) then
+            local plyPos = GetEntityCoords(plyPed)
+
+
+            nearDefault = isNear(plyPos, bennyLocation4, 10) 
+
+            if nearDefault then
+
+                if not isPlyInBennys and nearDefault then
+                    DrawMarker(21, bennyLocation4.x, bennyLocation4.y, bennyLocation4.z + 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 148, 0, 211, 255, true, false, 2, true, nil, nil, false)
+
+                end
+
+
+
+                if nearDefault then
+                    if not isPlyInBennys then
+                        Draw3DText(bennyLocation4.x, bennyLocation4.y, bennyLocation4.z + 0.5, "[Press ~p~E~w~ - Enter Benny's Motorworks]", 255, 255, 255, 255, 4, 0.45, true, true, true, true, 0, 0, 0, 0, 55)
+                        if IsControlJustReleased(1, 38) then
+                            TriggerEvent('event:control:bennys4', 1)
                         end
                     else
                         disableControls()

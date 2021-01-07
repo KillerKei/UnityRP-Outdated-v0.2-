@@ -746,6 +746,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
         local myJob = exports["isPed"]:isPed("job")
         if myJob ~= "news" then
             TriggerEvent('urp-robbery:advLockpickUse')
+            TriggerEvent("houseRobberies:attempt")
         else
             TriggerEvent("DoLongHudText","Nice news reporting, you shit lord idiot.")
         end   
@@ -1496,7 +1497,6 @@ AddEventHandler('inv:lockPick', function(isForced,inventoryName,slot)
         local driverPed = GetPedInVehicleSeat(targetVehicle, -1)
         if targetVehicle == 0 then
             lockpicking = false
-            TriggerEvent("houseRobberies:attempt")
             return
         end
 

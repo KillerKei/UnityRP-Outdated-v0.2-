@@ -173,6 +173,96 @@ function makeid(length) {
 }
 
 // checked above 1 hour 2 minutes
+function GenerateInformation2(player,itemid,itemdata) {
+    let data = Object.assign({}, itemdata);
+    let returnInfo = "{}"
+
+    return new Promise((resolve, reject) => {
+    if (itemid == "") return resolve(returninfo);
+
+    let timeout = 0;
+    if (itemid == "") {
+        var identifier = player.toString()
+        if(itemdata && itemdata.fakeWeaponData) {
+            identifier = Math.floor((Math.random() * 99999) + 1)
+            identifier = identifier.toString()
+        }
+
+        let cartridgeCreated = player + "-" + makeid(3) + "-" + Math.floor((Math.random() * 999) + 1);
+        returnInfo = JSON.stringify({ cartridge: cartridgeCreated, serial: identifier, quality: "Good"})
+        timeout = 1;
+        clearTimeout(timeout)
+        return resolve(returnInfo);
+    } else {
+        switch(itemid.toLowerCase()) {
+            case "weaponid":
+                let string = `SELECT first_name, last_name, dob, gender, id FROM __characters WHERE id = '${player.replace('ply-', '')}'`;
+                exports.ghmattimysql.execute(string,{}, function(result) {
+                    if (result[0].gender === 0) {
+                        result[0].gender = "Male"
+                    } else {
+                        result[0].gender = "Female"
+                    }
+                    returnInfo = JSON.stringify({
+                        Name: result[0].first_name.replace(/[^\w\s]/gi, ''),
+                        Surname: result[0].last_name.replace(/[^\w\s]/gi, ''),
+                        Sex: result[0].gender,
+                        DOB: result[0].dob,
+                        Identifier: result[0].id })
+                        timeout = 1
+                        clearTimeout(timeout)
+                        return resolve(returnInfo);
+                    });
+                    break;
+            case "casing":
+                returnInfo = JSON.stringify({ Identifier: itemdata.identifier, type: itemdata.eType, other: itemdata.other})
+                timeout = 1
+                clearTimeout(timeout)
+                return resolve(returnInfo);
+            case "evidence":
+                returnInfo = JSON.stringify({ Identifier:itemdata.identifier, type: itemdata.eType, other: itemdata.other })
+                timeout = 1;
+                clearTimeout(timeout)
+                return resolve(returnInfo);
+            case "backpack":
+                returnInfo = JSON.stringify({ serial:player.replace("steam:", "") })
+                timeout = 1;
+                clearTimeout(timeout)
+                return resolve(returnInfo);
+            case "drivingtest":
+                if (data.id) {
+                    let string = `SELECT * FROM driving_tests WHERE id = '${data.id}'`;
+                    exports.ghmattimysql.execute(string, {}, function(result) {
+                        if (result[0]) {
+                            let ts = new Date(parseInt(result[0].timestamp) * 1000)
+                            let testDate = ts.getFullYear() + "-" + ("0"+(ts.getMonth()+1)).slice(-2) + "-" + ("0" + ts.getDate()).slice(-2)
+                            returninfo = JSON.stringify({ ID: result[0].id, CID: result[0].cid, Instructor: result[0].instructor, Date: testdata })
+                            timeout = 1;
+                            clearTimeout(timeout)
+                        }
+                        return resolve(returninfo);
+                    });
+                } else {
+                    timeout = 1;
+                    clearTimeout(timeout)
+                    return resolve(returnInfo);
+                }
+                break;
+            default:
+                timeout = 1
+                clearTimeout(timeout)
+                return resolve(returnInfo);
+            }
+
+            setTimeout(() => {
+                if (timeout == 0) {
+                    return resolve(returnInfo);
+                }
+            },500)
+        }
+    });
+}
+
 
 function GenerateInformation(player,itemid,itemdata) {
     let data = Object.assign({}, itemdata);
@@ -272,6 +362,7 @@ onNet("server-inventory-give", async (player, itemid, slot, amount, generateInfo
     let creationDate = Date.now()
       if (generateInformation) {
           information = await GenerateInformation(player,itemid,itemdata)
+          information = await GenerateInformation2(player,itemid,itemdata)
       }
       let values = `('${playerinvname}','${itemid}','${information}','${slot}','${creationDate}')`
          if (amount > 1) {
@@ -370,7 +461,7 @@ onNet("server-inventory-open", async ( coords, player, secondInventory, targetNa
     } else if(secondInventory == "2") {
         var targetinvname = targetName;
         var shopArray = ConvenienceStore();
-        var shopAmount = 17;
+        var shopAmount = 18;
         emitNet("inventory-open-target", src, [invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname,500,false]);
       //  console.log(invArray,arrayCount,playerinvname,shopArray,shopAmount,targetinvname)
     }
@@ -644,6 +735,7 @@ onNet("server-ragdoll-items", async (player) => {
 
      db(`UPDATE user_inventory2 SET name='${newInventoryName}', WHERE name='${currInventoryName}' and dropped=0 and item_id="mobilephone" `);
      db(`UPDATE user_inventory2 SET name='${newInventoryName}', WHERE name='${currInventoryName}' and dropped=0 and item_id="idcard" `);
+     db(`UPDATE user_inventory2 SET name='${newInventoryName}', WHERE name='${currInventoryName}' and dropped=0 and item_id="weaponid" `);
 
     await db(`DELETE FROM user_inventory2 WHERE name='${currInventoryName}'`);
 
@@ -769,6 +861,7 @@ onNet("server-inventory-move", async (player, data, coords) => {
 
         }
         info = await GenerateInformation(player,itemidsent)
+        info = await GenerateInformation2(player,itemidsent)
         removecash(source,itemCosts)
         emit("inventory:takeMyCash", source,itemCosts)
         if (!PlayerStore) {
@@ -785,6 +878,7 @@ onNet("server-inventory-move", async (player, data, coords) => {
             }
         } else if (crafting) {
             info - await GenerateInformation(player,itemidsent)
+            info - await GenerateInformation2(player,itemidsent)
             for (let i = 0; i < parseInt(amount); i++) {
                 db(`INSERT INTO user_inventory2 (item_id, name, information, slot, creationDate) VALUES ('${itemidsent}','${targetname}','${info}','${targetslot}','${creationDate}' );`);
             }
@@ -867,6 +961,7 @@ onNet("server-inventory-stack", async (player, data, coords) => {
          if (isWeapon) {
          }
          info = await GenerateInformation(player,itemidsent)
+         info = await GenerateInformation2(player,itemidsent)
          removecash(source,itemCosts)
 
          if (!PlayerStore) {
@@ -892,6 +987,7 @@ onNet("server-inventory-stack", async (player, data, coords) => {
 
      } else if (crafting) {
          info = await GenerateInformation(player,itemidsent)
+         info = await GenerateInformation2(player,itemidsent)
          for (let i = 0; i < parseInt(amount); i++) {
 
              db(`INSERT INTO user_inventory2 (item_id, name, information, slot, creationDate) VALUES ('${itemidsent}','${targetName}','${info}','${targetslot}','${creationDate}' );`);
@@ -1064,6 +1160,7 @@ function ConvenienceStore() {
         { item_id: "whiskey", id: 0, name: "Shop", information: "{}", slot: 15, amount: 50, price: 50 },
         { item_id: "idcard", id: 0, name: "Shop", information: "{}", slot: 16, amount: 50, price: 50 },
         { item_id: "notepad", id: 0, name: "Shop", information: "{}", slot: 17, amount: 50, price: 50 },
+        { item_id: "weaponid", id: 0, name: "Shop", information: "{}", slot: 18, amount: 50, price: 50 },
     ];
     return JSON.stringify(shopItems);
 }

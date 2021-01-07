@@ -72,6 +72,7 @@ function hasRadio()
     if exports["urp-inventory"]:hasEnoughOfItem("radio",1,false) then
       return true
     else
+      TriggerEvent('DoLongHudText', 'You don\'t have a radio')
       return false
     end
 end
