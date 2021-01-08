@@ -179,3 +179,14 @@ AddEventHandler('urp-base:updateJob', function(bank, rank)
     TriggerEvent('isPed:updateRank', rank)
     TriggerServerEvent('player:setRank', exports['isPed']:isPed('cid'), GetUser()["character"]["rank"])
 end)
+
+Citizen.CreateThread(function()
+    while true do
+        Citizen.Wait(1000)
+        cid = exports['isPed']:isPed('cid')
+        stress = exports['carandplayerhud']:GetStress(stress)
+        TriggerServerEvent('URP-Stress:Server:RefreshCurrentArmour', stress, cid)
+        TriggerServerEvent('URP-Armour:Server:RefreshCurrentArmour', GetPedArmour(PlayerPedId()), cid)
+        TriggerServerEvent('URP-Health:Server:RefreshCurrentArmour', GetEntityHealth(PlayerPedId()), cid)
+    end
+end)

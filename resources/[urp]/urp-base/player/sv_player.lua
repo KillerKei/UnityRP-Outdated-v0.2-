@@ -184,6 +184,7 @@ AddEventHandler('player:setServerMeta', function(armor, thirst, hunger)
     local src = source
     local steam = GetPlayerIdentifiers(src)[1]
     local userData = promise:new()
+    print(armor)
 
     exports.ghmattimysql:execute('SELECT uid FROM __users WHERE steam = ?', {steam}, function(data)
         userData:resolve(data)
@@ -194,7 +195,7 @@ AddEventHandler('player:setServerMeta', function(armor, thirst, hunger)
     local char = user:getCurrentCharacter(uid[1].uid)
     local characterId = char.id
 
-    exports.ghmattimysql:execute('UPDATE __characters SET armor= ?, water= ?, food= ? WHERE id= ?', {armor, thirst, hunger, characterId})
+    exports.ghmattimysql:execute('UPDATE __characters SET armor= ?,SET health= ?, water= ?, food= ? WHERE id= ?', {armor, health, thirst, hunger, characterId})
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
@@ -225,3 +226,33 @@ RegisterServerEvent('server:GroupPayment')
 AddEventHandler('server:GroupPayment', function(job, amount)
     TriggerClientEvent('client:GroupPayment', -1, job, amount)
 end)
+
+RegisterServerEvent('URP-Armour:Server:RefreshCurrentArmour')
+AddEventHandler('URP-Armour:Server:RefreshCurrentArmour', function(updateArmour, cid)
+    local src = source
+    MySQL.Async.execute("UPDATE __characters SET armor = @armor WHERE id = @id", { 
+        ['@id'] = cid,
+        ['@armor'] = tonumber(updateArmour)
+    })
+end)
+
+RegisterServerEvent('URP-Health:Server:RefreshCurrentArmour')
+AddEventHandler('URP-Health:Server:RefreshCurrentArmour', function(updateHealth, cid)
+    local src = source
+    MySQL.Async.execute("UPDATE __characters SET health = @health WHERE id = @id", { 
+        ['@id'] = cid,
+        ['@health'] = tonumber(updateHealth)
+    })
+end)
+
+RegisterServerEvent('URP-Stress:Server:RefreshCurrentArmour')
+AddEventHandler('URP-Stress:Server:RefreshCurrentArmour', function(updateStress, cid)
+    local src = source
+    MySQL.Async.execute("UPDATE __characters SET stress = @stress WHERE id = @id", { 
+        ['@id'] = cid,
+        ['@stress'] = tonumber(updateStress)
+    })
+end)
+
+
+
