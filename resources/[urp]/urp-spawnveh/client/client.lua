@@ -504,7 +504,7 @@ function policeFix()
 				TriggerEvent('DoLongHudText', 'Your vehicle has been repaired', 1)
 				SetVehicleFixed(veh)
 				SetVehicleDirtLevel(veh, 0.0)
-				exports["urp-carhud"]:SetFuel(veh, 100)
+				exports["urp-oGasStations"]:SetFuel(veh, 100)
 				FreezeEntityPosition(veh, false)
 			end
 		end
@@ -531,7 +531,7 @@ function EMSFix()
 				TriggerEvent('DoLongHudText', 'Your vehicle has been repaired', 1)
 				SetVehicleFixed(veh)
 				SetVehicleDirtLevel(veh, 0.0)
-				exports["urp-carhud"]:SetFuel(veh, 100)
+				exports["urp-oGasStations"]:SetFuel(veh, 100)
 				FreezeEntityPosition(veh, false)
 			end
 		end

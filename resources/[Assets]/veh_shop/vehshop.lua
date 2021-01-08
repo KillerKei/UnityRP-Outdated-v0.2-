@@ -1005,7 +1005,7 @@ function CloseCreator(name, veh, price, financed)
 				local pearlescentcolor = extra_colors[1]
 				local wheelcolor = extra_colors[2]
 
-				exports["urp-carhud"]:SetFuel(personalvehicle, 100)
+				exports["urp-oGasStations"]:SetFuel(personalvehicle, 100)
 				local vehProps = exports['urp-base']:FetchVehProps(personalvehicle)
 
 

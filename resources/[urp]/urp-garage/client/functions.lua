@@ -119,7 +119,7 @@ SetVehicleProperties = function(vehicle, vehicleProps)
 
     SetVehicleEngineHealth(vehicle, vehicleProps["engineHealth"] and vehicleProps["engineHealth"] + 0.0 or 1000.0)
     SetVehicleBodyHealth(vehicle, vehicleProps["bodyHealth"] and vehicleProps["bodyHealth"] + 0.0 or 1000.0)
-    exports["urp-carhud"]:SetFuel(vehicle, round(vehicleProps.fuelLevel))
+    exports["urp-oGasStations"]:SetFuel(vehicle, round(vehicleProps.fuelLevel))
 
     if vehicleProps["windows"] then
         for windowId = 1, 13, 1 do
@@ -191,7 +191,7 @@ GetVehicleProperties = function(vehicle)
 
         vehicleProps["engineHealth"] = GetVehicleEngineHealth(vehicle)
         vehicleProps["bodyHealth"] = GetVehicleBodyHealth(vehicle)
-        vehicleProps.fuelLevel = exports['urp-carhud']:GetFuel(vehicle)
+        vehicleProps.fuelLevel = exports['urp-oGasStations']:GetFuel(vehicle)
 
         return vehicleProps
     end
