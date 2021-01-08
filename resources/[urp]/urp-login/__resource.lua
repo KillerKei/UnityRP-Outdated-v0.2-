@@ -7,7 +7,7 @@ files({
     "html/script.js",
     "html/styles.css",
     "html/cursor.png",
-    "html/header.gif"
+    "html/header.png"
 })
 
 server_script "server/sv_login.lua"
