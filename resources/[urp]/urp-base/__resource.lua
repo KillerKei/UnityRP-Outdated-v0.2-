@@ -1,10 +1,12 @@
 resource_manifest_version "44febabe-d386-4d18-afbe-5e627f4af937"
 
 dependency "ghmattimysql"
+dependency "mysql-async"
 
 client_script "@urp-errorlog/client/cl_errorlog.lua"
 
 server_script "playermanager/server.lua"
+server_script '@mysql-async/lib/MySQL.lua'
 
 -- INIT --
 server_script "sh_init.lua"
