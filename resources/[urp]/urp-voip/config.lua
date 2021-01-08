@@ -82,13 +82,13 @@ phoneticAlphabet = {
 if IsDuplicityVersion() then
 	function DebugMsg(msg)
 		if mumbleConfig.debug then
-			print("\x1b[32m[" .. resourceName .. "]\x1b[0m ".. msg)
+			--print("\x1b[32m[" .. resourceName .. "]\x1b[0m ".. msg)
 		end
 	end
 else
 	function DebugMsg(msg)
 		if mumbleConfig.debug then
-			print("[" .. resourceName .. "] ".. msg)
+			--print("[" .. resourceName .. "] ".. msg)
 		end
 	end
 
