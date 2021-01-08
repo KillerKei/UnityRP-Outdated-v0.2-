@@ -797,3 +797,7 @@ itemList["zebra"] = {fullyDegrades: false,  decayrate: 0.0, displayname: "Zebra"
 itemList["fakesnowvhs"]	= {fullyDegrades: false, decayrate: 0.0, displayname: "Bootleg Boomer", price: 1, weight: 0, nonStack: false, model:  "", image: "fake-snow-vhs.png", information: "At this point you can not even tell if it is a dick or the roundhay garden scene from 1888.", deg: false }
 itemList["wigglue"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "Wig glue", price: 1, weight: 0, nonStack: false, model:  "", image: "wig-glue.png", information: "Recommended by Snow.", deg: false }
 itemList["marstonrevolver"]	    = {fullyDegrades: false, decayrate: 0.0, displayname: "John Marston's Cattleman Revolver", price: 1, weight: 0, nonStack: false, model:  "", image: "marston-revolver.png", information: "Owned by John Marston, this Cattleman Revolver features a black steel frame inlaid with gold and a custom bone grip.", deg: false }
+
+//Hunting Job 
+
+itemList["deer"]	= {fullyDegrades: false, decayrate: 0.5, displayname: "Fresh Deer Meat", price: 0, weight: 2, nonStack: false, model: "", image: "deer.png", information: "Delicious" , deg: false}
