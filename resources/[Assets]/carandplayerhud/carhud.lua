@@ -46,6 +46,18 @@ AddEventHandler('inv:wellfed', function()
 end)
 
 
+Citizen.CreateThread( function()
+	while true do
+		Wait(5)
+		local ped = PlayerPedId()
+		if IsPedShooting(ped) and not IsPedCurrentWeaponSilenced(ped) then
+			TriggerEvent("client:newStress",true,math.random(15))
+		elseif IsPedShooting(ped) and IsPedCurrentWeaponSilenced(ped) then 
+			TriggerEvent("client:newStress",true,math.random(5))
+		end
+	end
+end)
+
 RegisterNetEvent('client:anchor')
 AddEventHandler('client:anchor', function()
     local currVeh = GetVehiclePedIsIn(PlayerPedId(), false)
@@ -170,6 +182,11 @@ function GPSTrack(stage)
 		x,y,z = table.unpack(GetOffsetFromEntityInWorldCoords(PlayerPedId(), math.random(multi) + 0.0, 0.0, 0.0))
 	end
 	return x,y,z
+end
+
+function GetStress()
+	stress = currentValues["stress"]
+	return stress
 end
 
 RegisterNetEvent('car:windowsup')
@@ -1318,6 +1335,12 @@ AddEventHandler("UseOxygenTank",function()
 end)
 dstamina = 0
 -- stress, 10000 is maximum, 0 being lowest.
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(1000)
+	end
+end)
+
 RegisterNetEvent("client:updateStress")
 AddEventHandler("client:updateStress",function(newStress)
 	stresslevel = newStress
@@ -1830,8 +1853,10 @@ AddEventHandler("client:newStress",function(positive,alteredValue)
 	end
 	if positive then
 		TriggerEvent("DoShortHudText",'Stress Gained',6)
+		stresslevel = stresslevel + math.random(20,100)
 	else
 		TriggerEvent("DoShortHudText",'Stress Relieved',6)
+		stresslevel = stresslevel + math.random(20,100)
 	end
 	
 	TriggerServerEvent("server:alterStress",positive,alteredValue)
@@ -2262,15 +2287,18 @@ end)
 
 RegisterNetEvent('hud:saveCurrentMeta')
 AddEventHandler('hud:saveCurrentMeta', function()
-	TriggerServerEvent("player:setServerMeta",GetPedArmour(PlayerPedId()),currentValues["thirst"],currentValues["hunger"])
+	TriggerServerEvent("player:setServerMeta",currentValues["thirst"],currentValues["hunger"])
 end)
 
 RegisterNetEvent('urp-login:loadCharData')
-AddEventHandler('urp-login:loadCharData', function(armor, thirst, hunger)
+AddEventHandler('urp-login:loadCharData', function(armor, health, thirst, hunger, stressvalue)
 	SetPlayerMaxArmour(PlayerId(), 60 )
 	SetPedArmour(PlayerPedId(),tonumber(armor))
+	SetEntityHealth(PlayerPedId(),tonumber(health))
 	currentValues["thirst"] = tonumber(thirst)
 	currentValues["hunger"] = tonumber(hunger)
+	currentValues["stress"] = stressvalue
+	stresslevel = stressvalue * 100
 end)
 
 
@@ -2286,7 +2314,7 @@ Citizen.CreateThread(function()
     	if GodEnabled then currentValues["hunger"] = 100 end
 		if GodEnabled then currentValues["thirst"] = 100 end
 		Citizen.Wait(300000)
-		TriggerServerEvent("player:setServerMeta",GetPedArmour(PlayerPedId()),currentValues["thirst"],currentValues["hunger"])
+		TriggerServerEvent("player:setServerMeta",currentValues["thirst"],currentValues["hunger"])
 
 		if currentValues["thirst"] < 20 or currentValues["hunger"] < 20 then
 

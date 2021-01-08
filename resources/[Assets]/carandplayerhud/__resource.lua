@@ -18,5 +18,6 @@ files({
 
 exports {
 	"playerLocation",
-	"playerZone"
+	"playerZone",
+	"GetStress"
 }
