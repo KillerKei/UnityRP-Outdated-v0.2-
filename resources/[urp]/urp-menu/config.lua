@@ -1,25 +1,24 @@
 local isDead = false
 local isInstructorMode = false
-local myJob = "unemployed"
+local myJob = "Unemployed"
 local isHandcuffed = false
 local isHandcuffedAndWalking = false
 local hasOxygenTankOn = false
 local gangNum = 0
 local cuffStates = {}
-job = nil
+local cid = nil
+local job = "Unemployed"
+
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(5000)
+        Citizen.Wait(1000)
         job = exports['isPed']:isPed('job')
+        cid = exports['isPed']:isPed('cid')
     end
 end)
 
-
-RegisterNetEvent("job")
-AddEventHandler("job", function()
-    if job ~= nil and job == 'Police' then isPolice = true end
-end)
+local PlayerData              = {}
 
 rootMenuConfig =  {
     {
@@ -30,7 +29,7 @@ rootMenuConfig =  {
             isDead = exports["urp-deathmanager"]:GetDeath()
             return not isDead
         end,
-        subMenus = {"general:escort", "general:escortcuffed", "general:checkvehicle","general:putinvehicle", "general:unseatnearest", "general:flipvehicle", "general:civcuff", "general:civuncuff", "general:keysgive",  "general:emotes", "general:askfortrain"  }
+        subMenus = {"general:escort", "general:putinvehicle", "general:unseatnearest", "general:flipvehicle",  "general:keysgive",  "general:emotes",  "general:checkvehicle", "general:askfortrain", "general:apartgivekey", "general:apartremovekey",  }
     },
     {
         id = "police-action",
@@ -38,24 +37,65 @@ rootMenuConfig =  {
         icon = "#police-action",
         enableMenu = function()
             isDead = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return (Player.job == 'Police' and not isDead)
+            return (job == 'Police' and not isDead)
         end,
-        subMenus = {"police:escort", "police:putinvehicle", "police:unseatnearest", "police:hardcuff", "police:softcuff", "police:uncuff", "police:panic", "police:pdrevive", "cuffs:checkinventory", "police:frisk", "police:mdt"}
+        subMenus = {"general:putinvehicle", "general:escort", "medic:revive2", "police:panic", "cuffs:remmask", "police:checkbank", "cuffs:checkinventory" }
     },
-
+    {
+        id = "mdt",
+        displayName = "MDT",
+        icon = "#mdt",
+        functionName = "warrantsGui",
+        enableMenu = function()
+            isDead = exports["urp-deathmanager"]:GetDeath()
+            return not isDead and job == 'Police'
+        end
+    },
     {
         id = "police-vehicle",
         displayName = "Police Vehicle",
         icon = "#police-vehicle",
         enableMenu = function()
             isDead = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return (Player.job == 'Police' and not isDead and IsPedInAnyVehicle(PlayerPedId(), false))
+            return (job == 'Police' and not isDead and IsPedInAnyVehicle(PlayerPedId(), false))
         end,
         subMenus = {"general:unseatnearest", "police:runplate", "police:toggleradar"}
+    },
+    {
+        id = "cuff",
+        displayName = "Cuff Actions",
+        icon = "#cuffs",
+        enableMenu = function()
+            isDead = exports["urp-deathmanager"]:GetDeath()
+            if not isDead and not IsPlayerFreeAiming(PlayerId()) and not IsPedInAnyVehicle(PlayerPedId(), false) and not isHandcuffed and not isHandcuffedAndWalking then
+                if job == 'Police' then
+                     return true
+                elseif exports["urp-inventory"]:hasEnoughOfItem("cuffs",1,false) then
+                    t, distance = GetClosestPlayer()
+                    local serverId = GetPlayerServerId(t)
+                    if(distance ~= -1 and distance < 3 and not IsPedRagdoll(PlayerPedId())) then
+                        if cuffStates[serverId] == nil then
+                            return false
+                        else
+                            return cuffStates[serverId]
+                        end
+                    end
+                end
+            end
+            return false
+        end,
+        subMenus = { "cuffs:uncuff", "cuffs:remmask", "cuffs:unseat", "police:seat" }
+    },
+    {
+        id = "cuff",
+        displayName = "Cuff",
+        icon = "#cuffs-cuff",
+        functionName = "civ:cuffFromMenu",
+        enableMenu = function()
+            isDead = exports["urp-deathmanager"]:GetDeath()
+         return (not isDead and not isHandcuffed and not isHandcuffedAndWalking and (exports["urp-inventory"]:hasEnoughOfItem("cuffs",1,false) or job == 'Police'))
+       
+        end
     },
     {
         id = "medic",
@@ -63,67 +103,75 @@ rootMenuConfig =  {
         icon = "#medic",
         enableMenu = function()
             isDead = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return (Player.job == 'EMS' and not isDead)
+            return (job == 'EMS' and not isDead)
         end,
-        subMenus = {"medic:revive", "medic:heal", "medic:bigheal", "general:escort", "general:putinvehicle", "general:unseatnearest", "general:checktargetstates" }
+        subMenus = {"medic:revive", "medic:heal", "medic:bigheal", "general:escort", "general:putinvehicle", "general:unseatnearest", "police:panic" }
     },
     {
-        id = "policeDead",
-        displayName = "10-13",
+        id = "policeDeadA",
+        displayName = "10-13A",
         icon = "#police-dead",
-        functionName = "police:tenThirteen",
+        functionName = "police:tenThirteenA",
         enableMenu = function()
             downed = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return Player.job == 'Police' and downed end
+            return job == 'Police' and downed end
     },
     {
-        id = "emsDead",
-        displayName = "10-14",
+        id = "policeDeadB",
+        displayName = "10-13B",
+        icon = "#police-dead",
+        functionName = "police:tenThirteenB",
+        enableMenu = function()
+            downed = exports["urp-deathmanager"]:GetDeath()
+            return job == 'Police' and downed end
+    },
+    {
+        id = "emsDeadA",
+        displayName = "10-14A",
         icon = "#ems-dead",
-        functionName = "police:tenForteen",
+        functionName = "police:tenForteenA",
         enableMenu = function()
             downed = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return Player.job == 'EMS' and downed end
+            return job == 'Police' and downed end
     },
     {
-        id = "k9",
-        displayName = "K9",
-        icon = "#k9",
+        id = "emsDeadB",
+        displayName = "10-14B",
+        icon = "#ems-dead",
+        functionName = "police:tenForteenB",
         enableMenu = function()
-            isDead = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return (Player.job == 'Police' and not isDead)
-        end,
-       subMenus = {"k9:follow", "k9:vehicle",  "k9:sniffvehicle", "k9:huntfind", "k9:sit", "k9:stand", "k9:sniff", "k9:lay",  "k9:spawn", "k9:delete", }
+            downed = exports["urp-deathmanager"]:GetDeath()
+            return job == 'EMS' and downed end
     },
     {
         id = "uberdriver",
-        displayName = "Uber Delivery",
-        icon = "#police-vehicle",
+        displayName = "Start Delivery",
+        icon = "#uber-driver",
+        functionName = "urp-uberdelivery:start",
         enableMenu = function()
-            isDead = exports["urp-deathmanager"]:GetDeath()
-            local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-            local Player = LocalPlayer:getCurrentCharacter()
-            return (Player.job == 'uberdevelivery' and not isDead)
-        end,
-       subMenus = {"uber:start", "uber:finish", }
+            downed = exports["urp-deathmanager"]:GetDeath()
+            return job == 'uberdevelivery' and not downed end
+    },
+    {
+        id = "uberdriver",
+        displayName = "End Delivery",
+        icon = "#uber-driver2",
+        functionName = "urp-uberdelivery:end",
+        enableMenu = function()
+            downed = exports["urp-deathmanager"]:GetDeath()
+            return job == 'uberdevelivery' and not downed end
     },
     {
         id = "animations",
-        displayName = "Walkstyle",
+        displayName = "Gait",
         icon = "#walking",
         enableMenu = function()
-            isDead = exports["urp-deathmanager"]:GetDeath()
             return not isDead
         end,
-        subMenus = { "animations:brave", "animations:hurry", "animations:business", "animations:tipsy", "animations:injured","animations:tough", "animations:default", "animations:hobo", "animations:money", "animations:swagger", "animations:shady", "animations:maneater", "animations:chichi", "animations:sassy", "animations:sad", "animations:posh", "animations:alien" }
+        subMenus = { "animations:brave", "animations:hurry", "animations:business", "animations:tipsy", "animations:injured","animations:tough", "animations:default", "animations:hobo", "animations:money", "animations:swagger", "animations:shady", "animations:maneater", "animations:chichi", "animations:sassy", "animations:sad", "animations:posh", "animations:alien",
+        
+        --new
+        "animations:arrogant","animations:casual","animations:casual2","animations:casual3","animations:casual4","animations:casual5","animations:casual6","animations:confident","animations:business2","animations:business3","animations:femme","animations:flee","animations:gangster","animations:gangster2","animations:gangster3","animations:gangster4","animations:gangster5","animations:heels","animations:heels2","animations:muscle","animations:quick","animations:wide","animations:scared", }
     },
     {
         id = "expressions",
@@ -168,7 +216,7 @@ rootMenuConfig =  {
     }, {
         id = "oxygentank",
         displayName = "Remove Oxygen Tank",
-        icon = "#oxygen-mask",
+        icon = "#oxyurp-mask",
         functionName = "RemoveOxyTank",
         enableMenu = function()
             isDead = exports["urp-deathmanager"]:GetDeath()
@@ -209,57 +257,235 @@ newSubMenus = {
         title = "Emotes",
         icon = "#general-emotes",
         functionName = "emotes:OpenMenu"
+    },    
+    ['general:keysgive'] = {
+        title = "Give Key",
+        icon = "#general-keys-give",
+        functionName = "keys:give"
+    },
+    ['general:apartgivekey'] = {
+        title = "Give Key",
+        icon = "#general-apart-givekey",
+        functionName = "urp-housing:client:giveHouseKey"
+    },
+    ['general:apartremovekey'] = {
+        title = "Remove Key",
+        icon = "#general-apart-givekey",
+        functionName = "urp-housing:client:removeHouseKey"
     },
     ['general:askfortrain'] = {
         title = "Request Train",
         icon = "#general-ask-for-train",
         functionName = "AskForTrain",
-    }, 
-    ['general:putinvehicle'] = {
-        title = "Seat Vehicle",
-        icon = "#general-put-in-veh",
-        functionName = "civputInVehicle"
-    }, 
-    ['general:unseatnearest'] = {
-        title = "Unseat Nearest",
-        icon = "#general-unseat-nearest",
-        functionName = "civoutOfVehicle"
+        enableMenu = function()
+            for _,d in ipairs(trainstations) do
+                if #(vector3(d[1],d[2],d[3]) - GetEntityCoords(PlayerPedId())) < 25 then
+                    return true
+                else
+                    return false
+                end
+            end
+        end
     },
-    ['general:escort'] = {
-        title = "Escort Uncuffed",
-        icon = "#general-escort",
-        functionName = "civDrag"
+    ['general:checkoverself'] = {
+        title = "Examine Self",
+        icon = "#general-check-over-self",
+        functionName = "Evidence:CurrentDamageList"
     },
-    ['general:escortcuffed'] = {
-        title = "Escort Cuffed",
-        icon = "#police-action-escort",
-        functionName = "pdescort"
+    ['general:checktargetstates'] = {
+        title = "Examine Target",
+        icon = "#general-check-over-target",
+        functionName = "requestWounds"
     },
     ['general:checkvehicle'] = {
         title = "Examine Vehicle",
         icon = "#general-check-vehicle",
         functionName = "menu:VehReq"
-    }, 
-    ['general:keysgive'] = {
-        title = "Give Key",
-        icon = "#general-keys-give",
-        functionName = "hotwire:giveKey"
     },
+    ['general:escort'] = {
+        title = "Escort",
+        icon = "#general-escort",
+        functionName = "escortPlayer"
+    },
+    ['general:putinvehicle'] = {
+        title = "Seat Vehicle",
+        icon = "#general-put-in-veh",
+        functionName = "police:forceEnter"
+    },
+    ['general:unseatnearest'] = {
+        title = "Unseat Nearest",
+        icon = "#general-unseat-nearest",
+        functionName = "unseatPlayer"
+    },    
     ['general:flipvehicle'] = {
         title = "Flip Vehicle",
         icon = "#general-flip-vehicle",
         functionName = "FlipVehicle"
     },
-    ['general:civcuff'] = {
-        title = "Civ Cuff",
-        icon = "#cuffs-cuff",
-        functionName = "urp_handcuffs:cuffcheck"
+    
+    ['animations:joy'] = {
+        title = "Joy",
+        icon = "#animation-joy",
+        functionName = "AnimSet:Joy"
     },
-    ['general:civuncuff'] = {
-        title = "Civ Uncuff",
-        icon = "#cuffs-cuff",
-        functionName = "urp_handcuffs:uncuff"
-    },    
+    ['animations:sexy'] = {
+        title = "Sexy",
+        icon = "#animation-sexy",
+        functionName = "AnimSet:Sexy"
+    },
+    ['animations:moon'] = {
+        title = "Moon",
+        icon = "#animation-moon",
+        functionName = "AnimSet:Moon"
+    },
+    ['animations:tired'] = {
+        title = "Tired",
+        icon = "#animation-tired",
+        functionName = "AnimSet:Tired"
+    },
+    ['animations:arrogant'] = {
+        title = "Arrogant",
+        icon = "#animation-arrogant",
+        functionName = "AnimSet:Arrogant"
+    },
+    
+    ['animations:casual'] = {
+        title = "Casual",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual"
+    },
+    ['animations:casual2'] = {
+        title = "Casual 2",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual2"
+    },
+    ['animations:casual3'] = {
+        title = "Casual 3",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual3"
+    },
+    ['animations:casual4'] = {
+        title = "Casual 4",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual4"
+    },
+    ['animations:casual5'] = {
+        title = "Casual 5",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual5"
+    },
+    ['animations:casual6'] = {
+        title = "Casual 6",
+        icon = "#animation-casual",
+        functionName = "AnimSet:Casual6"
+    },
+    ['animations:confident'] = {
+        title = "Confident",
+        icon = "#animation-confident",
+        functionName = "AnimSet:Confident"
+    },
+    
+    ['animations:business2'] = {
+        title = "Business 2",
+        icon = "#animation-business",
+        functionName = "AnimSet:Business2"
+    },
+    ['animations:business3'] = {
+        title = "Business 3",
+        icon = "#animation-business",
+        functionName = "AnimSet:Business3"
+    },
+    
+    ['animations:femme'] = {
+        title = "Femme",
+        icon = "#animation-female",
+        functionName = "AnimSet:Femme"
+    },
+    ['animations:flee'] = {
+        title = "Flee",
+        icon = "#animation-flee",
+        functionName = "AnimSet:Flee"
+    },
+    ['animations:gangster'] = {
+        title = "Gangster",
+        icon = "#animation-gangster",
+        functionName = "AnimSet:Gangster"
+    },
+    ['animations:gangster2'] = {
+        title = "Gangster 2",
+        icon = "#animation-gangster",
+        functionName = "AnimSet:Gangster2"
+    },
+    ['animations:gangster3'] = {
+        title = "Gangster 3",
+        icon = "#animation-gangster",
+        functionName = "AnimSet:Gangster3"
+    },
+    ['animations:gangster4'] = {
+        title = "Gangster 4",
+        icon = "#animation-gangster",
+        functionName = "AnimSet:Gangster4"
+    },
+    ['animations:gangster5'] = {
+        title = "Gangster 5",
+        icon = "#animation-gangster",
+        functionName = "AnimSet:Gangster5"
+    },
+    
+    ['animations:heels'] = {
+        title = "Heels",
+        icon = "#animation-female",
+        functionName = "AnimSet:Heels"
+    },
+    ['animations:heels2'] = {
+        title = "Heels 2",
+        icon = "#animation-female",
+        functionName = "AnimSet:Heels2"
+    },
+    
+    ['animations:hipster'] = {
+        title = "Hipster",
+        icon = "#animation-hipster",
+        functionName = "AnimSet:Hipster"
+    },
+    ['animations:hiking'] = {
+        title = "Hiking",
+        icon = "#animation-hiking",
+        functionName = "AnimSet:Hiking"
+    },
+    
+    ['animations:jog'] = {
+        title = "Jog",
+        icon = "#animation-jog",
+        functionName = "AnimSet:Jog"
+    },
+    
+    ['animations:muscle'] = {
+        title = "Muscle",
+        icon = "#animation-tough",
+        functionName = "AnimSet:Muscle"
+    },
+    
+    ['animations:quick'] = {
+        title = "Quick",
+        icon = "#animation-quick",
+        functionName = "AnimSet:Quick"
+    },
+    ['animations:wide'] = {
+        title = "Wide",
+        icon = "#animation-wide",
+        functionName = "AnimSet:Wide"
+    },
+    ['animations:scared'] = {
+        title = "Scared",
+        icon = "#animation-scared",
+        functionName = "AnimSet:Scared"
+    },
+    ['animations:guard'] = {
+        title = "Guard",
+        icon = "#animation-guard",
+        functionName = "AnimSet:Guard"
+    },
     ['animations:brave'] = {
         title = "Brave",
         icon = "#animation-brave",
@@ -351,136 +577,7 @@ newSubMenus = {
         icon = "#animation-default",
         functionName = "AnimSet:default"
     },
-    ['drivinginstructor:drivingtest'] = {
-        title = "Driving Test",
-        icon = "#drivinginstructor-drivingtest",
-        functionName = "drivingInstructor:testToggle"
-    },
-    ['drivinginstructor:submittest'] = {
-        title = "Submit Test",
-        icon = "#drivinginstructor-submittest",
-        functionName = "drivingInstructor:submitTest"
-    },
-    ['judge-raid:checkowner'] = {
-        title = "Check Owner",
-        icon = "#judge-raid-check-owner",
-        functionName = "appartment:CheckOwner"
-    },
-    ['judge-raid:seizeall'] = {
-        title = "Seize All Content",
-        icon = "#judge-raid-seize-all",
-        functionName = "appartment:SeizeAll"
-    },
-    ['judge-raid:takecash'] = {
-        title = "Take Cash",
-        icon = "#judge-raid-take-cash",
-        functionName = "appartment:TakeCash"
-    },
-    ['judge-raid:takedm'] = {
-        title = "Take Marked Bills",
-        icon = "#judge-raid-take-dm",
-        functionName = "appartment:TakeDM"
-    },
-    ['cuffs:cuff'] = {
-        title = "Cuff",
-        icon = "#cuffs-cuff",
-        functionName = "civ:cuffFromMenu"
-    },
-    ['cuffs:uncuff'] = {
-        title = "Uncuff",
-        icon = "#cuffs-uncuff",
-        functionName = "police:uncuffMenu"
-    },
-    ['cuffs:checkinventory'] = {
-        title = "Search Person",
-        icon = "#cuffs-check-inventory",
-        functionName = "pdsearch"
-    },
-    ['cuffs:unseat'] = {
-        title = "Unseat",
-        icon = "#cuffs-unseat-player",
-        functionName = "unseatPlayerCiv"
-    },
-    ['cuffs:checkphone'] = {
-        title = "Read Phone",
-        icon = "#cuffs-check-phone",
-        functionName = "police:checkPhone"
-    },
-    ['medic:revive'] = {
-        title = "Revive",
-        icon = "#medic-revive",
-        functionName = "tp:emsRevive"
-    },
-    ['medic:heal'] = {
-        title = "Patch Small",
-        icon = "#medic-heal",
-        functionName = "tp:emssmallheal"
-    },
-    ['medic:bigheal'] = {
-        title = "Patch Big",
-        icon = "#medic-bigheal",
-        functionName = "tp:emsbigheal"
-    },
-    ['police:escort'] = {
-        title = "Escort",
-        icon = "#police-action-escort",
-        functionName = "pdescort"
-    },
-    ['police:putinvehicle'] = {
-        title = "Seat Vehicle",
-        icon = "#police-action-put-in-veh",
-        functionName = "putInVehicle"
-    },
-    ['police:unseatnearest'] = {
-        title = "Unseat Nearest",
-        icon = "#police-action-unseat-nearest",
-        functionName = "outOfVehicle"
-    },
-    ['police:cuff'] = {
-        title = "Cuff",
-        icon = "#cuffs-cuff",
-        functionName = "police:cuffFromMenu"
-    },
-    ['police:mdt'] = {
-        title = "MDT",
-        icon = "#police-action-mdt",
-        functionName = "mdt"
-    },
-    ['police:toggleradar'] = {
-        title = "Toggle Radar",
-        icon = "#police-vehicle-radar",
-        functionName = "wk:radarRC"
-    },
-    ['police:frisk'] = {
-        title = "Frisk",
-        icon = "#police-action-frisk",
-        functionName = "urp-policefrisk:menuEvent"
-    },
-    ['police:pdrevive'] = {
-        title = "Revive",
-        icon = "#police-action-pdrevive",
-        functionName = "tp:pdrevive"
-    },
-    ['police:hardcuff'] = {
-        title = "Hard Cuff",
-        icon = "#police-action-hc",
-        functionName = "hardcuff"
-    },
-    ['police:softcuff'] = {
-        title = "Soft Cuff",
-        icon = "#police-action-sc",
-        functionName = "softcuff"
-    },
-    ['police:uncuff'] = {
-        title = "Uncuff",
-        icon = "#police-action-uc",
-        functionName = "uncuff"
-    },
-    ['police:panic'] = {
-        title = "Panic",
-        icon = "#police-action-panic",
-        functionName = "police:panic"
-    },
+
     ['k9:spawn'] = {
         title = "Summon",
         icon = "#k9-spawn",
@@ -531,15 +628,160 @@ newSubMenus = {
         icon = "#k9-huntfind",
         functionName = "K9:Huntfind"
     },
-    ['uber:start'] = {
-        title = "Start Delivery",
-        icon = "#police-action-mdt",
-        functionName = "urp-uberdelivery:start"
+    ['blips:gasstations'] = {
+        title = "Gas Stations",
+        icon = "#blips-gasstations",
+        functionName = "CarPlayerHud:ToggleGas"
+    },    
+    ['blips:trainstations'] = {
+        title = "Train Stations",
+        icon = "#blips-trainstations",
+        functionName = "Trains:ToggleTainsBlip"
     },
-    ['uber:finish'] = {
-        title = "End Delivery",
-        icon = "#police-action-mdt",
-        functionName = "urp-uberdelivery:end"
+    ['blips:garages'] = {
+        title = "Garages",
+        icon = "#blips-garages",
+        functionName = "Garages:ToggleGarageBlip"
+    },
+    ['blips:barbershop'] = {
+        title = "Barber Shop",
+        icon = "#blips-barbershop",
+        functionName = "hairDresser:ToggleHair"
+    },    
+    ['blips:tattooshop'] = {
+        title = "Tattoo Shop",
+        icon = "#blips-tattooshop",
+        functionName = "hairDresser:ToggleTattoo"
+    },
+    ['blips:clotheshop'] = {
+        title = "Clothes Shop",
+        icon = "#blips-clotheshop",
+        functionName = "hairDresser:ToggleClothes"
+    },
+    ['drivinginstructor:drivingtest'] = {
+        title = "Driving Test",
+        icon = "#drivinginstructor-drivingtest",
+        functionName = "drivingInstructor:testToggle"
+    },
+    ['drivinginstructor:submittest'] = {
+        title = "Submit Test",
+        icon = "#drivinginstructor-submittest",
+        functionName = "drivingInstructor:submitTest"
+    },
+    ['judge-raid:checkowner'] = {
+        title = "Check Owner",
+        icon = "#judge-raid-check-owner",
+        functionName = "appartment:CheckOwner"
+    },
+    ['judge-raid:seizeall'] = {
+        title = "Seize All Content",
+        icon = "#judge-raid-seize-all",
+        functionName = "appartment:SeizeAll"
+    },
+    ['judge-raid:takecash'] = {
+        title = "Take Cash",
+        icon = "#judge-raid-take-cash",
+        functionName = "appartment:TakeCash"
+    },
+    ['judge-raid:takedm'] = {
+        title = "Take Marked Bills",
+        icon = "#judge-raid-take-dm",
+        functionName = "appartment:TakeDM"
+    },
+    ['cuffs:cuff'] = {
+        title = "Cuff",
+        icon = "#cuffs-cuff",
+        functionName = "civ:cuffFromMenu"
+    },
+    ['cuffs:uncuff'] = {
+        title = "Uncuff",
+        icon = "#cuffs-uncuff",
+        functionName = "police:uncuffMenu"
+    },
+    ['cuffs:remmask'] = {
+        title = "Remove Mask Hat",
+        icon = "#cuffs-remove-mask",
+        functionName = "police:remmask"
+    },
+    ['cuffs:checkinventory'] = {
+        title = "Search Person",
+        icon = "#cuffs-check-inventory",
+        functionName = "police:checkInventory"
+    },
+    ['cuffs:unseat'] = {
+        title = "Unseat",
+        icon = "#cuffs-unseat-player",
+        functionName = "unseatPlayerCiv"
+    },
+    ['cuffs:checkphone'] = {
+        title = "Read Phone",
+        icon = "#cuffs-check-phone",
+        functionName = "police:checkPhone"
+    },
+    ['medic:revive2'] = {
+        title = "Revive",
+        icon = "#medic-revive",
+        functionName = "tp:pdrevive"
+    },
+    ['medic:revive'] = {
+        title = "Revive",
+        icon = "#medic-revive",
+        functionName = "tp:emsRevive"
+    },
+    ['medic:heal'] = {
+        title = "Patch Small",
+        icon = "#medic-heal",
+        functionName = "tp:emssmallheal"
+    },
+    ['medic:bigheal'] = {
+        title = "Patch Big",
+        icon = "#medic-bigheal",
+        functionName = "tp:emsbigheal"
+    },
+    ['police:cuff'] = {
+        title = "Cuff",
+        icon = "#cuffs-cuff",
+        functionName = "police:cuffFromMenu"
+    },
+    ['police:checkbank'] = {
+        title = "Check Bank",
+        icon = "#police-check-bank",
+        functionName = "police:checkBank"
+    },
+    ['police:checklicenses'] = {
+        title = "Check Licenses",
+        icon = "#police-check-licenses",
+        functionName = "police:checkLicenses"
+    },
+    ['police:removeweapons'] = {
+        title = "Remove Weapons License",
+        icon = "#police-action-remove-weapons",
+        functionName = "police:removeWeapon"
+    },
+    ['police:gsr'] = {
+        title = "GSR Test",
+        icon = "#police-action-gsr",
+        functionName = "police:gsr"
+    },
+    ['police:dnaswab'] = {
+        title = "DNA Swab",
+        icon = "#police-action-dna-swab",
+        functionName = "evidence:dnaSwab"
+    },
+    ['police:toggleradar'] = {
+        title = "Toggle Radar",
+        icon = "#police-vehicle-radar",
+        functionName = "startSpeedo"
+    },
+    ['police:runplate'] = {
+        title = "Run Plate",
+        icon = "#police-vehicle-plate",
+        functionName = "clientcheckLicensePlate"
+    },
+    ['police:panic'] = {
+        title = "Panic",
+        icon = "#police-action-panic",
+        functionName = "police:panic"
     },
     ['judge:grantDriver'] = {
         title = "Grant Drivers",
@@ -620,6 +862,21 @@ newSubMenus = {
         title = "Deny House",
         icon = "#judge-licenses-deny-house",
         functionName = "police:denyHouse"
+    },
+    ['news:setCamera'] = {
+        title = "Camera",
+        icon = "#news-job-news-camera",
+        functionName = "camera:setCamera"
+    },
+    ['news:setMicrophone'] = {
+        title = "Microphone",
+        icon = "#news-job-news-microphone",
+        functionName = "camera:setMic"
+    },
+    ['news:setBoom'] = {
+        title = "Microphone Boom",
+        icon = "#news-job-news-boom",
+        functionName = "camera:setBoom"
     },
     ['weed:currentStatusServer'] = {
         title = "Request Status",
@@ -753,22 +1010,7 @@ newSubMenus = {
         icon="#expressions-weird2",
         functionName = "expressions",
         functionParameters = { "effort_3" }
-    }, 
-    ['blips:trainstations'] = {
-        title = "Train Stations",
-        icon = "#blips-trainstations",
-        functionName = "Trains:ToggleTainsBlip"
-    },
-    ['blips:garages'] = {
-        title = "Garages",
-        icon = "#blips-garages",
-        functionName = "Garages:ToggleGarageBlip"
-    },
-    ['blips:gasstations'] = {
-        title = "Gas Stations",
-        icon = "#blips-gasstations",
-        functionName = "CarPlayerHud:ToggleGas"
-    }, 
+    }
 }
 
 RegisterNetEvent("menu:setCuffState")
@@ -789,7 +1031,6 @@ end)
 
 RegisterNetEvent('pd:deathcheck')
 AddEventHandler('pd:deathcheck', function()
-local isDead = exports["urp-deathmanager"]:GetDeath()
     if not isDead then
         isDead = true
     else
@@ -797,40 +1038,12 @@ local isDead = exports["urp-deathmanager"]:GetDeath()
     end
 end)
 
-
-RegisterNetEvent("isPolice")
-AddEventHandler("isPolice", function()
-    local LocalPlayer = exports["urp-base"]:getModule("LocalPlayer")
-    local Player = LocalPlayer:getCurrentCharacter()
-    if Player.job == 'Police' then
-        isPolice = true
-    end
-end)
-
-RegisterNetEvent('police:tenForteen')
-AddEventHandler('police:tenForteen', function()
-	local playerPed = PlayerPedId()
-	PedPosition		= GetEntityCoords(playerPed)
-    local PlayerCoords = { x = PedPosition.x, y = PedPosition.y, z = PedPosition.z }
-	
-	TriggerEvent('ems:medicDown')
-    TriggerEvent('DoLongHudText', 'Distress signal has been sent to available units!')
-	TriggerServerEvent('urp_addons_gcphone:startCall', 'ambulance', '10-14 Medic Down at Coords : ', PlayerCoords, {
-		PlayerCoords = { x = PedPosition.x, y = PedPosition.y, z = PedPosition.z },
-	})
-end)
-
-RegisterNetEvent('police:tenThirteen')
-AddEventHandler('police:tenThirteen', function()
-	local playerPed = PlayerPedId()
-	PedPosition		= GetEntityCoords(playerPed)
-    local PlayerCoords = { x = PedPosition.x, y = PedPosition.y, z = PedPosition.z }
-	
-	TriggerEvent('police:officerDown')
-	TriggerEvent('DoLongHudText', 'Distress signal has been sent to available units!')
-	TriggerServerEvent('urp_addons_gcphone:startCall', 'police', '10-13 Officer Down at Coords : ', PlayerCoords, {
-		PlayerCoords = { x = PedPosition.x, y = PedPosition.y, z = PedPosition.z },
-	})
+RegisterNetEvent('pd:deathcheck:revive')
+AddEventHandler('pd:deathcheck:revive', function()
+    isDead = false
+    Citizen.Wait(3000)
+    print('coming here to activate isdead to false')
+    isDead = false
 end)
 
 RegisterNetEvent("drivingInstructor:instructorToggle")
@@ -856,46 +1069,17 @@ AddEventHandler('enablegangmember', function(pGangNum)
     gangNum = pGangNum
 end)
 
-RegisterNetEvent('urp_handcuffs:cuffcheck')
-AddEventHandler('urp_handcuffs:cuffcheck', function()
-    local target, distance = GetClosestPlayer()
-    if exports['urp-inventory']:hasEnoughOfItem('cuffs', 1, true) then
-        if distance ~= -1 and distance <= 3.0 then
-            playerheading = GetEntityHeading(GetPlayerPed(-1))
-            playerlocation = GetEntityForwardVector(PlayerPedId())
-            playerCoords = GetEntityCoords(GetPlayerPed(-1))
-            local target_id = GetPlayerServerId(target)
-            TriggerServerEvent('urp-policejob:requesthard', target_id, playerheading, playerCoords, playerlocation)
-            Citizen.Wait(1800)
-            TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 3, 'cuff', 1.0)
-        else
-            TriggerEvent('DoLongHudText', 'Not near player', 2)
-        end
-    end
-end)
+RegisterNetEvent('warrantsGui')
+AddEventHandler('warrantsGui', function()
 
-RegisterNetEvent('urp_handcuffs:uncuff')
-AddEventHandler('urp_handcuffs:uncuff', function()
-    if exports['urp-inventory']:hasEnoughOfItem('keya', 1, true) then
-        local target, distance = GetClosestPlayer()
-        if distance ~= -1 and distance <= 3.0 then
-            playerheading = GetEntityHeading(GetPlayerPed(-1))
-            playerlocation = GetEntityForwardVector(PlayerPedId())
-            playerCoords = GetEntityCoords(GetPlayerPed(-1))
-            local target_id = GetPlayerServerId(target)
-            TriggerServerEvent('urp-policejob:requestrelease', target_id, playerheading, playerCoords, playerlocation)
-            Citizen.Wait(1200)
-            TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 3, 'uncuff', 0.5)
-        end
-    else
-        TriggerEvent('DoLongHudText', 'No Handcuff key', 2)
-    end
+    --TriggerEvent('urp-mdt:hotKeyOpen')
+    ExecuteCommand("mdt")
 end)
 
 function GetPlayers()
     local players = {}
 
-    for i = 0, 255 do
+    for i = 0, 256 do
         if NetworkIsPlayerActive(i) then
             players[#players+1]= i
         end
@@ -904,276 +1088,58 @@ function GetPlayers()
     return players
 end
 
-function loadAnimDict( dict )
-    RequestAnimDict( dict )
-    while ( not HasAnimDictLoaded( dict ) ) do
-        
-        Citizen.Wait( 1 )
-    end
-end
-
-RegisterNetEvent('FlipVehicle')
-AddEventHandler('FlipVehicle', function()
-    local ped = PlayerPedId()
-    local coords = GetEntityCoords(ped)
-    local vehicle = nil
-    if IsPedInAnyVehicle(ped, false) then vehicle = GetVehiclePedIsIn(ped, false) else vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 5.0, 0, 71) end
-        if DoesEntityExist(vehicle) then
-            loadAnimDict("random@mugging4")
-        TaskPlayAnim(PlayerPedId(), "random@mugging4" , "struggle_loop_b_thief" ,8.0, -8.0, -1, 1, 0, false, false, false )
-        local playerVeh = GetVehiclePedIsIn(PlayerPedId(), false)
-        local finished = exports["urp-taskbar"]:taskBar(10000,"Flipping Vehicle Over",false,false,playerVeh)
-        if finished == 100 then
-            ClearPedTasks(PlayerPedId())
-            local playerped = PlayerPedId()
-            local coordA = GetEntityCoords(playerped, 1)
-            local coordB = GetOffsetFromEntityInWorldCoords(playerped, 0.0, 100.0, 0.0)
-            local targetVehicle = getVehicleInDirection(coordA, coordB)
-            SetVehicleOnGroundProperly(targetVehicle)
-        end
-    else
-        TriggerEvent('DoLongHudText', 'There is no vehicle near by!', 2)
-    end
-end)
-
-function getVehicleInDirection(coordFrom, coordTo)
-	local offset = 0
-	local rayHandle
-	local vehicle
-
-	for i = 0, 100 do
-		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, PlayerPedId(), 0)	
-		a, b, c, d, vehicle = GetRaycastResult(rayHandle)
-		
-		offset = offset - 1
-
-		if vehicle ~= 0 then break end
-	end
-	
-	local distance = Vdist2(coordFrom, GetEntityCoords(vehicle))
-	
-	if distance > 25 then vehicle = nil end
-
-    return vehicle ~= nil and vehicle or 0
-end
-
-function getVehicleInDirectionClose(coordFrom, coordTo)
-	local offset = 0
-	local rayHandle
-	local vehicle
-
-	for i = 0, 100 do
-		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, PlayerPedId(), 0)	
-		a, b, c, d, vehicle = GetRaycastResult(rayHandle)
-		
-		offset = offset - 1
-
-		if vehicle ~= 0 then break end
-	end
-	
-	local distance = Vdist2(coordFrom, GetEntityCoords(vehicle))
-	
-	if distance > 3 then vehicle = nil end
-
-    return vehicle ~= nil and vehicle or 0
-end
-
-RegisterNetEvent('civputInVehicle')
-AddEventHandler('civputInVehicle', function()
-    local target, distance = GetClosestPlayer()
-    if target and distance < 3 then
-        TriggerServerEvent('urp-interactions:putInVehicle', GetPlayerServerId(target))
-	else
-        TriggerEvent('DoLongHudText', 'There is no player(s) nearby!',2)
-	end
-end)
-
-RegisterNetEvent('urp-interactions:putInVehicle')
-AddEventHandler('urp-interactions:putInVehicle', function()
-    local playerPed = PlayerPedId()
-    if not IsPedInAnyVehicle(playerPed) then
-        local coordA = GetEntityCoords(playerPed, 1)
-        local coordB = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 100.0, 0.0)
-        local vehicle = getVehicleInDirectionClose(coordA, coordB)
-        local modelHash = GetEntityModel(vehicle)
-        if vehicle then
-            for i = GetVehicleModelNumberOfSeats(modelHash), 0, -1 do
-                if IsVehicleSeatFree(vehicle, i) then
-                    if not isDead then
-                        TaskWarpPedIntoVehicle(playerPed, vehicle, i)
-                    else
-                        ClearPedSecondaryTask(playerPed)
-                        Citizen.Wait(0)
-                        TaskWarpPedIntoVehicle(playerPed, vehicle, i)
-                    end
-                    break
-                end
-
-            end
-        end
-    end
-end)
-
-RegisterNetEvent('civoutOfVehicle')
-AddEventHandler('civoutOfVehicle', function()
-    local target, distance = GetClosestPlayer()
-    if target and distance < 3 then
-        TriggerServerEvent('urp-interactions:outOfVehicle', GetPlayerServerId(target))
-	else
-		TriggerEvent('DoLongHudText', 'There is no player(s) nearby!', 2)
-	end
-end)
-
-RegisterNetEvent('urp-interactions:outOfVehicle')
-AddEventHandler('urp-interactions:outOfVehicle', function()
-    local playerPed = PlayerPedId()
-    if IsPedInAnyVehicle(playerPed) then
-        local vehicle = GetVehiclePedIsIn(playerPed)
-        TaskLeaveVehicle(playerPed, vehicle, 16)
-    end
-end)
-
---START SCUBA
-
-function loadAnimDict( dict )
-    while ( not HasAnimDictLoaded( dict ) ) do
-        RequestAnimDict( dict )
-        Citizen.Wait( 5 )
-    end
-end
-
-attachedProp = 0
-attachedProp2 = 0
-
-function removeAttachedProp2()
-	DeleteEntity(attachedProp2)
-	attachedProp2 = 0
-end
-function removeAttachedProp()
-	DeleteEntity(attachedProp)
-	attachedProp = 0
-end
-function attachProp2(attachModelSent,boneNumberSent,x,y,z,xR,yR,zR)
-	removeAttachedProp2()
-	attachModel = GetHashKey(attachModelSent)
-	boneNumber = boneNumberSent
-	local bone = GetPedBoneIndex(PlayerPedId(), boneNumberSent)
-	--local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
-	RequestModel(attachModel)
-	while not HasModelLoaded(attachModel) do
-		Citizen.Wait(100)
-	end
-	attachedProp2 = CreateObject(attachModel, 1.0, 1.0, 1.0, 1, 1, 0)
-	exports["isPed"]:GlobalObject(attachedProp2)
-	AttachEntityToEntity(attachedProp2, PlayerPedId(), bone, x, y, z, xR, yR, zR, 1, 1, 0, 0, 2, 1)
-	SetModelAsNoLongerNeeded(attachModel)
-end
-function attachProp(attachModelSent,boneNumberSent,x,y,z,xR,yR,zR)
-	removeAttachedProp()
-	attachModel = GetHashKey(attachModelSent)
-	boneNumber = boneNumberSent 
-	local bone = GetPedBoneIndex(PlayerPedId(), boneNumberSent)
-	--local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(), true))
-	RequestModel(attachModel)
-	while not HasModelLoaded(attachModel) do
-		Citizen.Wait(100)
-	end
-	attachedProp = CreateObject(attachModel, 1.0, 1.0, 1.0, 1, 1, 0)
-	exports["isPed"]:GlobalObject(attachedProp)
-	AttachEntityToEntity(attachedProp, PlayerPedId(), bone, x, y, z, xR, yR, zR, 1, 1, 0, 0, 2, 1)
-	SetModelAsNoLongerNeeded(attachModel)
-end
-
-function VehicleInFront()
-    local pos = GetEntityCoords(PlayerPedId())
-    local entityWorld = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 3.0, 0.0)
-    local rayHandle = CastRayPointToPoint(pos.x, pos.y, pos.z, entityWorld.x, entityWorld.y, entityWorld.z, 10, PlayerPedId(), 0)
-    local a, b, c, d, result = GetRaycastResult(rayHandle)
-    return result
-end
-
-RegisterCommand('scuba', function()
-	local vehFront = VehicleInFront()
-    if vehFront > 0 then
-        if GetVehicleDoorAngleRatio(vehFront, 5) ~= 0.0 then
-  		    loadAnimDict('anim@narcotics@trash')
-            TaskPlayAnim(PlayerPedId(),'anim@narcotics@trash', 'drop_front',0.9, -8, 1900, 49, 3.0, 0, 0, 0)	
-                local finished = exports["urp-taskbar"]:taskBar(4000,"Grabbing Scuba Gear")
-                if finished == 100 then
-	  		    loadAnimDict('anim@narcotics@trash')
-    		    TaskPlayAnim(PlayerPedId(),'anim@narcotics@trash', 'drop_front',0.9, -8, 1900, 49, 3.0, 0, 0, 0)	  		
-			    TriggerEvent("UseOxygenTank")
-            end
-        else
-            TriggerEvent('DoLongHudText', 'The trunk is closed?!', 2)
-        end
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        if hasOxygenTankOn and IsPedSwimmingUnderWater(PlayerPedId()) then
-            SetPedDiesInWater(PlayerPedId(), false)
-        elseif not hasOxygenTankOn and IsPedSwimmingUnderWater(PlayerPedId()) then
-            SetPedDiesInWater(PlayerPedId(), true)
-        end
-    end
-end)
-
-RegisterNetEvent("menu:hasOxygenTank")
-AddEventHandler("menu:hasOxygenTank", function(pHasOxygenTank)
-    hasOxygenTankOn = pHasOxygenTank
-end)
-
-RegisterNetEvent("RemoveOxyTank")
-AddEventHandler("RemoveOxyTank",function()
-    TriggerEvent('menu:hasOxygenTank', false)
-    removeAttachedProp()
-    removeAttachedProp2()
-    TriggerEvent('DoLongHudText', 'Removed Scuba Gear', 2)
-end)
-
-RegisterNetEvent("UseOxygenTank")
-AddEventHandler("UseOxygenTank",function()
-    TriggerEvent('menu:hasOxygenTank', true)
-    attachProp("p_s_scuba_tank_s", 24818, -0.25, -0.25, 0.0, 180.0, 90.0, 0.0)
-    attachProp2("p_s_scuba_mask_s", 12844, 0.0, 0.0, 0.0, 180.0, 90.0, 0.0)
-    TriggerEvent('DoLongHudText', 'Equipped Scuba Gear')
-end)
-
---END SCUBA
-GetClosestPlayer = function()
+function GetClosestPlayer()
     local players = GetPlayers()
     local closestDistance = -1
     local closestPlayer = -1
+    local closestPed = -1
     local ply = PlayerPedId()
     local plyCoords = GetEntityCoords(ply, 0)
-    
-    for index,value in ipairs(players) do
-        local target = GetPlayerPed(value)
-        if(target ~= ply) then
-            local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
-            local distance = #(vector3(targetCoords["x"], targetCoords["y"], targetCoords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
-            if(closestDistance == -1 or closestDistance > distance) then
-                closestPlayer = value
-                closestDistance = distance
+    if not IsPedInAnyVehicle(PlayerPedId(), false) then
+        for index,value in ipairs(players) do
+            local target = GetPlayerPed(value)
+            if(target ~= ply) then
+                local targetCoords = GetEntityCoords(GetPlayerPed(value), 0)
+                local distance = #(vector3(targetCoords["x"], targetCoords["y"], targetCoords["z"]) - vector3(plyCoords["x"], plyCoords["y"], plyCoords["z"]))
+                if(closestDistance == -1 or closestDistance > distance) and not IsPedInAnyVehicle(target, false) then
+                    closestPlayer = value
+                    closestPed = target
+                    closestDistance = distance
+                end
             end
         end
+        return closestPlayer, closestDistance, closestPed
     end
-    
-    return closestPlayer, closestDistance
 end
 
-RegisterNetEvent('pdescort')
-AddEventHandler('pdescort', function()
-	local closestPlayer, closestDistance = GetClosestPlayer()
-    if closestPlayer ~= -1 and closestDistance <= 2.0 then
-        local job = exports['urp-base']:getModule("LocalPlayer"):getCurrentCharacter().job
-        if job == "Police" then
-            TriggerServerEvent('urp-policejob:drag', GetPlayerServerId(closestPlayer))
-        end
-	else
-		TriggerEvent('DoLongHudText', 'There is no player(s) nearby!', 2)
-	end
-end)
+trainstations = {
+    {-547.34057617188,-1286.1752929688,25.3059978411511},
+    {-892.66284179688,-2322.5168457031,-13.246466636658},
+    {-1100.2299804688,-2724.037109375,-8.3086919784546},
+    {-1071.4924316406,-2713.189453125,-8.9240007400513},
+    {-875.61907958984,-2319.8686523438,-13.241264343262},
+    {-536.62890625,-1285.0009765625,25.301458358765},
+    {270.09558105469,-1209.9177246094,37.465930938721},
+    {-287.13568115234,-327.40936279297,8.5491418838501},
+    {-821.34295654297,-132.45257568359,18.436864852905},
+    {-1359.9794921875,-465.32354736328,13.531299591064},
+    {-498.96591186523,-680.65930175781,10.295949935913},
+    {-217.97073364258,-1032.1605224609,28.724565505981},
+    {113.90325164795,-1729.9976806641,28.453630447388},
+    {117.33223724365,-1721.9318847656,28.527353286743},
+    {-209.84713745117,-1037.2414550781,28.722997665405},
+    {-499.3971862793,-665.58514404297,10.295639038086},
+    {-1344.5224609375,-462.10494995117,13.531820297241},
+    {-806.85192871094,-141.39852905273,18.436403274536},
+    {-302.21514892578,-327.28854370117,8.5495929718018},
+    {262.01733398438,-1198.6135253906,37.448017120361},
+--  {2072.4086914063,1569.0856933594,76.712524414063},
+    {664.93090820313,-997.59942626953,22.261747360229},
+    {190.62687683105,-1956.8131103516,19.520135879517},
+--  {2611.0278320313,1675.3806152344,26.578210830688},
+    {2615.3901367188,2934.8666992188,39.312232971191},
+    {2885.5346679688,4862.0146484375,62.551517486572},
+    {47.061096191406,6280.8969726563,31.580261230469},
+    {2002.3624267578,3619.8029785156,38.568252563477},
+    {2609.7016601563,2937.11328125,39.418235778809}
+}

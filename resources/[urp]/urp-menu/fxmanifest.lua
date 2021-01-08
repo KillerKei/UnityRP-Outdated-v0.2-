@@ -1,8 +1,10 @@
-resource_manifest_version "44febabe-d386-4d18-afbe-5e627f4af937"
+fx_version 'adamant'
+games { 'gta5' }
 
 client_script {
     "config.lua",
-    "client_menu.lua"
+	"client_menu.lua",
+	"@irp-errorlog/client/cl_errorlog.lua"
 }
 
 server_script {

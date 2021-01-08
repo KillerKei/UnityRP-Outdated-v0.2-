@@ -1,15 +1,15 @@
-RegisterServerEvent('urp-interactions:putInVehicle')
-AddEventHandler('urp-interactions:putInVehicle', function(target)
-    TriggerClientEvent('urp-interactions:putInVehicle', target)
+irpCore = nil
+
+TriggerEvent('irp:getSharedObject', function(obj)
+    irpCore = obj
 end)
 
-RegisterServerEvent('urp-interactions:outOfVehicle')
-AddEventHandler('urp-interactions:outOfVehicle', function(target)
-    TriggerClientEvent('urp-interactions:outOfVehicle', target)
+RegisterServerEvent('irp-interactions:putInVehicle')
+AddEventHandler('irp-interactions:putInVehicle', function(target)
+    TriggerClientEvent('irp-interactions:putInVehicle', target)
 end)
 
-RegisterServerEvent('urp-policejob:drag')
-AddEventHandler('urp-policejob:drag', function(target)
-    local src = source
-	TriggerClientEvent('urp-policejob:drag', target, src)
+RegisterServerEvent('irp-interactions:outOfVehicle')
+AddEventHandler('irp-interactions:outOfVehicle', function(target)
+    TriggerClientEvent('irp-interactions:outOfVehicle', target)
 end)

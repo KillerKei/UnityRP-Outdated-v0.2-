@@ -1,11 +1,4 @@
-fx_version 'bodacious'
-games { 'rdr3', 'gta5' }
-version '1.0.0'
-
-dependencies {
-    "ghmattimysql",
-    -- "yarn"
-} 
+resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
 
 files {
     'client/dist/index.html',
@@ -14,7 +7,14 @@ files {
 }
 -- I started work on a server component in NodeJS, it's going to require
 -- a lot more work tho...
-client_script 'client/*.lua'
-server_script 'server/sv_dispatch.lua'
+client_scripts {
+	'client/*.lua'
+}
+
+server_script {
+    '@mysql-async/lib/MySQL.lua',
+    'server/*.lua',
+    -- 'server/*.js'
+}
 
 ui_page 'client/dist/index.html'
