@@ -6,6 +6,7 @@ Config = {}
 Config.Priority = {
     --Staff
     ["steam:11000010df5cc6d"] = 90, -- Keiron
+    ["ssteam:1100001343cdf96"] = 90, -- Mortal
     ["steam:11000013713d911"] = 90, -- Alfie
     ["steam:110000136b52d18"] = 90, -- Kian
     ["steam:1100001012DB6BE"] = 90, -- Toon
