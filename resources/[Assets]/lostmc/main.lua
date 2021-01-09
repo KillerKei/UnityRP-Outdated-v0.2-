@@ -1,7 +1,7 @@
 Citizen.CreateThread(function()
     Wait(900)
     while true do 
-        local rank = exports['isPed']:isPed('job')
+        local job = exports['isPed']:isPed('job')
         local player = GetEntityCoords(PlayerPedId())
         local distance = #(vector3(975.96069335938,-98.701530456543,74.870124816895) - player)
         local distanceTuner = #(vector3(949.88232421875,-966.78704833984,39.502140045166) - player)
@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
                 TriggerEvent("server-inventory-open", "9", "Craft");
                 Wait(1000)	
              end
-        elseif distanceTuner < 1.0 and rank == "mechanic" then
+        elseif distanceTuner < 1.0 and job == "mechanic" then
         	Wait(1)
              DrawMarker(27,949.88232421875,-966.78704833984,38.502140045166, 0, 0, 0, 0, 0, 0, 0.60, 0.60, 0.3, 11, 215, 11, 60, 0, 0, 2, 0, 0, 0, 0) 
              DT(949.88232421875,-966.78704833984,39.502140045166, "[E] Tuner Crafting")
