@@ -67,7 +67,7 @@ AddEventHandler('chat:oocmessage', function(cid, firstname, lastname, dob, gende
         template = '<div class="chat-message tweet"><b>OOC {0} [{1}] :</b> {2}</div>',
         args = {firstname .. ' ' ..lastname .. ' ', source, message }
     })
-    PerformHttpRequest("https://discord.com/api/webhooks/780108039440171039/xcDZHxMACy-mkybcIvgpvWd5yFxiaOMkE_e2cUWKOvQNgmgLDWP0w_GDc_fu_tXAItrI", function(err, text, headers) end, 'POST', json.encode({username = playerName .. " [" .. source .. "]", content = "OOC Message : " .. message, tts = false}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest("https://discord.com/api/webhooks/797455468703514635/ZWr8D8ycyhmkzzl5mi_hripbhV9gk2F7iwOE69jWpx9Noe4rR7eh_sss4g6bCPrrZI17", function(err, text, headers) end, 'POST', json.encode({username = playerName .. " [" .. source .. "]", content = "OOC Message : " .. message, tts = false}), { ['Content-Type'] = 'application/json' })
 end)
 
 

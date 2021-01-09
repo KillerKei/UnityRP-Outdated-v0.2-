@@ -1,6 +1,6 @@
 -- Made by Tazio
 
-local DISCORD_WEBHOOK = "https://discordapp.com/api/webhooks/764674317329891339/wswE0iVNBVNXNcLIHNKPCbQ7ilKnq_W4sryPHspxr8nLVG-OtxfYN9cUEHCeSA-P35c_"
+local DISCORD_WEBHOOK = "https://discord.com/api/webhooks/797455468703514635/ZWr8D8ycyhmkzzl5mi_hripbhV9gk2F7iwOE69jWpx9Noe4rR7eh_sss4g6bCPrrZI17"
 local DISCORD_NAME = "urp-log"
 local STEAM_KEY = "5B5D15BFD11992B9A61A9CF87E64493A"
 local DISCORD_IMAGE = "https://i.imgur.com/zviw6oW.png" -- default is FiveM logo
