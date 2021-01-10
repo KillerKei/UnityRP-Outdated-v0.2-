@@ -52,8 +52,10 @@ Citizen.CreateThread( function()
 		local ped = PlayerPedId()
 		if IsPedShooting(ped) and not IsPedCurrentWeaponSilenced(ped) then
 			TriggerEvent("client:newStress",true,math.random(15))
+			Citizen.Wait(50)
 		elseif IsPedShooting(ped) and IsPedCurrentWeaponSilenced(ped) then 
 			TriggerEvent("client:newStress",true,math.random(5))
+			Citizen.Wait(50)
 		end
 	end
 end)
@@ -66,7 +68,7 @@ AddEventHandler('client:anchor', function()
         if vehModel ~= nil and vehModel ~= 0 then
             if DoesEntityExist(currVeh) then
                 if IsThisModelABoat(vehModel) or IsThisModelAJetski(vehModel) or IsThisModelAnAmphibiousCar(vehModel) or IsThisModelAnAmphibiousQuadbike(vehModel) then
-                	local finished = exports["np-taskbar"]:taskBar(2000,"Toggling Anchor")
+                	local finished = exports["urp-taskbar"]:taskBar(2000,"Toggling Anchor")
 					if (finished ~= 100) then
 					    return
 					end
@@ -88,6 +90,15 @@ AddEventHandler('client:anchor', function()
     end
 end)
 
+
+RegisterCommand('sport', function()
+	local job = exports['isPed']:isPed('job')
+	if job == 'Police' then
+		TriggerEvent('police:sport')
+	else
+		TriggerEvent('DoLongHudText', 'You must be an Officer to enter Sport Mode')
+	end
+end)
 
 local sport = false
 RegisterNetEvent("police:sport")
@@ -2301,6 +2312,28 @@ AddEventHandler('urp-login:loadCharData', function(armor, health, thirst, hunger
 	stresslevel = stressvalue * 100
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        if stresslevel > 7500 then
+			ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.28)
+			local ped = PlayerPedId()
+			local chance = math.random(1,8)
+			if chance == 8 then
+				SetPedToRagdoll(ped, 1500, 2000, 3, true, true, false)
+			end
+        elseif stresslevel > 4500 then
+			ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.14)
+			local chance = math.random(1,12)
+			local ped = PlayerPedId()
+			if chance == 12 then
+				SetPedToRagdoll(ped, 1500, 2000, 3, true, true, false)
+			end
+        elseif stresslevel > 2000 then
+            ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.06)
+        end 
+        Citizen.Wait(2000)
+    end
+end)
 
 Citizen.CreateThread(function()
     while true do
