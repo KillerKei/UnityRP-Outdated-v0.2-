@@ -347,41 +347,34 @@ function playLockAnimation()
  end
 end
 
-
 RegisterCommand('givekey', function(args, source)
   local coordA = GetEntityCoords(GetPlayerPed(-1), 1)
   local coordB = GetOffsetFromEntityInWorldCoords(GetPlayerPed(-1), 0.0, 100.0, 0.0)
   local latestveh = getVehicleInDirection(coordA, coordB)
 
   if latestveh == nil or not DoesEntityExist(latestveh) then
-    --TriggerEvent("chatMessage", "Vehicle not found!",2)
-    TriggerEvent('DoLongHudText', 'No vehicle found.', 2)
+    TriggerEvent('DoLongHudText', 'no vehicle found', 2)
     return
   end
 
   if not hasVehicleKey(GetVehicleNumberPlateText(latestveh)) then
-      --TriggerEvent("chatMessage", "No keys for target vehicle!",2)
-      TriggerEvent('DoLongHudText', 'No keys for target vehicle!')
+    TriggerEvent('DoLongHudText', 'No keys for target vehicle', 1)
       return
   end
 
   if GetDistanceBetweenCoords(GetEntityCoords(latestveh), GetEntityCoords(GetPlayerPed(-1), 0)) > 5 then
-    --TriggerEvent("chatMessage", "You are to far away from the vehicle!",2)
-    TriggerEvent('DoLongHudText', 'You are to far away from the vehicle!')
+    TriggerEvent('DoLongHudText', 'You are to far away from the vehicle', 1)
     return
   end
 
   t, distance = GetClosestPlayer()
   if(distance ~= -1 and distance < 5) then
     TriggerServerEvent('garage:giveKey', GetPlayerServerId(t), GetVehicleNumberPlateText(latestveh))
-    --TriggerEvent("chatMessage", "You just gave keys to your vehicles!",1)
-    TriggerEvent('DoLongHudText', 'You just gave keys to your vehicle!')
+    TriggerEvent('DoLongHudText', 'You just gave keys to your vehicle!', 1)
   else
-    --TriggerEvent("chatMessage", "No player near you!",2)
-    TriggerEvent('DoLongHudText', 'No player near you!')
+    TriggerEvent('DoLongHudText', 'No player near you', 2)
   end
 end)
-
 
 function GetPlayers()
     local players = {}
