@@ -237,6 +237,7 @@ AddEventHandler("urp-admin:bringPlayer", function(targPos)
 
 
     Citizen.CreateThread(function()
+        Citizen.Wait(100)
         RequestCollisionAtCoord(targPos[1],targPos[2],targPos[3])
         SetEntityCoordsNoOffset(PlayerPedId(), targPos[1],targPos[2],targPos[3], 0, 0, 2.0)
         FreezeEntityPosition(PlayerPedId(), true)
@@ -272,7 +273,7 @@ end)
 RegisterNetEvent("urp-admin:runSpawnCommand")
 AddEventHandler("urp-admin:runSpawnCommand", function(model, livery)
     Citizen.CreateThread(function()
-
+        Citizen.Wait(10)
         local hash = GetHashKey(model)
 
         if not IsModelAVehicle(hash) then return end
