@@ -48,6 +48,19 @@ AddEventHandler('phone:reset', function(cidsent)
   inPhone = false
 end)
 
+RegisterCommand('answer', function()
+  TriggerEvent('phone:answercall', src)
+end)
+RegisterCommand('a',function()
+  TriggerEvent('phone:answercall', src)
+end)
+RegisterCommand('h', function()
+  TriggerEvent('phone:endCalloncommand', src)
+end)
+RegisterCommand("hangup",function()
+  TriggerEvent('phone:endCalloncommand', src)
+end)
+
 RegisterNetEvent('Yougotpaid')
 AddEventHandler('Yougotpaid', function(cidsent)
     if tonumber(cid) == tonumber(cidsent) then
@@ -2258,6 +2271,10 @@ AddEventHandler('racing:clearFinishedRaces', function(id)
 end)
 
 RegisterCommand('pn', function(source)
+  TriggerServerEvent('phone:pn', exports['isPed']:isPed('cid'))
+end)
+
+RegisterCommand('pnum', function(source)
   TriggerServerEvent('phone:pn', exports['isPed']:isPed('cid'))
 end)
 
