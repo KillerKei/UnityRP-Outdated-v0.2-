@@ -293,7 +293,7 @@ function cmd.RunCommand(caller, args)
 
     Citizen.CreateThread(function()
         while true do
-            Citizen.Wait(0)
+            Citizen.Wait(3)
             if cmd.vars.toggle then
                 SetPlayerInvincible(PlayerId(), true)
             elseif not cmd.vars.toggle then
@@ -488,7 +488,7 @@ function cmd.Init()
     
     Citizen.CreateThread(function()
         while true do
-            Citizen.Wait(0)
+            Citizen.Wait(4)
             for k,v in pairs(cmd.vars.cloaked) do
                 local playerId = GetPlayerFromServerId(k)
                 local ped = GetPlayerPed(playerId)
@@ -649,6 +649,7 @@ function cmd.RunCommand(caller, args)
             local startedCollision = GetGameTimer()
 
             while not HasCollisionLoadedAroundEntity(ped) do
+                Citizen.Wait(10)
                 if GetGameTimer() - startedCollision > 5000 then break end
                 Citizen.Wait(0)
             end
@@ -903,6 +904,7 @@ function cmd.RunCommand(caller, args)
     if caller.retn then cmd.vars.lastPos = nil else cmd.vars.lastPos = GetEntityCoords(ped) end
 
     Citizen.CreateThread(function()
+        Citizen.Wait(5)
         RequestCollisionAtCoord(targPos)
         SetEntityCoordsNoOffset(PlayerPedId(), targPos, 0, 0, 2.0)
         FreezeEntityPosition(PlayerPedId(), true)
@@ -1015,6 +1017,7 @@ function cmd.Init()
     cmd.vars.toggle = false
 
     Citizen.CreateThread(function()
+        Citizen.Wait(5)
         local function CreateBlip(playerId)
             local playerPed = GetPlayerPed(playerId)
             local blip = AddBlipForEntity(playerPed)
@@ -1055,9 +1058,10 @@ function cmd.Init()
         end
 
         while true do
-            Citizen.Wait(0)
+            Citizen.Wait(10)
 
             for i = 0, 255 do
+                Citizen.Wait(100)
                 if cmd.vars.toggle and NetworkIsPlayerActive(i) and IsPlayerPlaying(i) then
 
                     if not cmd.vars.blips[i] then CreateBlip(i) end
@@ -1145,6 +1149,7 @@ function cmd.RunCommand(caller, args)
         local timeout = 0
 
         while true do
+            Citizen.Wait(10)
             if timeout >= 3000 then return end
             timeout = timeout + 1
 

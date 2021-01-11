@@ -195,7 +195,7 @@ AddEventHandler('player:setServerMeta', function(armor, thirst, hunger)
     local char = user:getCurrentCharacter(uid[1].uid)
     local characterId = char.id
 
-    exports.ghmattimysql:execute('UPDATE __characters SET armor= ?,SET health= ?, water= ?, food= ? WHERE id= ?', {armor, health, thirst, hunger, characterId})
+    -- exports.ghmattimysql:execute('UPDATE __characters SET armor= ?,SET health= ?, water= ?, food= ? WHERE id= ?', {armor, health, thirst, hunger, characterId})
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)

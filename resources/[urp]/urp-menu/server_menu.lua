@@ -1,15 +1,9 @@
-irpCore = nil
-
-TriggerEvent('irp:getSharedObject', function(obj)
-    irpCore = obj
+RegisterServerEvent('urp-interactions:putInVehicle')
+AddEventHandler('urp-interactions:putInVehicle', function(target)
+    TriggerClientEvent('urp-interactions:putInVehicle', target)
 end)
 
-RegisterServerEvent('irp-interactions:putInVehicle')
-AddEventHandler('irp-interactions:putInVehicle', function(target)
-    TriggerClientEvent('irp-interactions:putInVehicle', target)
-end)
-
-RegisterServerEvent('irp-interactions:outOfVehicle')
-AddEventHandler('irp-interactions:outOfVehicle', function(target)
-    TriggerClientEvent('irp-interactions:outOfVehicle', target)
+RegisterServerEvent('urp-interactions:outOfVehicle')
+AddEventHandler('urp-interactions:outOfVehicle', function(target)
+    TriggerClientEvent('urp-interactions:outOfVehicle', target)
 end)
