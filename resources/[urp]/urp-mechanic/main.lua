@@ -11,19 +11,6 @@ local degHealth = {
 local engineHealth = 0
 local bodyHealth = 0
 Job = nil
-
-Citizen.CreateThread(function()
-	local blip = AddBlipForCoord(-339.2438,-136.6063,38.55546)
-	SetBlipSprite (blip, 446)
-	SetBlipDisplay(blip, 4)
-	SetBlipScale  (blip, 0.7)
-	SetBlipColour (blip, 1)
-	SetBlipAsShortRange(blip, true)
-
-	BeginTextCommandSetBlipName('STRING')
-	AddTextComponentSubstringPlayerName('Bad Boy Customs')
-	EndTextCommandSetBlipName(blip)
-end)
 -- #MarkedForMarker
 Citizen.CreateThread(function()
       while true do
