@@ -23,7 +23,7 @@ Citizen.CreateThread( function()
 	end
 	while true do 
 		plyId = PlayerPedId()
-		plyCoords = GetEntityCoords(plyId)
+		plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
 		Citizen.Wait(200)
 	end
 end)
@@ -44,7 +44,7 @@ end)
 --Davis
 local pedsused = {}
 
-local cocainetime = false
+local cocainetime = true
 local cracktime = false
 local sellingcocaine = false
 local sellingcrack = false
@@ -58,8 +58,9 @@ end
 
 
 function GetRandomNPC()
-    local playerped = plyId
-    local playerCoords = plyCoords
+	local playerped = plyId
+	plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
+	local playerCoords = plyCoords
     local handle, ped = FindFirstPed()
     local success
     local rped = nil
@@ -78,6 +79,10 @@ function GetRandomNPC()
     EndFindPed(handle)
     return rped
 end
+
+RegisterCommand("corner", function(source, args)
+	TriggerEvent('drugs:corner')
+end)
 
 function canPedBeUsed(ped,fresh)
     if ped == nil then
@@ -513,7 +518,7 @@ AddEventHandler('drugs:corner', function()
 	if sellingcocaine or sellingcrack or sellingweed then
 		EndSelling()
 	end
-	
+	local plyCoords = GetEntityCoords(GetPlayerPed(-1), false)
     local x, y, z = table.unpack(GetEntityCoords(plyId, true))
     local Area = GetLabelText(GetNameOfZone(x, y, z))
     local x, y, z = table.unpack(GetEntityCoords(plyId, true))
@@ -703,6 +708,7 @@ AddEventHandler('AllowSale', function(NPC,saleprice, amount)
 		DrawText3DTest(x,y,z, "[" ..Controlkey["generalUse"][2].. "] to sell drugs for " .. saleprice .. " roll(s) [".. Controlkey["generalUseSecondaryWorld"][2] .. "] to shoo")
 		if IsControlJustReleased(2, Controlkey["generalUse"][1]) and #(plyCoords - vector3(x,y,z)) < 2.0 then
 			if IsPedModel(NPC,416176080) then
+				print('ok lol')
 				TriggerEvent("shop:isNearPed")
 			end
 
@@ -1024,6 +1030,7 @@ AddEventHandler("weed:currenttask", function(workNumber,amountRequired)
 	currentWorkNumber = 0 
 	Citizen.Wait(1000)
 	currentWorkNumber = workNumber
+	
 	--print(currentWorkNumber)
 	while currentWorkNumber ~= 0 do
 		local x = workArray[workNumber]["x"]
@@ -1386,8 +1393,8 @@ AddEventHandler("gangTasks:GroupDeliveryTask", function(cidsent,TaskNumber)
 
 	SetVehicleOnGroundProperly(taskveh)
 	SetVehicleHasBeenOwnedByPlayer(taskveh,true)
-	local id = NetworkGetNetworkIdFromEntity(taskveh)
-	SetNetworkIdCanMigrate(id, true)
+	-- local id = NetworkGetNetworkIdFromEntity(taskveh)
+	-- SetNetworkIdCanMigrate(id, true)
 
 	SetVehicleWindowTint(taskveh, 1.0)
 	local plate = GetVehicleNumberPlateText(taskveh)
@@ -1503,8 +1510,8 @@ AddEventHandler("gangTasks:deliveryTask", function(cidsent, TaskNumber)
 
 	SetVehicleOnGroundProperly(taskveh)
 	SetVehicleHasBeenOwnedByPlayer(taskveh,true)
-	local id = NetworkGetNetworkIdFromEntity(taskveh)
-	SetNetworkIdCanMigrate(id, true)
+	-- local id = NetworkGetNetworkIdFromEntity(taskveh)
+	-- SetNetworkIdCanMigrate(id, true)
 
 	SetVehicleWindowTint(taskveh, 1.0)
 	local plate = GetVehicleNumberPlateText(taskveh)
