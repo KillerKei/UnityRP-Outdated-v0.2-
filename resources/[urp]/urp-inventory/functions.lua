@@ -692,6 +692,7 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
             remove = true
             Wait(200)
             Wait(200)
+            TriggerEvent("animation:PlayAnimation","weed")
             TriggerEvent("stress:timed",1000,"WORLD_HUMAN_SMOKING_POT")
         end
     end
