@@ -1,14 +1,3 @@
-local Keys = {
-	["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57, 
-	["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177, 
-	["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-	["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-	["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-	["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70, 
-	["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-	["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
 
 local timer = 0
 local GunQuantity = 0
@@ -151,7 +140,7 @@ end
 			--print("Running thread")
 				--if hint == nil then
 
-					local distance = GetDistanceBetweenCoords(plyCoords, -769.23773193359, 5595.6215820313, 33.48571395874, true)
+				local distance  = #(plyCoords - vector3(-769.23773193359, 5595.6215820313, 33.48571395874) )
 
 					if distance < 5.0 then
 						--print("In dist")
@@ -164,7 +153,7 @@ end
 						sleep = 5
 						DrawM(hint, 27, -769.23773193359, 5595.6215820313, 33.48571395874 - 0.945, 255, 255, 255, 1.5, 15)
 						if distance < 1.0 then
-							if IsControlJustReleased(0, Keys['E']) then
+							if IsControlJustReleased(0, 38) then
 								if OnGoingHuntSession then
 									--print("Ongoing hunting session started")
 									StartHuntingSession()
@@ -218,7 +207,7 @@ function StartHuntingSession()
 				OnGoingHuntSession = true
 				--Car
 				Citizen.CreateThread(function()
-				vehiclehash = GetHashKey('blazer')
+				vehiclehash = 'blazer'
 				RandomLoc()
 				RequestModel(vehiclehash)
 				CreateVehicle(vehiclehash, -769.6, 5592.7, 33.4, 169.7)
@@ -233,8 +222,6 @@ function StartHuntingSession()
 				TaskWarpPedIntoVehicle(PlayerPedId() , vehicle, -1)
 				Citizen.Wait(3000)
 
-
-
 				--Animals
 
 				Citizen.CreateThread(function()
@@ -242,17 +229,17 @@ function StartHuntingSession()
 				local rand = math.random(1,4)
 				for index, value in pairs(subLocations) do
 					if value[index] == value[rand] then
-						for k, v in pairs(value) do
+						for i = 1, #value do
 							local rando = math.random(1,4)
 							local Animal = nil
 							if rando == 1 then
-								Animal = CreatePed(5, GetHashKey('a_c_deer'), v['x'], v['y'], v['z'], 0.0, false, true)
+								Animal = CreatePed(5, GetHashKey('a_c_deer'), value[i]['x'], value[i]['y'], value[i]['z'], 0.0, false, true)
 							elseif rando == 2 then
-								Animal = CreatePed(5, GetHashKey('a_c_deer'), v['x'], v['y'], v['z'], 0.0, false, true)
+								Animal = CreatePed(5, GetHashKey('a_c_deer'), value[i]['x'], value[i]['y'], value[i]['z'], 0.0, false, true)
 							elseif rando == 3 then
-								Animal = CreatePed(5, GetHashKey('a_c_deer'), v['x'], v['y'], v['z'], 0.0, false, true)
+								Animal = CreatePed(5, GetHashKey('a_c_deer'), value[i]['x'], value[i]['y'], value[i]['z'], 0.0, false, true)
 							elseif rando == 4 then
-								Animal = CreatePed(5, GetHashKey('a_c_deer'), v['x'], v['y'], v['z'], 0.0, false, true)
+								Animal = CreatePed(5, GetHashKey('a_c_deer'), value[i]['x'], value[i]['y'], value[i]['z'], 0.0, false, true)
 							end
 							
 							
@@ -276,7 +263,7 @@ function StartHuntingSession()
 								BeginTextCommandSetBlipName("STRING")
 								AddTextComponentString('Deer')
 								EndTextCommandSetBlipName(AnimalBlip)
-								table.insert(AnimalsInSession, {id = Animal, x = v['x'], y = v['y'], z = v['z'], Blipid = AnimalBlip})
+								table.insert(AnimalsInSession, {id = Animal, x = value[i]['x'], y = value[i]['y'], z = value[i]['z'], Blipid = AnimalBlip})
 							elseif rando == 2 then
 								TaskWanderStandard(Animal, true, true)
 								SetPedCanSwitchWeapon(Animal, true)
@@ -297,7 +284,7 @@ function StartHuntingSession()
 								BeginTextCommandSetBlipName("STRING")
 								AddTextComponentString('Deer')
 								EndTextCommandSetBlipName(AnimalBlip)
-								table.insert(AnimalsInSession, {id = Animal, x = v['x'], y = v['y'], z = v['z'], Blipid = AnimalBlip})
+								table.insert(AnimalsInSession, {id = Animal, x = value[i]['x'], y = value[i]['y'], z = value[i]['z'], Blipid = AnimalBlip})
 							elseif rando == 3 then
 								TaskWanderStandard(Animal, true, true)
 								SetPedCanSwitchWeapon(Animal, true)
@@ -318,7 +305,7 @@ function StartHuntingSession()
 								BeginTextCommandSetBlipName("STRING")
 								AddTextComponentString('Deer')
 								EndTextCommandSetBlipName(AnimalBlip)
-								table.insert(AnimalsInSession, {id = Animal, x = v['x'], y = v['y'], z = v['z'], Blipid = AnimalBlip})
+								table.insert(AnimalsInSession, {id = Animal, x = value[i]['x'], y = value[i]['y'], z = value[i]['z'], Blipid = AnimalBlip})
 							elseif rando == 4 then
 								TaskWanderStandard(Animal, true, true)
 								SetPedCanSwitchWeapon(Animal, true)
@@ -339,7 +326,7 @@ function StartHuntingSession()
 								BeginTextCommandSetBlipName("STRING")
 								AddTextComponentString('Deer')
 								EndTextCommandSetBlipName(AnimalBlip)
-								table.insert(AnimalsInSession, {id = Animal, x = v['x'], y = v['y'], z = v['z'], Blipid = AnimalBlip})
+								table.insert(AnimalsInSession, {id = Animal, x = value[i]['x'], y = value[i]['y'], z = value[i]['z'], Blipid = AnimalBlip})
 							end
 						end
 					end
@@ -374,8 +361,7 @@ function StartHuntingSession()
 							local type = GetEntityModel(value.id)
 							
 
-
-							local PlyToAnimal = GetDistanceBetweenCoords(PlyCoords, AnimalCoords, true)
+							local PlyToAnimal = #(PlyCoords - AnimalCoords)
 
 							if AnimalHealth <= 0 then
 								SetBlipColour(value.Blipid, 3)
@@ -383,7 +369,7 @@ function StartHuntingSession()
 									sleep = 5
 									DrawText3Ds(AnimalCoords.x, AnimalCoords.y, AnimalCoords.z + 1, '[E] Slaughter Animal')
 								
-									if IsControlJustReleased(0, Keys['E']) then
+									if IsControlJustReleased(0, 38) then
 										if GetSelectedPedWeapon(PlayerPedId()) == GetHashKey('WEAPON_KNIFE')  then
 											if DoesEntityExist(value.id) then
 												table.remove(AnimalsInSession, index)
@@ -519,14 +505,14 @@ Citizen.CreateThread(
         while true do
             local sleep = 500
             local plyCoords = GetEntityCoords(PlayerPedId())	
-            local distance =
-                GetDistanceBetweenCoords(plyCoords, 961.7893, -2111.507, 31.94839, true)
+				
+				local distance  = #(plyCoords - vector3(961.7893, -2111.507, 31.94839) )
 
             if distance < 5.0 then
                 sleep = 5
                 DrawM("[E] Sell", 27, 961.7893, -2111.507, 31.94839 - 0.945, 255, 255, 255, 1.5, 15)
                 if distance < 1.0 then
-					if IsControlJustReleased(0, Keys["E"]) then
+					if IsControlJustReleased(0, 38) then
 						if exports["urp-inventory"]:getQuantity("deer") >= 2 then
 								playerAnim()
 								local finished = exports["urp-taskbar"]:taskBar(4000,"Selling Goods",true,false,playerVeh)
