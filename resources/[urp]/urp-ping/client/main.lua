@@ -1,14 +1,6 @@
 local pendingPing = nil
 local isPending = false
 
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1000)
-        local cid = exports['isPed']:isPed('cid')
-        TriggerServerEvent('urp-ping:getcid', cid)
-    end
-end)
-
 function AddBlip(bData)
     pendingPing.blip = AddBlipForCoord(bData.x, bData.y, bData.z)
     SetBlipSprite(pendingPing.blip, bData.id)
@@ -80,7 +72,7 @@ AddEventHandler('urp-ping:client:SendPing', function(sender, senderId)
         pendingPing.pos = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(pendingPing.id)), false) 
 
         TriggerServerEvent('urp-ping:server:SendPingResult', pendingPing.id, 'received')
-        TriggerEvent('DoLongHudText', pendingPing.name .. ' Sent You a Ping, Use /ping accept To Accept', 1)
+        TriggerEvent('DoLongHudText', 'ID Sent You a Ping, Use /ping accept To Accept', 1)
         isPending = true
 
         if Config.Timeout > 0 then
