@@ -8,7 +8,6 @@ URP._Admin.Menu.SearchOptions = {
 URP._Admin.Menu.Target = {}
 
 Citizen.CreateThread(function()
-    Citizen.Wait(100)
     TriggerServerEvent('admin:getGroup')
 end)
 
@@ -77,7 +76,7 @@ function URP.Admin.Menu.DrawCommand(self, cmd)
 
     Citizen.CreateThread(function()
         while true do
-            Citizen.Wait(3)
+            Citizen.Wait(0)
             if WarMenu.IsMenuOpened("command") then URP.Admin:GetCommandData(cmd).drawcommand() else return end
             if WarMenu.MenuButton("Back", "acommands") then return end
         end
@@ -89,7 +88,7 @@ function URP.Admin.Menu.DrawTargets(self, cmd, cb)
 
     Citizen.CreateThread(function()
         while WarMenu.IsMenuOpened("targetmenu") do
-            Citizen.Wait(5)
+            Citizen.Wait(0)
             for k,v in spairs(URP._Admin.Players, function(t, a, b) return t[a].src < t[b].src end) do
                 if WarMenu.MenuButton("[" .. v.src .. "] " .. v.name, "command") then self:DrawCommand(cmd) cb(v) URP.Admin:GetCommandData(cmd).drawcommand() return end
             end
@@ -103,7 +102,7 @@ function URP.Admin.Menu.DrawTextInput(self, defaultText, cb)
         DisplayOnscreenKeyboard(6, "FMMC_KEY_TIP8", "", "", defaultText and defaultText or "" , "", "", 99)
 
         while true do
-            Citizen.Wait(5)
+            Citizen.Wait(0)
             DisableAllControlActions(0)
 
             if UpdateOnscreenKeyboard() == 1 then cb(GetOnscreenKeyboardResult()) return
@@ -138,7 +137,7 @@ function URP.Admin.Menu.DrawRanks(self, cmd, cb)
 
     Citizen.CreateThread(function()
         while WarMenu.IsMenuOpened("ranklist") do
-            Citizen.Wait(5)
+            Citizen.Wait(0)
             for k,v in spairs(URP.Admin:GetRanks(), function(t, a, b) return t[a].grant < t[b].grant end) do
                 if WarMenu.MenuButton(k, "command") then self:DrawCommand(cmd) cb(k) URP.Admin:GetCommandData(cmd).drawcommand() return end
             end
@@ -152,7 +151,6 @@ local viewingLicense = false
 local cat = nil
 
 Citizen.CreateThread(function()
-    Citizen.Wait(10)
     local function DrawMain()
         if WarMenu.Button("Commands") then
             WarMenu.OpenMenu("acategories")
@@ -290,7 +288,7 @@ Citizen.CreateThread(function()
     }
 
     while true do
-        Citizen.Wait(3)
+        Citizen.Wait(0)
 
         for k,v in pairs(URP._Admin.Menu.Menus) do
             if v ~= false and WarMenu.IsMenuOpened(k) then

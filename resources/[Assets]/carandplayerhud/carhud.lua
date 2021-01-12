@@ -1882,10 +1882,6 @@ AddEventHandler("stress:timed",function(alteredValue,scenario)
 	TriggerEvent("DoShortHudText",'Stress is being relieved',6)
 	SetPlayerMaxArmour(PlayerId(), 60 )
 	while true do
-		stresslevel = stresslevel - 1000
-		if stresslevel < 0 then
-			stresslevel = 0
-		end
 		removedStress = removedStress + 100
 		if removedStress >= alteredValue then
 			break

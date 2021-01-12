@@ -57,8 +57,6 @@ function endanims(curanim)
         TriggerEvent("destroyProp")
         TriggerEvent("destroyProp69")
         TriggerEvent("destroyPropPerm")
-        TriggerEvent("stripclub:stressLoss", false)
-        TriggerEvent("firedepartment:forceStop")
         inanimation = false
 
     end
@@ -114,17 +112,10 @@ end)
 AddEventHandler("playerSpawned", function()
     TriggerServerEvent("police:getAnimData")
     TriggerServerEvent("police:getEmoteData")
+    TriggerServerEvent("stocks:retrieveclientstocks")
 end)
 
 AnimSet = "default";
-
-local function SwitchAnimSet(animation)
-    RequestAnimSet(animation)
-    while not HasAnimSetLoaded(animation) do Citizen.Wait(1) end
-    SetPedMovementClipset(PlayerPedId(), animation, 0.2)
-    AnimSet = animation;
-    TriggerServerEvent("police:setAnimData", AnimSet)
-end
 
 RegisterNetEvent('AnimSet:default');
 AddEventHandler('AnimSet:default', function()
@@ -135,243 +126,194 @@ end)
 
 RegisterNetEvent('AnimSet:Hurry');
 AddEventHandler('AnimSet:Hurry', function()
-    SwitchAnimSet("move_m@hurry@a")
+    RequestAnimSet("move_m@hurry@a")
+    while not HasAnimSetLoaded("move_m@hurry@a") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@hurry@a", true)
+    AnimSet = "move_m@hurry@a";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Business');
 AddEventHandler('AnimSet:Business', function()
-    SwitchAnimSet("move_m@business@a")
+    RequestAnimSet("move_m@business@a")
+    while not HasAnimSetLoaded("move_m@business@a") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@business@a", true)
+    AnimSet = "move_m@business@a";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Brave');
 AddEventHandler('AnimSet:Brave', function()
-    SwitchAnimSet("move_m@brave")
+    RequestAnimSet("move_m@brave")
+    while not HasAnimSetLoaded("move_m@brave") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@brave", true)
+    AnimSet = "move_m@brave";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Tipsy');
 AddEventHandler('AnimSet:Tipsy', function()
-    SwitchAnimSet("move_m@drunk@slightlydrunk")
+    RequestAnimSet("move_m@drunk@slightlydrunk")
+    while not HasAnimSetLoaded("move_m@drunk@slightlydrunk") do
+        Citizen.Wait(0)
+    end
+    SetPedMovementClipset(PlayerPedId(), "move_m@drunk@slightlydrunk", true)
+    AnimSet = "move_m@drunk@slightlydrunk";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Injured');
 AddEventHandler('AnimSet:Injured', function()
-    SwitchAnimSet("move_m@injured")
+    RequestAnimSet("move_m@injured")
+    while not HasAnimSetLoaded("move_m@injured") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@injured", true)
+    AnimSet = "move_m@injured";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:ToughGuy');
 AddEventHandler('AnimSet:ToughGuy', function()
-    SwitchAnimSet("move_m@tough_guy@")
+    RequestAnimSet("move_m@tough_guy@")
+    while not HasAnimSetLoaded("move_m@tough_guy@") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@tough_guy@", true)
+    AnimSet = "move_m@tough_guy@";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Sassy');
 AddEventHandler('AnimSet:Sassy', function()
-    SwitchAnimSet("move_m@sassy")
+    RequestAnimSet("move_m@sassy")
+    while not HasAnimSetLoaded("move_m@sassy") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@sassy", true)
+    AnimSet = "move_m@sassy";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Sad');
 AddEventHandler('AnimSet:Sad', function()
-    SwitchAnimSet("move_m@sad@a")
+    RequestAnimSet("move_m@sad@a")
+    while not HasAnimSetLoaded("move_m@sad@a") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@sad@a", true)
+    AnimSet = "move_m@sad@a";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Posh');
 AddEventHandler('AnimSet:Posh', function()
-    SwitchAnimSet("move_m@posh@")
+    RequestAnimSet("move_m@posh@")
+    while not HasAnimSetLoaded("move_m@posh@") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@posh@", true)
+    AnimSet = "move_m@posh@";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Alien');
 AddEventHandler('AnimSet:Alien', function()
-    SwitchAnimSet("move_m@alien")
+    RequestAnimSet("move_m@alien")
+    while not HasAnimSetLoaded("move_m@alien") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@alien", true)
+    AnimSet = "move_m@alien";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:NonChalant');
 AddEventHandler('AnimSet:NonChalant', function()
-    SwitchAnimSet("move_m@non_chalant")
+    RequestAnimSet("move_m@non_chalant")
+    while not HasAnimSetLoaded("move_m@non_chalant") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@non_chalant", true)
+    AnimSet = "move_m@non_chalant";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Hobo');
 AddEventHandler('AnimSet:Hobo', function()
-    SwitchAnimSet("move_m@hobo@a")
+    RequestAnimSet("move_m@hobo@a")
+    while not HasAnimSetLoaded("move_m@hobo@a") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@hobo@a", true)
+    AnimSet = "move_m@hobo@a";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Money');
 AddEventHandler('AnimSet:Money', function()
-    SwitchAnimSet("move_m@money")
+    RequestAnimSet("move_m@money")
+    while not HasAnimSetLoaded("move_m@money") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@money", true)
+    AnimSet = "move_m@money";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Swagger');
 AddEventHandler('AnimSet:Swagger', function()
-    SwitchAnimSet("move_m@swagger")
+    RequestAnimSet("move_m@swagger")
+    while not HasAnimSetLoaded("move_m@swagger") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@swagger", true)
+    AnimSet = "move_m@swagger";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Joy');
 AddEventHandler('AnimSet:Joy', function()
-    SwitchAnimSet("move_m@joy")
+    RequestAnimSet("move_m@joy")
+    while not HasAnimSetLoaded("move_m@joy") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@joy", true)
+    AnimSet = "move_m@joy";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Moon');
 AddEventHandler('AnimSet:Moon', function()
 
-    SwitchAnimSet("move_m@powerwalk")
+    RequestAnimSet("move_m@powerwalk")
+    while not HasAnimSetLoaded("move_m@powerwalk") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@powerwalk", true)
+    AnimSet = "move_m@powerwalk";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Shady');
 AddEventHandler('AnimSet:Shady', function()
-    SwitchAnimSet("move_m@shadyped@a")
+    RequestAnimSet("move_m@shadyped@a")
+    while not HasAnimSetLoaded("move_m@shadyped@a") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@shadyped@a", true)
+    AnimSet = "move_m@shadyped@a";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Tired');
 AddEventHandler('AnimSet:Tired', function()
-    SwitchAnimSet("move_m@tired")
+    RequestAnimSet("move_m@tired")
+    while not HasAnimSetLoaded("move_m@tired") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_m@tired", true)
+    AnimSet = "move_m@tired";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:Sexy');
 AddEventHandler('AnimSet:Sexy', function()
-    SwitchAnimSet("move_f@sexy")
+    RequestAnimSet("move_f@sexy")
+    while not HasAnimSetLoaded("move_f@sexy") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_f@sexy", true)
+    AnimSet = "move_f@sexy";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:ManEater');
 AddEventHandler('AnimSet:ManEater', function()
-    SwitchAnimSet("move_f@maneater")
+    RequestAnimSet("move_f@maneater")
+    while not HasAnimSetLoaded("move_f@maneater") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_f@maneater", true)
+    AnimSet = "move_f@maneater";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 RegisterNetEvent('AnimSet:ChiChi');
 AddEventHandler('AnimSet:ChiChi', function()
-    SwitchAnimSet("move_f@chichi")
-end)
-
-RegisterNetEvent('AnimSet:Arrogant');
-AddEventHandler('AnimSet:Arrogant', function()
-    SwitchAnimSet("move_f@arrogant@a")
-end)
-
-RegisterNetEvent('AnimSet:Casual');
-AddEventHandler('AnimSet:Casual', function()
-    SwitchAnimSet("move_m@casual@a")
-end)
-
-RegisterNetEvent('AnimSet:Casual2');
-AddEventHandler('AnimSet:Casual2', function()
-    SwitchAnimSet("move_m@casual@b")
-end)
-
-RegisterNetEvent('AnimSet:Casual3');
-AddEventHandler('AnimSet:Casual3', function()
-    SwitchAnimSet("move_m@casual@c")
-end)
-
-RegisterNetEvent('AnimSet:Casual4');
-AddEventHandler('AnimSet:Casual4', function()
-    SwitchAnimSet("move_m@casual@d")
-end)
-
-RegisterNetEvent('AnimSet:Casual5');
-AddEventHandler('AnimSet:Casual5', function()
-    SwitchAnimSet("move_m@casual@e")
-end)
-
-RegisterNetEvent('AnimSet:Casual6');
-AddEventHandler('AnimSet:Casual6', function()
-    SwitchAnimSet("move_m@casual@f")
-end)
-
-RegisterNetEvent('AnimSet:Confident');
-AddEventHandler('AnimSet:Confident', function()
-    SwitchAnimSet("move_m@confident")
-end)
-
-RegisterNetEvent('AnimSet:Business2');
-AddEventHandler('AnimSet:Business2', function()
-    SwitchAnimSet("move_m@business@b")
-end)
-
-RegisterNetEvent('AnimSet:Business3');
-AddEventHandler('AnimSet:Business3', function()
-    SwitchAnimSet("move_m@business@c")
-end)
-
-RegisterNetEvent('AnimSet:Femme');
-AddEventHandler('AnimSet:Femme', function()
-    SwitchAnimSet("move_f@femme@")
-end)
-
-RegisterNetEvent('AnimSet:Flee');
-AddEventHandler('AnimSet:Flee', function()
-    SwitchAnimSet("move_f@flee@a")
-end)
-
-RegisterNetEvent('AnimSet:Gangster');
-AddEventHandler('AnimSet:Gangster', function()
-    SwitchAnimSet("move_m@gangster@generic")
-end)
-
-RegisterNetEvent('AnimSet:Gangster2');
-AddEventHandler('AnimSet:Gangster2', function()
-    SwitchAnimSet("move_m@gangster@ng")
-end)
-
-RegisterNetEvent('AnimSet:Gangster3');
-AddEventHandler('AnimSet:Gangster3', function()
-    SwitchAnimSet("move_m@gangster@var_e")
-end)
-
-RegisterNetEvent('AnimSet:Gangster4');
-AddEventHandler('AnimSet:Gangster4', function()
-    SwitchAnimSet("move_m@gangster@var_f")
-end)
-
-RegisterNetEvent('AnimSet:Gangster5');
-AddEventHandler('AnimSet:Gangster5', function()
-    SwitchAnimSet("move_m@gangster@var_i")
-end)
-
-RegisterNetEvent('AnimSet:Heels');
-AddEventHandler('AnimSet:Heels', function()
-    SwitchAnimSet("move_f@heels@c")
-end)
-
-RegisterNetEvent('AnimSet:Heels2');
-AddEventHandler('AnimSet:Heels2', function()
-    SwitchAnimSet("move_f@heels@d")
-end)
-
-RegisterNetEvent('AnimSet:Hipster');
-AddEventHandler('AnimSet:Hipster', function()
-    SwitchAnimSet("move_m@hipster@a")
-end)
-
-RegisterNetEvent('AnimSet:Hiking');
-AddEventHandler('AnimSet:Hiking', function()
-    SwitchAnimSet("move_m@hiking")
-end)
-
-RegisterNetEvent('AnimSet:Jog');
-AddEventHandler('AnimSet:Jog', function()
-    SwitchAnimSet("move_m@jog@")
-end)
-
-RegisterNetEvent('AnimSet:Muscle');
-AddEventHandler('AnimSet:Muscle', function()
-    SwitchAnimSet("move_m@muscle@a")
-end)
-
-RegisterNetEvent('AnimSet:Quick');
-AddEventHandler('AnimSet:Quick', function()
-    SwitchAnimSet("move_m@quick")
-end)
-
-RegisterNetEvent('AnimSet:Wide');
-AddEventHandler('AnimSet:Wide', function()
-    SwitchAnimSet("move_m@bag")
-end)
-
-RegisterNetEvent('AnimSet:Scared');
-AddEventHandler('AnimSet:Scared', function()
-    SwitchAnimSet("move_f@scared")
-end)
-
-RegisterNetEvent('AnimSet:Guard');
-AddEventHandler('AnimSet:Guard', function()
-    SwitchAnimSet("move_m@prison_gaurd")
+    RequestAnimSet("move_f@chichi")
+    while not HasAnimSetLoaded("move_f@chichi") do Citizen.Wait(0) end
+    SetPedMovementClipset(PlayerPedId(), "move_f@chichi", true)
+    AnimSet = "move_f@chichi";
+    TriggerServerEvent("police:setAnimData", AnimSet)
 end)
 
 function loadAnimDict(dict)
@@ -2094,32 +2036,41 @@ anims = {
             ClearPedTasks(ped)
         else
             TriggerEvent("destroyPropPerm")
-            if exports["irp-inventory"]:hasEnoughOfItem("umbrella", 1) then
+                loadAnimDict('anim@narcotics@trash')
 
-                TriggerEvent("actionbar:setEmptyHanded")
+                TaskPlayAnim(PlayerPedId(), 'anim@narcotics@trash',
+                             'drop_front', 0.9, -8, 2000, 49, 3.0, 0, 0, 0)
 
-                local finished = exports["irp-taskbar"]:taskBar(2500,"Opening Umbrella")
+                local finished = exports["np-taskbar"]:taskBar(2500,
+                                                               "Opening Umbrella")
                 if finished == 100 then
 
                     loadAnimDict("amb@code_human_wander_drinking@male@base")
 
-                    TaskPlayAnim(ped,"amb@code_human_wander_drinking@male@base", "static", 1.0, 1.0, -1, 49, 0, 0, 0, 0)
+                    TaskPlayAnim(ped,
+                                 "amb@code_human_wander_drinking@male@base",
+                                 "static", 1.0, 1.0, -1, 49, 0, 0, 0, 0)
 
                     local random = math.random(1, 10)
                     local boneIndex = GetPedBoneIndex(ped, 0xfa70)
                     local bonePos = GetWorldPositionOfEntityBone(ped, boneIndex)
 
                     if random > 5 then
-                        obj = CreateObject(`p_amb_brolly_01`, bonePos.x,bonePos.y, bonePos.z + 0.01, true,false, true)
+                        obj = CreateObject(p_amb_brolly_01, bonePos.x,
+                                           bonePos.y, bonePos.z + 0.01, true,
+                                           false, true)
                     else
-                        obj = CreateObject(`p_amb_brolly_01_s`, bonePos.x,bonePos.y, bonePos.z + 0.01, true,false, true)
+                        obj = CreateObject(p_amb_brolly_01_s, bonePos.x,
+                                           bonePos.y, bonePos.z + 0.01, true,
+                                           false, true)
                     end
-
                     TriggerEvent("umbrellaLoop")
 
-                    AttachEntityToEntity(obj, ped, GetPedBoneIndex(ped, 57005),0.1, 0, -0.025, -90.0, 90.0, 0.0, true,true, false, true, 1, true)
+                    AttachEntityToEntity(obj, ped, GetPedBoneIndex(ped, 57005),
+                                         0.1, 0, -0.025, -90.0, 90.0, 0.0, true,
+                                         true, false, true, 1, true)
                 end
-            end
+            
         end
     end,
 
@@ -2156,7 +2107,7 @@ anims = {
     ["chair"] = function(ped) TriggerEvent("animation:Chair") end,
     ["chair2"] = function(ped)
         TriggerEvent("animation:Chair2")
-        TriggerEvent("stripclub:stressLoss", true)
+        --TriggerEvent("stripclub:stressLoss", true)
     end,
 
     ["carry"] = function(ped) TriggerEvent("animation:Carry") end,
@@ -3509,16 +3460,14 @@ anims = {
     end,
 
     ["smoke"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("ciggy", 1) then
             ClearPedTasks(PlayerPedId())
             TaskStartScenarioInPlace(PlayerPedId(), "WORLD_HUMAN_SMOKING", 0, true)
-            TriggerEvent("inventory:removeItem","ciggy", 1)
+            --TriggerEvent("inventory:removeItem","ciggy", 1)
             playing_emote = true
-        end
     end,
 
     ["smokemale"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("ciggy", 1) then
+        
             local animDict = "amb@world_human_smoking@male@male_a@base"
             local animation = "base"
             if IsPedArmed(ped, 7) then
@@ -3535,12 +3484,9 @@ anims = {
                 TriggerEvent("destroyProp")
             end
             TriggerEvent("attachItem", "cigarette")
-            TriggerEvent("inventory:removeItem","ciggy", 1)
-        end
     end,
 
     ["smokefemale"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("ciggy", 1) then
             local animDict = "amb@world_human_smoking@female@idle_a"
             local animation = "idle_b"
             if IsPedArmed(ped, 7) then
@@ -3557,12 +3503,9 @@ anims = {
                 TriggerEvent("destroyProp")
             end
             TriggerEvent("attachItem", "cigarette")
-            TriggerEvent("inventory:removeItem","ciggy", 1)
-        end
     end,
 
     ["cigarette"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("ciggy", 1) then
             local animDict = "amb@world_human_smoking@male@male_a@enter"
             local animation = "enter"
             if IsPedArmed(ped, 7) then
@@ -3579,12 +3522,9 @@ anims = {
                 Wait(2600)
                 TriggerEvent("attachItem", "cigmouth")
             end
-            TriggerEvent("inventory:removeItem","ciggy", 1)
-        end
     end,
 
     ["cigar"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("cigar", 1) then
             local animDict = "amb@world_human_smoking@male@male_a@enter"
             local animation = "enter"
             if IsPedArmed(ped, 7) then
@@ -3601,12 +3541,9 @@ anims = {
                 Wait(2600)
                 TriggerEvent("attachItem", "cigar1")
             end
-            TriggerEvent("inventory:removeItem","cigar", 1)
-        end
     end,
 
     ["cigar2"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("cigar", 1) then
             local animDict = "amb@world_human_smoking@male@male_a@enter"
             local animation = "enter"
             if IsPedArmed(ped, 7) then
@@ -3623,12 +3560,9 @@ anims = {
                 Wait(2600)
                 TriggerEvent("attachItem", "cigar2")
             end
-            TriggerEvent("inventory:removeItem","cigar", 1)
-        end
     end,
 
     ["cigar3"] = function(ped)
-        if exports["irp-inventory"]:hasEnoughOfItem("cigar", 1) then
             local animDict = "amb@world_human_smoking@male@male_a@enter"
             local animation = "enter"
             if IsPedArmed(ped, 7) then
@@ -3645,8 +3579,6 @@ anims = {
                 Wait(2600)
                 TriggerEvent("attachItem", "cigar3")
             end
-            TriggerEvent("inventory:removeItem","cigar", 1)
-        end
     end,
 
     ["handshake"] = function(ped)
@@ -7380,193 +7312,6 @@ anims = {
     -- end,
 }
 
-animsDog = {
-    ["dogsit"] = function(ped)
-
-        local animDict = "creatures@rottweiler@tricks@"
-        local animation = "sit_enter"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-            loadAnimDict(animDict)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, -1, -1, 2, 0, 0, 0, 0)
-        end
-    end,
-
-    ["bark"] = function(ped)
-
-        local animDict = "creatures@rottweiler@amb@world_dog_barking@idle_a"
-        local animation = "idle_a"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, 4.0,
-                         animLength, 0, 0, 0, 0, 0)
-        end
-    end,
-
-    ["bark2"] = function(ped)
-
-        local animDict = "creatures@rottweiler@melee@streamed_taunts@"
-        local animation = "taunt_02"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, 4.0,
-                         animLength, 0, 0, 0, 0, 0)
-        end
-    end,
-
-    ["beg"] = function(ped)
-
-        local animDict = "creatures@rottweiler@tricks@"
-        local animation = "beg_loop"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, -1, -1, 2, 0, 0, 0, 0)
-        end
-    end,
-
-    ["paw"] = function(ped)
-
-        local animDict = "creatures@rottweiler@tricks@"
-        local animation = "paw_right_loop"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, -1, -1, 2, 0, 0, 0, 0)
-        end
-    end,
-
-    ["pet"] = function(ped)
-
-        local animDict = "creatures@rottweiler@tricks@"
-        local animation = "petting_chop"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, 4.0,
-                         animLength, 0, 0, 0, 0, 0)
-        end
-    end,
-
-    ["dump"] = function(ped)
-
-        local animDict = "creatures@rottweiler@move"
-        local animation = "pee_right_idle"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, 4.0,
-                         animLength, 0, 0, 0, 0, 0)
-        end
-    end,
-
-    ["pee"] = function(ped)
-
-        local animDict = "creatures@rottweiler@move"
-        local animation = "pee_right_enter"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, -1, -1, 2, 0, 0, 0, 0)
-            Wait(6200)
-            TaskPlayAnim(PlayerPedId(), animDict, "pee_right_exit", 1.0, 20.0,
-                         animLength, 0, 0, 0, 0, 0)
-
-        end
-    end,
-
-    ["indicateahead"] = function(ped)
-
-        local animDict = "creatures@rottweiler@indication@"
-        local animation = "indicate_ahead"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            local animLength = GetAnimDuration(animDict, animation)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, 4.0,
-                         animLength, 0, 0, 0, 0, 0)
-        end
-    end,
-
-    ["laydown"] = function(ped)
-
-        local animDict = "creatures@rottweiler@move"
-        local animation = "dying"
-
-        if IsPedArmed(ped, 7) then
-            SetCurrentPedWeapon(ped, 0xA2719263, true)
-        end 
-
-        if IsEntityPlayingAnim(ped, animDict, animation, 3) then
-            ClearPedSecondaryTask(ped)
-        else
-           loadAnimDict(animDict)
-            TaskPlayAnim(PlayerPedId(), animDict, animation, 1.0, -1, -1, 2, 0, 0, 0, 0)
-        end
-    end,
-}
-
 local function PlayAnim2(ped, anim, dict, exit)
     if stuckincar then return end
     RequestAnimDict(dict)
@@ -7594,6 +7339,9 @@ function EndAnim(dict, anim)
                  0, 0)
 end
 
+RegisterCommand('e', function(source, args, raw) TriggerEvent('animation:PlayAnimation', args[1]) end)
+RegisterCommand('emote', function(source, args, raw) TriggerEvent('animation:PlayAnimation', args[1]) end)
+
 AddEventHandler("animation:PlayAnimation", function(anim)
     if imdead == 0 and not stuckincar then
         local ped = PlayerPedId()
@@ -7608,15 +7356,9 @@ AddEventHandler("animation:PlayAnimation", function(anim)
             lastanimplayed = anim
             playing_emote = true
             local animName = string.lower(anim)
-            local anim = nil
-            local model = GetEntityModel(PlayerPedId())
-        
-            if model == GetHashKey("a_c_chop") then
-                anim = animsDog[animName]
-            else
-                anim = anims[animName]
-            end
+            local anim = anims[animName]
 
+            print(animName)
 
             if not anim then
                 playing_emote = false
@@ -7638,7 +7380,7 @@ AddEventHandler("animation:PlayAnimation", function(anim)
 
                 if anim == "WORLD_HUMAN_PAPARAZZI" or anim ==
                     "WORLD_HUMAN_MOBILE_FILM_SHOCKING" then
-                    TriggerEvent("evidence:trigger")
+                    --TriggerEvent("evidence:trigger")
                 end
 
                 TaskStartScenarioInPlace(ped, anim, 0, false)
@@ -7660,9 +7402,9 @@ function StressTest(animName)
             #(GetEntityCoords(PlayerPedId()) - vector3(1777.21, 2495.7, 45.83)) <
             10.0) then
         local finished =
-            exports["irp-taskbar"]:taskBar(15000, "Relieving Stress")
+            exports["np-taskbar"]:taskBar(15000, "Relieving Stress")
         if finished == 100 then
-            TriggerEvent("client:newStress", false, math.random(100, 550))
+            --TriggerEvent("client:newStress", false, math.random(100, 550))
             playing_emote = false
         end
     end
@@ -7693,14 +7435,15 @@ end)
 
 RegisterNetEvent('umbrellaLoop')
 AddEventHandler('umbrellaLoop', function()
+    Citizen.Wait(3000)
 
     while obj ~= 0 do
         Citizen.Wait(1)
 
         local dead = exports["isPed"]:isPed("dead")
-        if dead then TriggerEvent("animation:PlayAnimation", "umbrella") end
+        if not dead then TriggerEvent("animation:PlayAnimation", "umbrella") end
         local curw = GetSelectedPedWeapon(PlayerPedId())
-        local noweapon = `WEAPON_UNARMED`
+        local noweapon = WEAPON_UNARMED
         if noweapon ~= curw then
             TriggerEvent("animation:PlayAnimation", "umbrella")
         end
@@ -7790,10 +7533,7 @@ AddEventHandler("expressions", function(pArgs)
     return
 end)
 
-RegisterCommand('e', function(source, args, raw) TriggerEvent('animation:PlayAnimation', args[1]) end)
-RegisterCommand('emote', function(source, args, raw) TriggerEvent('animation:PlayAnimation', args[1]) end)
-
-
 RegisterNetEvent("expressions:clear")
-AddEventHandler("expressions:clear",
-                function() ClearFacialIdleAnimOverride(PlayerPedId()) end)
+AddEventHandler("expressions:clear", function() 
+    ClearFacialIdleAnimOverride(PlayerPedId()) 
+end)
