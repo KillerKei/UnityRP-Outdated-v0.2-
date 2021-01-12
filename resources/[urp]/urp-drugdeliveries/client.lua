@@ -1315,37 +1315,8 @@ Citizen.CreateThread(function()
     				if IsControlJustReleased(0,38) then
     					CompleteScrapping(veh, GetEntityCoords(veh))
 					end
-	    		else
-	    			DrawText3Ds(chopinfo[2]["x"],chopinfo[2]["y"],chopinfo[2]["z"], "The Chop Shop") 
-    				if IsControlJustReleased(0,38) then
-    					if #currentVehicleList == 0 then
-    						TriggerServerEvent("request:chopshop")
-    						Citizen.Wait(2000)
-    					end
-    					local message = "Required List:"
-						for i = 1, #currentVehicleList do 
-							if not currentVehicleList[i]["resolved"] then
-								if currentVehicleList[i]["rarity"] > 10 then
-     								if i == 1 then
-    									message = message .. " " .. vehicleList[currentVehicleList[i]["id"]]["name"] .. " (priority)"
-    								else
-    									message = message .. " | " .. vehicleList[currentVehicleList[i]["id"]]["name"] .. " (priority)"
-    								end
-								else
-    								if i == 1 then
-    									message = message .. " " .. vehicleList[currentVehicleList[i]["id"]]["name"]
-    								else
-    									message = message .. " | " .. vehicleList[currentVehicleList[i]["id"]]["name"]
-    								end
-								end
-
-								
-							end
-						end
-						TriggerEvent("chatMessage", "EMAIL ", 8, message)
-    				end
-	    		end
-	    	end
+				end
+			end
 	    else
 
 	    	if dropOff2 > 2.0 and dropOff4 > 2.0 and dropOff5 > 2.0 and dropOff6 > 2.0 and GoldBars > 2.0 then

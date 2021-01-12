@@ -691,11 +691,9 @@ AddEventHandler('RunUseItem', function(itemid, slot, inventoryName, isWeapon)
         if (finished == 100) then
             remove = true
             Wait(200)
+            Wait(200)
             TriggerEvent("animation:PlayAnimation","weed")
-            TriggerEvent('client:newStress', false)
-            AddArmourToPed(GetPlayerPed(-1), 20)
-            TriggerEvent("Evidence:StateSet",3,600)
-            TriggerEvent("Evidence:StateSet",4,600)        
+            TriggerEvent("stress:timed",1000,"WORLD_HUMAN_SMOKING_POT")
         end
     end
 

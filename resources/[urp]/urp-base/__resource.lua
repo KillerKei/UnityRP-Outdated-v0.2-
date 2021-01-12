@@ -57,6 +57,7 @@ client_script "gameplay/cl_gameplay.lua"
 --[[=====COMMANDS=====]]--
 client_script "logs/cl_logs.lua"
 server_script "logs/sv_logs.lua"
+client_script "commands/cl_commands.lua"
 
 --[[=====LOGS=====]]--
 

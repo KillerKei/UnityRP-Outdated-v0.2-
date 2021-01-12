@@ -5,6 +5,7 @@ client_scripts {
 	'client/wound.lua',
 	'client/main.lua',
 	'client/items.lua',
+	'client/bed_c.lua',
 }
 
 server_scripts {
